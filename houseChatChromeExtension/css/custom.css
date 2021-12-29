@@ -1,0 +1,23 @@
+.twitter-housechan-message-box {
+    width: 375px;
+    min-height: 50px;
+    background: #ffffff;
+    position: fixed;
+    bottom: 76px;
+    right:25px;
+    border-radius: 16px 16px 0 0 ;
+    box-shadow: rgb(101 119 134 / 20%) 0 0 15px, rgb(101 119 134 / 15%) 0 0 3px 1px;
+    display: none;
+}
+
+.twitter-housechan-message-box .twitter-housechan-message-header {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+}
+.twitter-housechan-message-box .twitter-housechan-message-body {
+    display: none;
+}
