@@ -77,7 +77,7 @@ $().ready(() => {
       .then((res) => {
         if (res.data) {
           $(".join-house-chan-button").css("display", "none");
-          addHouseChanButton();
+          addHouseChanButton(selfUserName);
         }
       })
       .catch((e) => {
@@ -85,9 +85,10 @@ $().ready(() => {
       });
   }
 
-  function addHouseChanButton() {
+  function addHouseChanButton(selfUserName) {
     const userNameEle = $("div[data-testid='UserName']");
     let friendName = username.split("/")[1];
+    if (friendName === selfUserName)return
     console.log(friendName, 'friendName')
 
     fetch(`${apiHost}/info`, {
@@ -236,7 +237,7 @@ $().ready(() => {
           // 该用户还咩有注册house
           addJoinHouseChanButton(selfUserName);
         } else {
-          addHouseChanButton();
+          addHouseChanButton(selfUserName);
         }
       })
       .catch((e) => {
