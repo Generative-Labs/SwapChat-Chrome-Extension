@@ -3,7 +3,7 @@
     min-height: 50px;
     background: #ffffff;
     position: fixed;
-    bottom: 76px;
+    bottom: 0;
     right:25px;
     border-radius: 16px 16px 0 0 ;
     box-shadow: rgb(101 119 134 / 20%) 0 0 15px, rgb(101 119 134 / 15%) 0 0 3px 1px;
