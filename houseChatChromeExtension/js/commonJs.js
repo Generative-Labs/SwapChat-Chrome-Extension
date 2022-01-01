@@ -77,7 +77,7 @@ $().ready(() => {
       .then((res) => {
         if (res.data) {
           $(".join-house-chan-button").css("display", "none");
-          addHouseChanButton(selfUserName);
+          addCheckHouseChanButton(selfUserName)
         }
       })
       .catch((e) => {
@@ -87,7 +87,7 @@ $().ready(() => {
 
   function addHouseChanButton(selfUserName) {
     const userNameEle = $("div[data-testid='UserName']");
-    let friendName = username.split("/")[1];
+    let friendName = location.pathname.split("/")[1];
     if (friendName === selfUserName)return
     console.log(friendName, 'friendName')
 
@@ -126,7 +126,7 @@ $().ready(() => {
          "
          >
                <img style="width: 30px;height: 30px; border-radius: 50%; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/icon-60@2x.png" alt="">
-            Ask price        
+            Create Private Room        
         </div>
         `);
           buttonDom.click(function () {
@@ -192,6 +192,52 @@ $().ready(() => {
     });
   }
 
+  function addCheckHouseChanButton(selfUserName) {
+    let commonMenuBoxEle = $("div[data-testid='AppTabBar_More_Menu']");
+    let parent = commonMenuBoxEle.parent();
+    let commMenuChild = commonMenuBoxEle.children();
+    let graSonEle = $(commMenuChild).children();
+    let bro = $(`
+                    <div aria-expanded="false" aria-haspopup="menu" aria-label="Check House Chan" role="button" class="${commonMenuBoxEle.className} check-house-chan-button" tabindex="1">
+                        <div class="${commMenuChild[0].className}">
+                            <div class="${graSonEle[0].className}">
+                               <img style="width: 26px;height: 26px; border-radius: 50%;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/icon-40@2x.png" alt="">
+                            </div>
+                            <div dir="auto" class="${graSonEle[1].className}">
+                                <span>check House Chan</span>
+                            </div>
+                        </div>
+                    </div>
+                `);
+    bro.hover(function () {
+      bro.css("border-radius", "999px");
+      bro.css("background", "rgba(15, 20, 25, 0.1)");
+      bro.css("cursor", "pointer");
+    });
+
+    bro.mousedown(function () {
+      bro.css("cursor", "pointer");
+      bro.css("border-radius", "999px");
+      bro.css("background", "rgba(15, 20, 25, 0.2)");
+    });
+
+    bro.mouseup(function () {
+      bro.css("border-radius", "999px");
+      bro.css("background", "rgba(15, 20, 25, 0.1)");
+      bro.css("cursor", "pointer");
+    });
+
+    bro.mouseleave(function () {
+      bro.css("border-radius", "999px");
+      bro.css("background", "#fff");
+      bro.css("cursor", "default");
+    });
+    parent.append(bro);
+    bro.click(function () {
+      addHouseChanButton(selfUserName)
+    });
+  }
+
   // 添加一个初始化的messagebox
   function addHouseMessageBox() {
     let messageBoxEle = $(`
@@ -237,7 +283,7 @@ $().ready(() => {
           // 该用户还咩有注册house
           addJoinHouseChanButton(selfUserName);
         } else {
-          addHouseChanButton(selfUserName);
+          addCheckHouseChanButton(selfUserName);
         }
       })
       .catch((e) => {
@@ -257,7 +303,7 @@ $().ready(() => {
         selfUserName = hrefArr[hrefArr.length - 1];
       }
     }
-    if (userBoxDom.length) {
+    if (selfDom.length) {
       clearInterval(timer);
       initShowButton(selfUserName);
       addHouseMessageBox();
