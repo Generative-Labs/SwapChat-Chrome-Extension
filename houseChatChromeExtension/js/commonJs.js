@@ -5,6 +5,7 @@ $().ready(() => {
   const twitter = "twitter.com";
   let username = location.pathname;
   const iframeSrc = 'https://sh.delicious.work:5000/chatWebPage/'
+  // const iframeSrc = 'http://localhost:3000/chatWebPage/'
 
   if (host !== twitter) {
     console.log("不是twitter，该插件无效");
@@ -13,6 +14,9 @@ $().ready(() => {
 
 
   function askPrice() {
+    let messageBoxEle = $(".twitter-housechan-message-box");
+    let isShow = messageBoxEle.css("display")
+    if (isShow === 'block') return
     // get friend username
     let pathArr = location.pathname.split("/");
     let friendUserName = pathArr[pathArr.length - 1];
@@ -36,7 +40,6 @@ $().ready(() => {
     let messageDom = $("div[data-testid='DMDrawer']");
     messageDom.css("transform", "translateX(-500px)");
     // show house chan message box
-    let messageBoxEle = $(".twitter-housechan-message-box");
     messageBoxEle.css("display", "block");
     // show friend username to message header
     let messageHeaderEle = $(".twitter-housechan-message-header");
@@ -251,7 +254,7 @@ $().ready(() => {
         `);
     let messageBodyEle = $(`
             <div class="twitter-housechan-message-body">
-                <iframe class="twitter-housechan-message-header-iframe" style='width: 100%; height: 812px; border: 0;' src=''></iframe>
+                <iframe class="twitter-housechan-message-header-iframe" style='width: 100%; height: 478px; border: 0;' src=''></iframe>
             </div>
         `);
     messageBoxEle.append(messageHeaderEle);
@@ -308,5 +311,5 @@ $().ready(() => {
       initShowButton(selfUserName);
       addHouseMessageBox();
     }
-  }, 500);
+  }, 300);
 });
