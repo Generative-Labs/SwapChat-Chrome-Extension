@@ -4,7 +4,7 @@ $().ready(() => {
   const body = $("#react-root");
   const twitter = "twitter.com";
   let username = location.pathname;
-  const iframeSrc = 'https://sh.delicious.work:5000/chatWebPage/'
+  const iframeSrc = "https://sh.delicious.work:5000/chatWebPage/";
   // const iframeSrc = 'http://localhost:3000/chatWebPage/'
 
   if (host !== twitter) {
@@ -15,8 +15,9 @@ $().ready(() => {
 
   function askPrice() {
     let messageBoxEle = $(".twitter-housechan-message-box");
-    let isShow = messageBoxEle.css("display")
-    if (isShow === 'block') return
+    let isShow = messageBoxEle.css("display");
+    if (isShow === "block") return;
+    console.log('ready to show message')
     // get friend username
     let pathArr = location.pathname.split("/");
     let friendUserName = pathArr[pathArr.length - 1];
@@ -33,8 +34,9 @@ $().ready(() => {
       }
     }
     // 修改iframe src
-    let src = `${iframeSrc}${selfUserName}@${friendUserName}`
-    $(".twitter-housechan-message-header-iframe").attr('src', src)
+    let src = `${iframeSrc}${selfUserName}@${friendUserName}`;
+    console.log(src, 'src')
+    $(".twitter-housechan-message-header-iframe").attr("src", src);
 
     // 获取Twitter原始message dom 向左移动
     let messageDom = $("div[data-testid='DMDrawer']");
@@ -48,14 +50,8 @@ $().ready(() => {
     messageHeaderEle.text(friendUserName);
     messageHeaderEle.click(function () {
       console.log("messageHeaderEle.click");
-      // messageBox.css('bottom', '0')
       messageBodyEle.slideToggle();
     });
-
-    // show
-
-
-    console.log(selfUserName, "selfUserName");
   }
 
   async function joinHouseChan(selfUserName) {
@@ -80,7 +76,7 @@ $().ready(() => {
       .then((res) => {
         if (res.data) {
           $(".join-house-chan-button").css("display", "none");
-          addCheckHouseChanButton(selfUserName)
+          addCheckHouseChanButton(selfUserName);
         }
       })
       .catch((e) => {
@@ -91,32 +87,23 @@ $().ready(() => {
   function addHouseChanButton(selfUserName) {
     const userNameEle = $("div[data-testid='UserName']");
     let friendName = location.pathname.split("/")[1];
-    if (friendName === selfUserName)return
-    console.log(friendName, 'friendName')
-
-    fetch(`${apiHost}/info`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      mode: "cors",
-      body: JSON.stringify({
-        platform: "twitter",
-        user_name: friendName,
-      }),
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        } else {
-          return Promise.reject(response.json());
-        }
-      })
-      .then((res) => {
-        if (res.data) {
-          userNameEle.css("position", "relative");
-          let buttonDom = $(`
-        <div style="position: absolute;
+    let id = `create-${friendName}-room`
+    let className = `create-private-room`;
+    let createPrivateButtonEle = $(`#${id}`);
+    if (createPrivateButtonEle && createPrivateButtonEle.length) {
+      return
+    };
+    if (friendName === selfUserName) {
+      $(".create-private-room").css('display', 'none')
+      return
+    }
+    console.log('ready to create private room button')
+    userNameEle.css("position", "relative");
+    let buttonDom = $(`
+        <div
+        id="${id}"
+        class="${className}"
+         style="position: absolute;
          top: 0;
          right: 0; 
          height: 44px; 
@@ -132,19 +119,10 @@ $().ready(() => {
             Create Private Room        
         </div>
         `);
-          buttonDom.click(function () {
-            askPrice();
-          });
-          userNameEle.append(buttonDom);
-        }
-
-
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-    console.log(friendName, "friendName");
-
+    buttonDom.click(function () {
+      askPrice();
+    });
+    userNameEle.append(buttonDom);
   }
 
   function addJoinHouseChanButton(selfUserName) {
@@ -196,6 +174,7 @@ $().ready(() => {
   }
 
   function addCheckHouseChanButton(selfUserName) {
+    if ($(".check-house-chan-button") && $(".check-house-chan-button").length) return
     let commonMenuBoxEle = $("div[data-testid='AppTabBar_More_Menu']");
     let parent = commonMenuBoxEle.parent();
     let commMenuChild = commonMenuBoxEle.children();
@@ -237,12 +216,14 @@ $().ready(() => {
     });
     parent.append(bro);
     bro.click(function () {
-      addHouseChanButton(selfUserName)
+      addHouseChanButton(selfUserName);
     });
   }
 
   // 添加一个初始化的messagebox
   function addHouseMessageBox() {
+    if ($(".twitter-housechan-message-box") && $(".twitter-housechan-message-box").length) return
+    console.log('ready to create message box')
     let messageBoxEle = $(`
             <div class="twitter-housechan-message-box" id="housechan-message-box">
             </div>
@@ -306,9 +287,8 @@ $().ready(() => {
         selfUserName = hrefArr[hrefArr.length - 1];
       }
     }
-    if (selfDom.length) {
-      clearInterval(timer);
-      initShowButton(selfUserName);
+    if (selfUserName) {
+      addHouseChanButton(selfUserName)
       addHouseMessageBox();
     }
   }, 300);
