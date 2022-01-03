@@ -3,7 +3,6 @@ $().ready(() => {
   const apiHost = "https://sh.delicious.work:5000";
   const body = $("#react-root");
   const twitter = "twitter.com";
-  let username = location.pathname;
   const iframeSrc = "https://sh.delicious.work:5000/chatWebPage/";
   // const iframeSrc = 'http://localhost:3000/chatWebPage/'
 
@@ -12,15 +11,16 @@ $().ready(() => {
     return;
   }
 
-
   function askPrice() {
-    let messageBoxEle = $(".twitter-housechan-message-box");
-    let isShow = messageBoxEle.css("display");
-    if (isShow === "block") return;
-    console.log('ready to show message')
+    if (
+      $(".twitter-housechan-message-box") &&
+      $(".twitter-housechan-message-box").length
+    ) {
+      return;
+    }
+    console.log("ready to show message");
     // get friend username
-    let pathArr = location.pathname.split("/");
-    let friendUserName = pathArr[pathArr.length - 1];
+    let friendUserName = location.pathname.split("/")[1];
     // get self username
     let userDom = $("a[data-testid='AppTabBar_Profile_Link']");
     let selfUserName = "";
@@ -35,23 +35,35 @@ $().ready(() => {
     }
     // 修改iframe src
     let src = `${iframeSrc}${selfUserName}@${friendUserName}`;
-    console.log(src, 'src')
-    $(".twitter-housechan-message-header-iframe").attr("src", src);
+    console.log(src, "src");
 
     // 获取Twitter原始message dom 向左移动
     let messageDom = $("div[data-testid='DMDrawer']");
     messageDom.css("transform", "translateX(-500px)");
-    // show house chan message box
-    messageBoxEle.css("display", "block");
-    // show friend username to message header
-    let messageHeaderEle = $(".twitter-housechan-message-header");
-    let messageBodyEle = $(".twitter-housechan-message-body");
+    let messageBoxEle = $(`
+            <div class="twitter-housechan-message-box" id="housechan-message-box">
+            </div>
+        `);
+    let messageHeaderEle = $(`
+            <div class="twitter-housechan-message-header" style="">
+                    <span>waiting...</span>
+            </div>
+        `);
+    let messageBodyEle = $(`
+            <div class="twitter-housechan-message-body">
+                <iframe class="twitter-housechan-message-header-iframe" style='width: 100%; height: 478px; border: 0;' src="${src}"></iframe>
+            </div>
+        `);
 
-    messageHeaderEle.text(friendUserName);
     messageHeaderEle.click(function () {
       console.log("messageHeaderEle.click");
       messageBodyEle.slideToggle();
     });
+    messageHeaderEle.text(friendUserName);
+    $(".twitter-housechan-message-header-iframe").attr("src", src);
+    messageBoxEle.append(messageHeaderEle);
+    messageBoxEle.append(messageBodyEle);
+    body.append(messageBoxEle);
   }
 
   async function joinHouseChan(selfUserName) {
@@ -87,17 +99,15 @@ $().ready(() => {
   function addHouseChanButton(selfUserName) {
     const userNameEle = $("div[data-testid='UserName']");
     let friendName = location.pathname.split("/")[1];
-    let id = `create-${friendName}-room`
+    let id = `create-${friendName}-room`;
     let className = `create-private-room`;
     let createPrivateButtonEle = $(`#${id}`);
-    if (createPrivateButtonEle && createPrivateButtonEle.length) {
-      return
-    };
+    if (createPrivateButtonEle && createPrivateButtonEle.length)return
     if (friendName === selfUserName) {
-      $(".create-private-room").css('display', 'none')
-      return
+      $(".create-private-room").css("display", "none");
+      return;
     }
-    console.log('ready to create private room button')
+    console.log("ready to create private room button");
     userNameEle.css("position", "relative");
     let buttonDom = $(`
         <div
@@ -221,27 +231,6 @@ $().ready(() => {
   }
 
   // 添加一个初始化的messagebox
-  function addHouseMessageBox() {
-    if ($(".twitter-housechan-message-box") && $(".twitter-housechan-message-box").length) return
-    console.log('ready to create message box')
-    let messageBoxEle = $(`
-            <div class="twitter-housechan-message-box" id="housechan-message-box">
-            </div>
-        `);
-    let messageHeaderEle = $(`
-            <div class="twitter-housechan-message-header" style="">
-                    <span>waiting...</span>
-            </div>
-        `);
-    let messageBodyEle = $(`
-            <div class="twitter-housechan-message-body">
-                <iframe class="twitter-housechan-message-header-iframe" style='width: 100%; height: 478px; border: 0;' src=''></iframe>
-            </div>
-        `);
-    messageBoxEle.append(messageHeaderEle);
-    messageBoxEle.append(messageBodyEle);
-    body.append(messageBoxEle);
-  }
 
   function initShowButton(selfUserName) {
     fetch(`${apiHost}/info`, {
@@ -275,6 +264,27 @@ $().ready(() => {
       });
   }
 
+  function listenHistory() {
+    // 当前path
+    let path = location.pathname.split("/")[1]
+    // 缓存上次path
+    chrome.storage.sync.get("prevHost", function (script) {
+      if (script.prevHost && script.prevHost === path) {
+      } else {
+        // 同步最新path 删除message
+        if (
+          $(".twitter-housechan-message-box") &&
+          $(".twitter-housechan-message-box").length
+        ) {
+          $(".twitter-housechan-message-box").remove();
+          let messageDom = $("div[data-testid='DMDrawer']");
+          messageDom.css("transform", "");
+        }
+        chrome.storage.sync.set({ prevHost: path });
+      }
+    });
+  }
+
   // 项目入口
   let timer = setInterval(() => {
     let userBoxDom = $("div[data-testid='UserName']");
@@ -288,8 +298,8 @@ $().ready(() => {
       }
     }
     if (selfUserName) {
-      addHouseChanButton(selfUserName)
-      addHouseMessageBox();
+      addHouseChanButton(selfUserName);
+      listenHistory();
     }
   }, 300);
 });
