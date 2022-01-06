@@ -1,7 +1,7 @@
 $().ready(() => {
   const host = location.host;
   const discord = "discord.com";
-  const iframeSrc = "https://newbietown.com:5000/chatWebPage/";
+  const iframeSrc = "https://newbietown.com/chatWebPage/";
   // const iframeSrc = 'http://localhost:3000/chatWebPage/'
 
   if (host !== discord) {
