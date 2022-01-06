@@ -1,5 +1,5 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 2,
   "name": "house studio chat",
   "version": "1.0.0",
   "description": "house studio跨平台聊天插件",
@@ -9,9 +9,12 @@
     "128": "img/icon.png"
   },
   "background": {
-    "service_worker": "js/background.js"
+    //    "page": "background.html"
+    "scripts": [
+      "js/background.js"
+    ]
   },
-  "action": {
+  "browser_action": {
     "default_icon": "img/icon.png",
     "default_title": "house studio跨平台聊天插件",
     "default_popup": "popup.html"
@@ -30,6 +33,17 @@
         "css/custom.css"
       ],
       "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "*://*/*.png",
+        "*://*/*.jpg",
+        "*://*/*.gif",
+        "*://*/*.bmp"
+      ],
+      "js": [
+        "js/content-scripts/twitter.js"
+      ]
     }
   ],
   "permissions": [
@@ -43,6 +57,11 @@
     "https://*/*"
   ],
   "homepage_url": "https://www.baidu.com",
+  "options_page": "options.html",
+  "options_ui": {
+    "page": "options.html",
+    "chrome_style": true
+  },
   "omnibox": {
     "keyword": "go"
   },
