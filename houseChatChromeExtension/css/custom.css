@@ -23,3 +23,44 @@
 .twitter-housechan-message-box .twitter-housechan-message-body {
     display: none;
 }
+
+
+.discord-housechan-message-box {
+    border-radius: 8px;
+    position: absolute;
+    right: 18px;
+    bottom: 24px;
+    width: 19%;
+    min-height: 45px;
+    background: #40444b;
+    overflow: hidden;
+}
+
+.discord-housechan-message-box .discord-housechan-message-header {
+    width: 100%;
+    height: 45px;
+    line-height: 50px;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    color: #dcddde;
+}
+.discord-housechan-message-box .discord-housechan-message-body {
+    display: none;
+}
+
+.discord-housechan-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    transform: translateY(50%);
+    z-index: 999;
+}
+
+.discord-housechan-icon:hover {
+    cursor: pointer;
+}
