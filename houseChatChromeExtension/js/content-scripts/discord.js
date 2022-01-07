@@ -1,14 +1,13 @@
 $().ready(() => {
   const host = location.host;
   const discord = "discord.com";
-  const iframeSrc = "https://newbietown.com/chatWebPage/";
-  // const iframeSrc = 'http://localhost:3000/chatWebPage/'
+  const iframeSrc = "https://newbietown.com/chat/chatWebPage/";
+  // const iframeSrc = 'http://localhost:3000/chat/chatWebPage/'
 
   if (host !== discord) {
-    console.log("discord，该插件无效");
+    console.log("not discord");
     return;
   }
-  console.log("ready discord =========");
 
 
   function getEle(reg) {
@@ -48,7 +47,6 @@ $().ready(() => {
         $(".discord-housechan-message-box").length
     ) {
       // 修改header字
-      console.log('修改header字')
       $(".discord-housechan-message-header").text(friendUserName)
       let src = `${iframeSrc}${selfUserName.replace('#', '@')}@@${friendUserName.replace('#', '@')}/discord`;
       $(".discord-housechan-message-header-iframe").remove()
@@ -83,7 +81,6 @@ $().ready(() => {
         `);
 
     messageHeaderEle.click(function () {
-      console.log("messageHeaderEle.click");
       messageBodyEle.slideToggle();
     });
     messageHeaderEle.text(friendUserName);
@@ -134,7 +131,6 @@ $().ready(() => {
     let friendEle = getEle("div[class^='userPopout-']");
     let fromEle = getEle("form[class^='form']")
     let friendHeaderTopEle = getEle("div[class^='headerTop-']")
-    console.log('sss')
     if (selfEle && friendHeaderEle && fromEle && friendEle) {
       addHouseChanButton(friendHeaderEle);
     }
