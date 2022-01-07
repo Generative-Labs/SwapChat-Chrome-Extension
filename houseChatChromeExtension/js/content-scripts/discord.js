@@ -62,7 +62,9 @@ $().ready(() => {
     let formEle = getEle("form[class^='form']")
     let children = formEle.children()[0]
     formEle.css('display', 'flex')
-    $(children).css('width', '80%')
+    $(children).css('width', '60%')
+    let contentEle = getEle("div[class^='scrollerContent']")
+    contentEle.css('width', '60%')
 
     let messageBoxEle = $(`
             <div class="discord-housechan-message-box">

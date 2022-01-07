@@ -86,7 +86,6 @@ $().ready(() => {
 
   function addHouseChanButton(selfUserName) {
     const userNameEle = $("div[data-testid='UserName']");
-    console.log(userNameEle, "userNameEle");
     if (userNameEle.length <= 0) return;
     let friendName = location.pathname.split("/")[1];
     let id = `create-${friendName}-room`;
