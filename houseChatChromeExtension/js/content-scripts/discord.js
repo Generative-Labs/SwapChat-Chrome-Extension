@@ -40,19 +40,27 @@ $().ready(() => {
   }
 
   function createPrivateRoom() {
-    getFriendName();
+    let friendUserName = getFriendName();
+    let selfUserName = getSelfName();
+    if (selfUserName === friendUserName) return
     if (
         $(".discord-housechan-message-box") &&
         $(".discord-housechan-message-box").length
     ) {
+      // 修改header字
+      console.log('修改header字')
+      $(".discord-housechan-message-header").text(friendUserName)
+      let src = `${iframeSrc}${selfUserName.replace('#', '@')}@@${friendUserName.replace('#', '@')}/discord`;
+      $(".discord-housechan-message-header-iframe").remove()
+
+      $(".discord-housechan-message-body").append(`
+                <iframe class="discord-housechan-message-header-iframe" style='width: 100%; height: 478px; border: 0;' src="${src}"></iframe>
+      `)
       return;
     }
     // get friend username
-    let friendUserName = getFriendName();
-    let selfUserName = getSelfName();
-    if (selfUserName === friendUserName) return
     console.log('create private room')
-    let src = `${iframeSrc}${selfUserName}@${friendUserName}`;
+    let src = `${iframeSrc}${selfUserName.replace('#', '@')}@@${friendUserName.replace('#', '@')}/discord`;
     let formEle = getEle("form[class^='form']")
     let children = formEle.children()[0]
     formEle.css('display', 'flex')
@@ -64,7 +72,7 @@ $().ready(() => {
         `);
 
     let messageHeaderEle = $(`
-            <div class="discord-housechan-message-header" style="">
+            <div class="discord-housechan-message-header" id="discord-housechan-message-header" style="">
                     <span>waiting...</span>
             </div>
         `);
@@ -88,6 +96,11 @@ $().ready(() => {
   function addHouseChanButton(headerEle) {
     let friendName = getFriendName()
     let selfName = getSelfName()
+    let messageBox = $(".discord-housechan-message-header")
+    if (messageBox.length && messageBox.length > 0) {
+      let item = messageBox[0].innerText
+      if (item === friendName) return
+    }
     if ($(".discord-housechan-icon") && $(".discord-housechan-icon").length) return
     if (friendName === selfName) return
     console.log('ready to add icon')
@@ -95,11 +108,8 @@ $().ready(() => {
       let houseChanButton = $(`<img class="discord-housechan-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/icon-60@2x.png" alt="">`);
       // headerDom.append(houseChanButton)
       headerEle.children().append(houseChanButton);
-
-
       houseChanButton.click(function () {
         createPrivateRoom()
-
       });
     }
   }

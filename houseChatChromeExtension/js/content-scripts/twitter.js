@@ -28,7 +28,7 @@ $().ready(() => {
     if (getSelfName()) {
       addHouseChanButton(getSelfName());
     }
-  }, 1000);
+  }, 3000);
 
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log(request.info, "content");
@@ -54,7 +54,7 @@ $().ready(() => {
     let selfUserName = getSelfName();
     if (selfUserName === friendUserName) return;
     // 修改iframe src
-    let src = `${iframeSrc}${selfUserName}@${friendUserName}`;
+    let src = `${iframeSrc}${selfUserName}@@${friendUserName}/twitter`;
     // 获取Twitter原始message dom 向左移动
     let messageDom = $("div[data-testid='DMDrawer']");
     messageDom.css("transform", "translateX(-500px)");

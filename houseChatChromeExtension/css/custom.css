@@ -47,6 +47,7 @@
 }
 .discord-housechan-message-box .discord-housechan-message-body {
     display: none;
+    background: #fff;
 }
 
 .discord-housechan-icon {
