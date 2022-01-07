@@ -2,8 +2,8 @@ $().ready(() => {
   const host = location.host;
   const body = $("#react-root");
   const twitter = "twitter.com";
-  const iframeSrc = "https://newbietown.com/chatWebPage/";
-  // const iframeSrc = 'http://localhost:3000/chatWebPage/'
+  const iframeSrc = "https://newbietown.com/chat/chatWebPage/";
+  // const iframeSrc = 'http://localhost:3000/chat/chatWebPage/'
 
   if (host !== twitter) {
     console.log("不是twitter，该插件无效");
