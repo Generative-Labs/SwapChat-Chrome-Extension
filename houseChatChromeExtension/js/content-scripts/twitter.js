@@ -36,6 +36,10 @@ $().ready(() => {
       askPrice();
     }
   });
+  function openTweetDialog() {
+    let sendTweet = $("a[data-testid='SideNav_NewTweet_Button']");
+    sendTweet[0].click()
+  }
 
   function askPrice() {
     if (
