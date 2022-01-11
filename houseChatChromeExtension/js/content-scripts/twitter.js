@@ -112,7 +112,7 @@ $().ready(() => {
          padding: 0 10px;
          display: flex; 
          align-items: center;
-         font-family: 'sans-serif';
+         font-family: sans-serif;
          "
          >
                <img style="width: 30px;height: 30px; border-radius: 50%; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/icon-60@2x.png" alt="">
