@@ -23,6 +23,50 @@ $().ready(() => {
     return selfUserName;
   }
 
+  function toDataURL(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+      var reader = new FileReader();
+      reader.onloadend = function() {
+        callback(reader.result);
+      }
+      reader.readAsDataURL(xhr.response);
+    };
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
+  }
+
+
+  function getUserAvatar() {
+    let userDom = $("div[data-testid='SideNav_AccountSwitcher_Button']")
+    let avatar = ''
+    if (userDom.length) {
+      let imgs = userDom.find('img')
+      avatar = imgs[0].src
+    }
+    let base64Data = ''
+    toDataURL(avatar, function(dataUrl) {
+      base64Data = dataUrl
+      console.log(dataUrl, 'dataUrl')
+      return dataUrl
+    })
+    console.log(base64Data, 'base64Data')
+    return base64Data
+  }
+
+  function getFriendAvatar() {
+    let userBoxDom = $("div[data-testid='UserName']");
+    let avatarBox = userBoxDom.prev()
+    let avatar = ''
+    if (avatarBox.length) {
+      let imgs = avatarBox.find('img')
+        avatar = imgs[0].src
+        avatar.replace('200x200', '400x400')
+    }
+    return avatar
+  }
+
   // 刷新页面的时候
   setTimeout(function () {
     if (getSelfName()) {
