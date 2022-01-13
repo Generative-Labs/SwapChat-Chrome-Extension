@@ -27,3 +27,26 @@ chrome.contextMenus.create({
     );
   },
 });
+
+
+chrome.runtime.onMessage.addListener((req,sender, sendResponse) => {
+  if (req.info === 'ready-create-auth-page') {
+    chrome.tabs.query(
+        {
+          active: true,
+          currentWindow: true,
+        },
+        (tabs) => {
+          console.log(tabs[0])
+          let href = tabs[0].url
+
+
+          chrome.tabs.create({
+            url: `http://localhost:3000/chat?callbackUrl=${href}`
+          });
+
+        }
+    );
+
+  }
+})

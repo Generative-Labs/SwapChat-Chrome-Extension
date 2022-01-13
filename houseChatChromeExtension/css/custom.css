@@ -20,6 +20,32 @@
     text-align: center;
     font-family: sans-serif;
 }
+
+.twitter-housechan-message-box .twitter-housechan-message-header img {
+    display: inline-block;
+    position: absolute;
+    top: 7px;
+    width: 35px;
+    height: 35px;
+}
+.home-icon {
+    left: 20px;
+}
+.slide-toggle-icon {
+    right: 20px;
+}
+
+.twitter-housechan-message-header {
+    cursor: default;
+}
+
+.twitter-housechan-message-header img:hover {
+    cursor: pointer;
+}
+
+.create-private-room:hover {
+    cursor: pointer;
+}
 .twitter-housechan-message-box .twitter-housechan-message-body {
     display: none;
 }
@@ -45,6 +71,10 @@
     font-weight: 600;
     text-align: center;
     color: #dcddde;
+}
+
+.discord-housechan-message-header:hover {
+    cursor: pointer;
 }
 .discord-housechan-message-box .discord-housechan-message-body {
     display: none;

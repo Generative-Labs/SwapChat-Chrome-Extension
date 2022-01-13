@@ -52,7 +52,7 @@ $().ready(() => {
       $(".discord-housechan-message-header-iframe").remove()
 
       $(".discord-housechan-message-body").append(`
-                <iframe class="discord-housechan-message-header-iframe" style='width: 100%; height: 478px; border: 0;' src="${src}"></iframe>
+        <iframe class="discord-housechan-message-header-iframe" style='width: 100%; height: 86vh; border: 0;' src="${src}"></iframe>
       `)
       return;
     }
@@ -78,7 +78,7 @@ $().ready(() => {
         `);
     let messageBodyEle = $(`
             <div class="discord-housechan-message-body">
-                <iframe class="discord-housechan-message-header-iframe" style='width: 100%; height: 478px; border: 0;' src="${src}"></iframe>
+                <iframe class="discord-housechan-message-header-iframe" style='width: 100%; height: 86vh; border: 0;' src="${src}"></iframe>
             </div>
         `);
 

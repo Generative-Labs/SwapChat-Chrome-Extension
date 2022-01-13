@@ -12,14 +12,11 @@ $().ready(() => {
     if (button) {
         button.onclick = () => {
             console.log('点击事件触发')
-            let num = 0
-            chrome.storage.sync.get('headerText', function (popup) {
-                if (popup.headerText) {
-                    bodyHeader.innerHTML += Number(popup.headerText)
-                }else  {
-                    bodyHeader.innerHTML = num
-                }
-            })
+
+            chrome.runtime.sendMessage({
+                info: "ready-create-auth-page",
+            });
+
         }
 
     }

@@ -2,12 +2,68 @@ $().ready(() => {
   const host = location.host;
   const body = $("#react-root");
   const twitter = "twitter.com";
-  const iframeSrc = "https://newbietown.com/chat/chatWebPage/";
-  // const iframeSrc = 'http://localhost:3000/chat/chatWebPage/'
+  // const iframeSrc = "https://newbietown.com/chat/chatWebPage/";
+  const iframeSrc = "http://localhost:3000/chat/chatWebPage/";
+
+  // const iframeHost = "https://newbietown.com/";
+  const iframeHost = "http://localhost:3000/";
+
+
+
+  const apiHost = "https://newbietown.com";
 
   if (host !== twitter) {
     console.log("不是twitter，该插件无效");
     return;
+  }
+  console.log("插件生效");
+
+
+  async function selfFetch(url, params, headers = null) {
+    let res = null;
+    try {
+      res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        mode: "cors",
+        body: JSON.stringify(params),
+      }).then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        } else {
+          return Promise.reject(response.json());
+        }
+      });
+      console.log(res, "res");
+    } catch (e) {
+      console.log(e, "e");
+    }
+    if (res && res.data) {
+      return res.data;
+    }
+    return res;
+  }
+
+  // 获取house用户信息
+  async function getHouseUserInfo(platform, username) {
+    return selfFetch(`${apiHost}/info`, {
+      platform: platform,
+      user_name: username,
+    });
+  }
+
+  async function getLoginRandomSecret(address) {
+    return await selfFetch(`${apiHost}/login_random_secret`, {
+      wallet_address: address,
+    });
+  }
+
+  function loginToHouse() {
+    chrome.runtime.sendMessage({
+      info: "ready-create-auth-page",
+    });
   }
 
   function getSelfName() {
@@ -21,50 +77,6 @@ $().ready(() => {
       }
     }
     return selfUserName;
-  }
-
-  function toDataURL(url, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.onload = function() {
-      var reader = new FileReader();
-      reader.onloadend = function() {
-        callback(reader.result);
-      }
-      reader.readAsDataURL(xhr.response);
-    };
-    xhr.open('GET', url);
-    xhr.responseType = 'blob';
-    xhr.send();
-  }
-
-
-  function getUserAvatar() {
-    let userDom = $("div[data-testid='SideNav_AccountSwitcher_Button']")
-    let avatar = ''
-    if (userDom.length) {
-      let imgs = userDom.find('img')
-      avatar = imgs[0].src
-    }
-    let base64Data = ''
-    toDataURL(avatar, function(dataUrl) {
-      base64Data = dataUrl
-      console.log(dataUrl, 'dataUrl')
-      return dataUrl
-    })
-    console.log(base64Data, 'base64Data')
-    return base64Data
-  }
-
-  function getFriendAvatar() {
-    let userBoxDom = $("div[data-testid='UserName']");
-    let avatarBox = userBoxDom.prev()
-    let avatar = ''
-    if (avatarBox.length) {
-      let imgs = avatarBox.find('img')
-        avatar = imgs[0].src
-        avatar.replace('200x200', '400x400')
-    }
-    return avatar
   }
 
   // 刷新页面的时候
@@ -82,7 +94,7 @@ $().ready(() => {
   });
   function openTweetDialog() {
     let sendTweet = $("a[data-testid='SideNav_NewTweet_Button']");
-    sendTweet[0].click()
+    sendTweet[0].click();
   }
 
   function askPrice() {
@@ -110,9 +122,12 @@ $().ready(() => {
             <div class="twitter-housechan-message-box" id="housechan-message-box">
             </div>
         `);
+
+    let homeIconEle = $('<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/home.png" alt="">')
+    let slideToggleIconELe = $('<img class="slide-toggle-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/headerUp.png" alt="">')
+    let headerSpanEle = $('<span>waiting...</span>')
     let messageHeaderEle = $(`
             <div class="twitter-housechan-message-header" style="">
-                    <span>waiting...</span>
             </div>
         `);
     let messageBodyEle = $(`
@@ -121,11 +136,28 @@ $().ready(() => {
             </div>
         `);
 
-    messageHeaderEle.click(function () {
-      console.log("messageHeaderEle.click");
-      messageBodyEle.slideToggle();
+    slideToggleIconELe.click(function () {
+      let oriIcon = $(".slide-toggle-icon").attr('src')
+      if (oriIcon.indexOf('Up') !== -1) {
+        $(".slide-toggle-icon").attr('src', 'https://d97ch61yqe5j6.cloudfront.net/frontend/headerDown.png')
+      } else {
+        $(".slide-toggle-icon").attr('src', 'https://d97ch61yqe5j6.cloudfront.net/frontend/headerUp.png')
+      }
+      messageBodyEle.slideToggle()
     });
-    messageHeaderEle.text(friendUserName);
+    homeIconEle.click(function () {
+      console.log(`${iframeHost}chat`, '${iframeHost}chat')
+      $(".twitter-housechan-message-header-iframe").remove()
+      let src = `${iframeHost}chat?isIframe=1`
+      $(".twitter-housechan-message-body").append(`
+      <iframe class="twitter-housechan-message-header-iframe" style='width: 100%; height: 478px; border: 0;' src="${src}"></iframe>
+      `)
+    })
+    messageHeaderEle.append(homeIconEle)
+    messageHeaderEle.append(headerSpanEle)
+    messageHeaderEle.append(slideToggleIconELe)
+
+    $(messageHeaderEle.find('span')[0]).text(friendUserName);
     $(".twitter-housechan-message-header-iframe").attr("src", src);
     messageBoxEle.append(messageHeaderEle);
     messageBoxEle.append(messageBodyEle);
