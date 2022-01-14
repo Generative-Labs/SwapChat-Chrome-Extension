@@ -114,7 +114,7 @@ $().ready(() => {
     let selfUserName = getSelfName();
     if (selfUserName === friendUserName) return;
     // 修改iframe src
-    let src = `${iframeSrc}${selfUserName}@@${friendUserName}/twitter`;
+    let src = `${iframeSrc}${selfUserName}@@${friendUserName}?isIframe=1&platform=twitter`;
     // 获取Twitter原始message dom 向左移动
     let messageDom = $("div[data-testid='DMDrawer']");
     messageDom.css("transform", "translateX(-500px)");
@@ -123,11 +123,12 @@ $().ready(() => {
             </div>
         `);
 
-    let homeIconEle = $('<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/home.png" alt="">')
+    let homeIconEle = $('<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/logo.png" alt="">')
     let slideToggleIconELe = $('<img class="slide-toggle-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/headerUp.png" alt="">')
-    let headerSpanEle = $('<span>waiting...</span>')
+    let goHomeIconEle = $('<img class="go-home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/homeIcon.png" alt="">')
+    let headerSpanEle = $('<span>House Studio</span>')
     let messageHeaderEle = $(`
-            <div class="twitter-housechan-message-header" style="">
+            <div class="twitter-housechan-message-header">
             </div>
         `);
     let messageBodyEle = $(`
@@ -145,19 +146,19 @@ $().ready(() => {
       }
       messageBodyEle.slideToggle()
     });
-    homeIconEle.click(function () {
+    goHomeIconEle.click(function () {
       console.log(`${iframeHost}chat`, '${iframeHost}chat')
       $(".twitter-housechan-message-header-iframe").remove()
-      let src = `${iframeHost}chat?isIframe=1`
+      let src = `${iframeHost}chat?isIframe=1&platform=twitter`
       $(".twitter-housechan-message-body").append(`
       <iframe class="twitter-housechan-message-header-iframe" style='width: 100%; height: 478px; border: 0;' src="${src}"></iframe>
       `)
     })
     messageHeaderEle.append(homeIconEle)
     messageHeaderEle.append(headerSpanEle)
+    messageHeaderEle.append(goHomeIconEle)
     messageHeaderEle.append(slideToggleIconELe)
 
-    $(messageHeaderEle.find('span')[0]).text(friendUserName);
     $(".twitter-housechan-message-header-iframe").attr("src", src);
     messageBoxEle.append(messageHeaderEle);
     messageBoxEle.append(messageBodyEle);
