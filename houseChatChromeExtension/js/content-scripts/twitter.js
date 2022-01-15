@@ -2,13 +2,9 @@ $().ready(() => {
   const host = location.host;
   const body = $("#react-root");
   const twitter = "twitter.com";
-  // const iframeSrc = "https://newbietown.com/chat/chatWebPage/";
-  const iframeSrc = "http://localhost:3000/chat/chatWebPage/";
-
-  // const iframeHost = "https://newbietown.com/";
-  const iframeHost = "http://localhost:3000/";
-
-
+  const platform = 'twitter'
+  const iframeSrc = "https://newbietown.com";
+  // const iframeSrc = "http://localhost:3000";
 
   const apiHost = "https://newbietown.com";
 
@@ -18,6 +14,20 @@ $().ready(() => {
   }
   console.log("插件生效");
 
+  // 刷新页面的时候
+  setTimeout(function () {
+    if (getSelfNameByDom()) {
+      createPrivateRoomButton();
+    }
+  }, 3000);
+
+  // 右键菜单事件
+  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    console.log(request.info, "content");
+    if (request.info && request.info === "create-private-room") {
+      createMessageBox();
+    }
+  });
 
   async function selfFetch(url, params, headers = null) {
     let res = null;
@@ -46,9 +56,17 @@ $().ready(() => {
     return res;
   }
 
+  async function registerUser(platform, username) {
+    return await selfFetch(`${apiHost}/register`, {
+      platform: platform,
+      user_name: username,
+    });
+  }
+
+
   // 获取house用户信息
   async function getHouseUserInfo(platform, username) {
-    return selfFetch(`${apiHost}/info`, {
+    return await selfFetch(`${apiHost}/info`, {
       platform: platform,
       user_name: username,
     });
@@ -66,7 +84,19 @@ $().ready(() => {
     });
   }
 
-  function getSelfName() {
+  function openTweetDialog() {
+    let sendTweet = $("a[data-testid='SideNav_NewTweet_Button']");
+    sendTweet[0].click();
+  }
+
+  async function checkUser(platform, username) {
+    const userInfo = await registerUser(platform, username)
+    console.log(userInfo, 'userInfo')
+
+  }
+
+
+  function getSelfNameByDom() {
     let selfDom = $("a[data-testid='AppTabBar_Profile_Link']");
     let selfUserName = "";
     if (selfDom[0]) {
@@ -79,42 +109,19 @@ $().ready(() => {
     return selfUserName;
   }
 
-  // 刷新页面的时候
-  setTimeout(function () {
-    if (getSelfName()) {
-      addHouseChanButton(getSelfName());
-    }
-  }, 3000);
-
-  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    console.log(request.info, "content");
-    if (request.info && request.info === "create-private-room") {
-      askPrice();
-    }
-  });
-  function openTweetDialog() {
-    let sendTweet = $("a[data-testid='SideNav_NewTweet_Button']");
-    sendTweet[0].click();
-  }
-
-  function askPrice() {
-    if (
-      $(".twitter-housechan-message-box") &&
-      $(".twitter-housechan-message-box").length
-    ) {
-      return;
-    }
-    console.log("ready to show message");
+  async function createMessageBox() {
+    // await checkUser(platform, getSelfNameByDom())
+    // return
+    if ($(".twitter-housechan-message-box").length) return;
+    console.log("ready to create message box");
     // get friend username
     let friendUserName = location.pathname.split("/")[1];
     // get self username
-    let userBoxDom = $("div[data-testid='UserName']");
-    if (userBoxDom.length <= 0) return;
-    console.log(userBoxDom, "userBoxDom");
-    let selfUserName = getSelfName();
+    let selfUserName = getSelfNameByDom();
+    if (!selfUserName) return;
     if (selfUserName === friendUserName) return;
     // 修改iframe src
-    let src = `${iframeSrc}${selfUserName}@@${friendUserName}?isIframe=1&platform=twitter`;
+    let src = `${iframeSrc}/chat/chatWebPage/${selfUserName}@@${friendUserName}?platform=${platform}`;
     // 获取Twitter原始message dom 向左移动
     let messageDom = $("div[data-testid='DMDrawer']");
     messageDom.css("transform", "translateX(-500px)");
@@ -123,10 +130,16 @@ $().ready(() => {
             </div>
         `);
 
-    let homeIconEle = $('<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/logo.png" alt="">')
-    let slideToggleIconELe = $('<img class="slide-toggle-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/headerUp.png" alt="">')
-    let goHomeIconEle = $('<img class="go-home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/homeIcon.png" alt="">')
-    let headerSpanEle = $('<span>House Studio</span>')
+    let homeIconEle = $(
+      '<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/logo.png" alt="">'
+    );
+    let slideToggleIconELe = $(
+      '<img class="slide-toggle-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/headerUp.png" alt="">'
+    );
+    let goHomeIconEle = $(
+      '<img class="go-home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/homeIcon.png" alt="">'
+    );
+    let headerSpanEle = $("<span>House Studio</span>");
     let messageHeaderEle = $(`
             <div class="twitter-housechan-message-header">
             </div>
@@ -136,36 +149,42 @@ $().ready(() => {
                 <iframe class="twitter-housechan-message-header-iframe" style='width: 100%; height: 478px; border: 0;' src="${src}"></iframe>
             </div>
         `);
-
+    // 折叠按钮添加事件
     slideToggleIconELe.click(function () {
-      let oriIcon = $(".slide-toggle-icon").attr('src')
-      if (oriIcon.indexOf('Up') !== -1) {
-        $(".slide-toggle-icon").attr('src', 'https://d97ch61yqe5j6.cloudfront.net/frontend/headerDown.png')
+      let oriIcon = $(".slide-toggle-icon").attr("src");
+      if (oriIcon.indexOf("Up") !== -1) {
+        $(".slide-toggle-icon").attr(
+          "src",
+          "https://d97ch61yqe5j6.cloudfront.net/frontend/headerDown.png"
+        );
       } else {
-        $(".slide-toggle-icon").attr('src', 'https://d97ch61yqe5j6.cloudfront.net/frontend/headerUp.png')
+        $(".slide-toggle-icon").attr(
+          "src",
+          "https://d97ch61yqe5j6.cloudfront.net/frontend/headerUp.png"
+        );
       }
-      messageBodyEle.slideToggle()
+      messageBodyEle.slideToggle();
     });
+    // 主页button 添加事件
     goHomeIconEle.click(function () {
-      console.log(`${iframeHost}chat`, '${iframeHost}chat')
-      $(".twitter-housechan-message-header-iframe").remove()
-      let src = `${iframeHost}chat?isIframe=1&platform=twitter`
+      $(".twitter-housechan-message-header-iframe").remove();
+      let src = `${iframeSrc}/chat/auth?platform=${platform}&fromPage=normal`;
       $(".twitter-housechan-message-body").append(`
       <iframe class="twitter-housechan-message-header-iframe" style='width: 100%; height: 478px; border: 0;' src="${src}"></iframe>
-      `)
-    })
-    messageHeaderEle.append(homeIconEle)
-    messageHeaderEle.append(headerSpanEle)
-    messageHeaderEle.append(goHomeIconEle)
-    messageHeaderEle.append(slideToggleIconELe)
-
-    $(".twitter-housechan-message-header-iframe").attr("src", src);
+      `);
+    });
+    messageHeaderEle.append(homeIconEle);
+    messageHeaderEle.append(headerSpanEle);
+    messageHeaderEle.append(goHomeIconEle);
+    messageHeaderEle.append(slideToggleIconELe);
     messageBoxEle.append(messageHeaderEle);
     messageBoxEle.append(messageBodyEle);
     body.append(messageBoxEle);
   }
 
-  function addHouseChanButton(selfUserName) {
+  function createPrivateRoomButton() {
+    const selfUserName = getSelfNameByDom();
+    // 判断是否在个人主页
     const userNameEle = $("div[data-testid='UserName']");
     if (userNameEle.length <= 0) return;
     let friendName = location.pathname.split("/")[1];
@@ -201,12 +220,12 @@ $().ready(() => {
         </div>
         `);
     buttonDom.click(function () {
-      askPrice();
+      createMessageBox();
     });
     userNameEle.append(buttonDom);
   }
 
-  function listenHistory(selfUserName) {
+  function listenHistory() {
     // 当前path
     let path = location.pathname.split("/")[1];
     // 缓存上次path
@@ -222,7 +241,7 @@ $().ready(() => {
           let messageDom = $("div[data-testid='DMDrawer']");
           messageDom.css("transform", "");
         }
-        addHouseChanButton(selfUserName);
+        createPrivateRoomButton();
         chrome.storage.sync.set({ prevHost: path });
       }
     });
@@ -230,8 +249,8 @@ $().ready(() => {
 
   // 项目入口
   setInterval(() => {
-    if (getSelfName()) {
-      listenHistory(getSelfName());
+    if (getSelfNameByDom()) {
+      listenHistory();
     }
   }, 300);
 
@@ -356,7 +375,7 @@ $().ready(() => {
   //   });
   //   parent.append(bro);
   //   bro.click(function () {
-  //     addHouseChanButton(selfUserName);
+  //     createPrivateRoomButton(selfUserName);
   //   });
   // }
 

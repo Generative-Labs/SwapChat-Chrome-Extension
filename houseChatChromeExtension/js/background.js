@@ -39,14 +39,17 @@ chrome.runtime.onMessage.addListener((req,sender, sendResponse) => {
         (tabs) => {
           console.log(tabs[0])
           let href = tabs[0].url
-
-
           chrome.tabs.create({
-            url: `http://localhost:3000/chat?callbackUrl=${href}`
+            url: `http://localhost:3000/chat/auth?callbackUrl=${href}&fromPage=normal&platform=twitter`
           });
 
         }
     );
+  }
 
+  if (req.info ==='getTabId' ) {
+      sendResponse({
+          tabId: sender.tab.id
+      })
   }
 })

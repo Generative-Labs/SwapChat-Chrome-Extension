@@ -1,8 +1,9 @@
 $().ready(() => {
   const host = location.host;
   const discord = "discord.com";
-  const iframeSrc = "https://newbietown.com/chat/chatWebPage/";
-  // const iframeSrc = 'http://localhost:3000/chat/chatWebPage/'
+  const platform = 'discord'
+  const iframeSrc = "https://newbietown.com";
+  // const iframeSrc = 'http://localhost:3000'
 
   if (host !== discord) {
     console.log("not discord");
@@ -18,7 +19,7 @@ $().ready(() => {
     return element.length;
   }
 
-  function getSelfName() {
+  function getSelfNameByDom() {
     let selfDom = $("div[class^='nameTag']");
     let selfUserName = "";
     if (selfDom[0]) {
@@ -40,17 +41,15 @@ $().ready(() => {
 
   function createPrivateRoom() {
     let friendUserName = getFriendName();
-    let selfUserName = getSelfName();
+    let selfUserName = getSelfNameByDom();
     if (selfUserName === friendUserName) return
     if (
         $(".discord-housechan-message-box") &&
         $(".discord-housechan-message-box").length
     ) {
       // 修改header字
-      $(".discord-housechan-message-header").text(friendUserName)
-      let src = `${iframeSrc}${selfUserName.replace('#', '@')}@@${friendUserName.replace('#', '@')}/discord`;
+      let src = `${iframeSrc}/chat/chatWebPage/${selfUserName.replace('#', '@')}@@${friendUserName.replace('#', '@')}?platform=${platform}`;
       $(".discord-housechan-message-header-iframe").remove()
-
       $(".discord-housechan-message-body").append(`
         <iframe class="discord-housechan-message-header-iframe" style='width: 100%; height: 86vh; border: 0;' src="${src}"></iframe>
       `)
@@ -58,7 +57,7 @@ $().ready(() => {
     }
     // get friend username
     console.log('create private room')
-    let src = `${iframeSrc}${selfUserName.replace('#', '@')}@@${friendUserName.replace('#', '@')}/discord`;
+    let src = `${iframeSrc}/chat/chatWebPage/${selfUserName.replace('#', '@')}@@${friendUserName.replace('#', '@')}?platform=${platform}`;
     let formEle = getEle("form[class^='form']")
     let children = formEle.children()[0]
     formEle.css('display', 'flex')
@@ -67,14 +66,21 @@ $().ready(() => {
     contentEle.css('width', '60%')
 
     let messageBoxEle = $(`
-            <div class="discord-housechan-message-box">
-            </div>
+            <div class="discord-housechan-message-box"></div>
         `);
+    let homeIconEle = $(
+        '<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/logo.png" alt="">'
+    );
+    let slideToggleIconELe = $(
+        '<img class="slide-toggle-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/headerUp.png" alt="">'
+    );
+    let goHomeIconEle = $(
+        '<img class="go-home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/homeIcon.png" alt="">'
+    );
+    let headerSpanEle = $("<span>House Studio</span>");
 
     let messageHeaderEle = $(`
-            <div class="discord-housechan-message-header" id="discord-housechan-message-header" style="">
-                    <span>waiting...</span>
-            </div>
+            <div class="discord-housechan-message-header" id="discord-housechan-message-header" style=""></div>
         `);
     let messageBodyEle = $(`
             <div class="discord-housechan-message-body">
@@ -82,19 +88,43 @@ $().ready(() => {
             </div>
         `);
 
-    messageHeaderEle.click(function () {
+    slideToggleIconELe.click(function () {
+      let oriIcon = $(".slide-toggle-icon").attr("src");
+      if (oriIcon.indexOf("Up") !== -1) {
+        $(".slide-toggle-icon").attr(
+            "src",
+            "https://d97ch61yqe5j6.cloudfront.net/frontend/headerDown.png"
+        );
+      } else {
+        $(".slide-toggle-icon").attr(
+            "src",
+            "https://d97ch61yqe5j6.cloudfront.net/frontend/headerUp.png"
+        );
+      }
       messageBodyEle.slideToggle();
     });
-    messageHeaderEle.text(friendUserName);
+
+    // 主页button 添加事件
+    goHomeIconEle.click(function () {
+      $(".discord-housechan-message-header-iframe").remove()
+      let src = `${iframeSrc}/chat/auth?platform=${platform}&fromPage=normal`;
+      $(".discord-housechan-message-body").append(`
+        <iframe class="discord-housechan-message-header-iframe" style='width: 100%; height: 86vh; border: 0;' src="${src}"></iframe>
+      `)
+    });
+
+    messageHeaderEle.append(homeIconEle);
+    messageHeaderEle.append(headerSpanEle);
+    messageHeaderEle.append(goHomeIconEle);
+    messageHeaderEle.append(slideToggleIconELe);
     messageBoxEle.append(messageHeaderEle);
     messageBoxEle.append(messageBodyEle);
     formEle.append(messageBoxEle)
-
   }
 
   function addHouseChanButton(headerEle) {
     let friendName = getFriendName()
-    let selfName = getSelfName()
+    let selfName = getSelfNameByDom()
     let messageBox = $(".discord-housechan-message-header")
     if (messageBox.length && messageBox.length > 0) {
       let item = messageBox[0].innerText
@@ -104,7 +134,7 @@ $().ready(() => {
     if (friendName === selfName) return
     console.log('ready to add icon')
     if (headerEle.length > 0) {
-      let houseChanButton = $(`<img class="discord-housechan-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/icon-60@2x.png" alt="">`);
+      let houseChanButton = $(`<img class="discord-housechan-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/logo.png" alt="">`);
       // headerDom.append(houseChanButton)
       headerEle.children().append(houseChanButton);
       houseChanButton.click(function () {
@@ -143,13 +173,13 @@ $().ready(() => {
     //   console.log(addHouseChanButton())
     // }
     // if (getFriendName()) {
-    // listenHistory(getSelfName());
+    // listenHistory(getSelfNameByDom());
     // }/
   }, 300);
   //
   // setInterval(() => {
-  //   if (getSelfName()) {
-  //     console.log(getSelfName());
+  //   if (getSelfNameByDom()) {
+  //     console.log(getSelfNameByDom());
   //   }
   // }, 300);
 });
