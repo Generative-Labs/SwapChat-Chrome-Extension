@@ -45,6 +45,8 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
         chrome.tabs.create({
           url: `http://localhost:3000/chat/auth?callbackUrl=${href}&fromPage=normal&platform=twitter`,
         });
+
+        chrome.tabs.remove(tabs[0].id)
       }
     );
   }

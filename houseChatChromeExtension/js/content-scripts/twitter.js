@@ -2,9 +2,9 @@ $().ready(() => {
   const host = location.host;
   const body = $("#react-root");
   const twitter = "twitter.com";
-  const platform = 'twitter'
-  // const iframeSrc = "https://newbietown.com";
-  const iframeSrc = "http://localhost:3000";
+  const platform = "twitter";
+  const iframeSrc = "https://newbietown.com";
+  // const iframeSrc = "http://localhost:3000";
 
   const apiHost = "https://newbietown.com";
 
@@ -63,12 +63,11 @@ $().ready(() => {
     });
   }
 
-   async function verifyPlatform (url) {
-     return await selfFetch(`${apiHost}/verify_platform`, {
-       tweet_url: url,
-     });
+  async function verifyPlatform(url) {
+    return await selfFetch(`${apiHost}/verify_platform`, {
+      tweet_url: url,
+    });
   }
-
 
   // 获取house用户信息
   async function getHouseUserInfo(platform, username) {
@@ -92,9 +91,11 @@ $().ready(() => {
 
   function openTweetDialog(platform) {
     let dialog = $(`
-      <div class="bind-platform-dialog-box">d
+      <div class="bind-platform-dialog-box">
         <div class="bind-platform-dialog">
-        <h1>x</h1>
+            <div>
+              <img class="close-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/closeIcon.png" alt="">
+            </div>
             <h1>You must bind your Twitter </h1>
             <div>
                 step1. <a class="send-tweet-button" href="https://twitter.com/intent/tweet?text=I am verifying my HCCS account, my wallet address is: 0x0000000" target="_blank">Send</a> a tweet
@@ -108,28 +109,38 @@ $().ready(() => {
             </div>
         </div>
      </div>   
-    `)
-    body.append(dialog)
-    $('.submit-address-tweet-button').click(function () {
-      let url = $('.bind-platform-input')[0].value
-      if (!url) return
-      verifyPlatform(url).then(bindRes => {
+    `);
+    body.append(dialog);
+    $(".close-icon").click(function () {
+      $(".bind-platform-dialog-box").remove();
+    });
+    $(".submit-address-tweet-button").click(function () {
+      let url = $(".bind-platform-input")[0].value;
+      if (!url) return;
+      verifyPlatform(url).then((bindRes) => {
         if (bindRes.code !== 0) {
-          alert(bindRes.msg)
+          alert(bindRes.msg);
         }
-        $(".bind-platform-dialog-box").remove()
-        createMessageBox()
-      })
-    })
+        $(".bind-platform-dialog-box").remove();
+        createMessageBox();
+      });
+    });
   }
 
   async function checkUser() {
-    const userInfo = await registerUser(platform, getSelfNameByDom())
+    if ($(".twitter-housechan-message-box").length) return;
+    // get friend username
+    let friendUserName = location.pathname.split("/")[1];
+    // get self username
+    let selfUserName = getSelfNameByDom();
+    if (!selfUserName) return;
+    if (selfUserName === friendUserName) return;
+    const userInfo = await registerUser(platform, getSelfNameByDom());
     if (userInfo.status === -1) {
-      openTweetDialog(platform)
-    } else  {
-      console.log('call createMessageBox')
-      createMessageBox()
+      openTweetDialog(platform);
+    } else {
+      console.log("call createMessageBox");
+      createMessageBox();
     }
   }
 
@@ -155,7 +166,7 @@ $().ready(() => {
     let selfUserName = getSelfNameByDom();
     if (!selfUserName) return;
     if (selfUserName === friendUserName) return;
-    let src = `${iframeSrc}/chat/webChat/${friendUserName}?platform=${platform}`
+    let src = `${iframeSrc}/chat/chatWebPage/${selfUserName}@@${friendUserName}?platform=${platform}`;
     // 获取Twitter原始message dom 向左移动
     let messageDom = $("div[data-testid='DMDrawer']");
     messageDom.css("transform", "translateX(-500px)");
@@ -180,7 +191,7 @@ $().ready(() => {
         `);
     let messageBodyEle = $(`
             <div class="twitter-housechan-message-body">
-                <iframe class="twitter-housechan-message-header-iframe" style='width: 100%; height: 478px; border: 0;' src="${src}"></iframe>
+                <iframe class="twitter-housechan-message-header-iframe" style='width: 100%; height: 600px; border: 0;' src="${src}"></iframe>
             </div>
         `);
     // 折叠按钮添加事件
@@ -204,7 +215,7 @@ $().ready(() => {
       $(".twitter-housechan-message-header-iframe").remove();
       let src = `${iframeSrc}/chat/auth?platform=${platform}&fromPage=normal`;
       $(".twitter-housechan-message-body").append(`
-      <iframe class="twitter-housechan-message-header-iframe" style='width: 100%; height: 478px; border: 0;' src="${src}"></iframe>
+      <iframe class="twitter-housechan-message-header-iframe" style='width: 100%; height: 600px; border: 0;' src="${src}"></iframe>
       `);
     });
     messageHeaderEle.append(homeIconEle);
@@ -254,7 +265,7 @@ $().ready(() => {
         </div>
         `);
     buttonDom.click(function () {
-      checkUser()
+      checkUser();
     });
     userNameEle.append(buttonDom);
   }
