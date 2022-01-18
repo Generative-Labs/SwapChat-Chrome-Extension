@@ -194,22 +194,22 @@ $().ready(() => {
                 <iframe class="twitter-housechan-message-header-iframe" style='width: 100%; height: 600px; border: 0;' src="${src}"></iframe>
             </div>
         `);
-    // 折叠按钮添加事件
-    slideToggleIconELe.click(function () {
+
+    messageHeaderEle.click(function () {
       let oriIcon = $(".slide-toggle-icon").attr("src");
       if (oriIcon.indexOf("Up") !== -1) {
         $(".slide-toggle-icon").attr(
-          "src",
-          "https://d97ch61yqe5j6.cloudfront.net/frontend/headerDown.png"
+            "src",
+            "https://d97ch61yqe5j6.cloudfront.net/frontend/headerDown.png"
         );
       } else {
         $(".slide-toggle-icon").attr(
-          "src",
-          "https://d97ch61yqe5j6.cloudfront.net/frontend/headerUp.png"
+            "src",
+            "https://d97ch61yqe5j6.cloudfront.net/frontend/headerUp.png"
         );
       }
       messageBodyEle.slideToggle();
-    });
+    })
     // 主页button 添加事件
     goHomeIconEle.click(function () {
       $(".twitter-housechan-message-header-iframe").remove();
@@ -217,6 +217,7 @@ $().ready(() => {
       $(".twitter-housechan-message-body").append(`
       <iframe class="twitter-housechan-message-header-iframe" style='width: 100%; height: 600px; border: 0;' src="${src}"></iframe>
       `);
+      return false
     });
     messageHeaderEle.append(homeIconEle);
     messageHeaderEle.append(headerSpanEle);
@@ -224,6 +225,7 @@ $().ready(() => {
     messageHeaderEle.append(slideToggleIconELe);
     messageBoxEle.append(messageHeaderEle);
     messageBoxEle.append(messageBodyEle);
+    chrome.storage.sync.set({ isShowHouseChat: true });
     body.append(messageBoxEle);
   }
 
@@ -282,9 +284,8 @@ $().ready(() => {
           $(".twitter-housechan-message-box") &&
           $(".twitter-housechan-message-box").length
         ) {
-          $(".twitter-housechan-message-box").remove();
           let messageDom = $("div[data-testid='DMDrawer']");
-          messageDom.css("transform", "");
+          messageDom.css("transform", "translateX(-500px)");
         }
         createPrivateRoomButton();
         chrome.storage.sync.set({ prevHost: path });

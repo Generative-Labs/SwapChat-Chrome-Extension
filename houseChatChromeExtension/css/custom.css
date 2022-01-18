@@ -51,20 +51,22 @@
     font-style: normal;
     font-weight: bold;
 }
-.twitter-housechan-message-header .go-home-icon {
+ .go-home-icon {
     position: absolute;
     right: 50px;
     width: 20px;
     height: 20px;
+    z-index: 999;
 }
 
 .slide-toggle-icon {
     position: absolute;
     right: 12px;
+    z-index: 999;
 }
 
-.twitter-housechan-message-header {
-    cursor: default;
+.twitter-housechan-message-header:hover {
+    cursor: pointer;
 }
 
 .twitter-housechan-message-header img:hover {
@@ -75,7 +77,7 @@
     cursor: pointer;
 }
 .twitter-housechan-message-box .twitter-housechan-message-body {
-    display: none;
+    /*display: none;*/
     height: 600px;
 }
 
