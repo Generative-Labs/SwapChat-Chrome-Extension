@@ -79,6 +79,44 @@
     height: 478px;
 }
 
+/**/
+.bind-platform-dialog-box {
+    position: fixed;
+    top: 0;
+    font-family: sans-serif;
+    left: 0;
+    background: rgba(0, 0, 0, 0.3);
+    width: 100%;
+    height: 100%;
+}
+
+.bind-platform-dialog {
+    padding: 30px;
+    border-radius: 16px;
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-250px) translateY(-250px);
+    background-color: #fff;
+}
+.bind-platform-dialog h1:nth-last-of-type(1) {
+    text-align: left;
+}
+.send-tweet-button {
+    list-style: none;
+    color: #008ed5;
+}
+
+.submit-address-tweet-button {
+    color: #008ed5;
+}
+.submit-address-tweet-button:hover {
+    cursor: pointer;
+}
+
+
 
 /*discord*/
 

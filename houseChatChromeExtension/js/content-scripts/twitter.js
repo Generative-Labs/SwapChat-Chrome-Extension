@@ -3,8 +3,8 @@ $().ready(() => {
   const body = $("#react-root");
   const twitter = "twitter.com";
   const platform = 'twitter'
-  const iframeSrc = "https://newbietown.com";
-  // const iframeSrc = "http://localhost:3000";
+  // const iframeSrc = "https://newbietown.com";
+  const iframeSrc = "http://localhost:3000";
 
   const apiHost = "https://newbietown.com";
 
@@ -25,7 +25,7 @@ $().ready(() => {
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log(request.info, "content");
     if (request.info && request.info === "create-private-room") {
-      createMessageBox();
+      // checkUser();
     }
   });
 
@@ -63,6 +63,12 @@ $().ready(() => {
     });
   }
 
+   async function verifyPlatform (url) {
+     return await selfFetch(`${apiHost}/verify_platform`, {
+       tweet_url: url,
+     });
+  }
+
 
   // 获取house用户信息
   async function getHouseUserInfo(platform, username) {
@@ -84,17 +90,48 @@ $().ready(() => {
     });
   }
 
-  function openTweetDialog() {
-    let sendTweet = $("a[data-testid='SideNav_NewTweet_Button']");
-    sendTweet[0].click();
+  function openTweetDialog(platform) {
+    let dialog = $(`
+      <div class="bind-platform-dialog-box">d
+        <div class="bind-platform-dialog">
+        <h1>x</h1>
+            <h1>You must bind your Twitter </h1>
+            <div>
+                step1. <a class="send-tweet-button" href="https://twitter.com/intent/tweet?text=I am verifying my HCCS account, my wallet address is: 0x0000000" target="_blank">Send</a> a tweet
+            </div>
+           <div>
+            <p>step2. Enter the tweet address here</p>
+            <input type="text" placeholder="Enter the tweet address here" class="bind-platform-input" value="">
+           </div>
+            <div class="bind-platform-btns">
+            <p>step3. <span class="submit-address-tweet-button">submit</span> the tweet address to us</p>
+            </div>
+        </div>
+     </div>   
+    `)
+    body.append(dialog)
+    $('.submit-address-tweet-button').click(function () {
+      let url = $('.bind-platform-input')[0].value
+      if (!url) return
+      verifyPlatform(url).then(bindRes => {
+        if (bindRes.code !== 0) {
+          alert(bindRes.msg)
+        }
+        $(".bind-platform-dialog-box").remove()
+        createMessageBox()
+      })
+    })
   }
 
-  async function checkUser(platform, username) {
-    const userInfo = await registerUser(platform, username)
-    console.log(userInfo, 'userInfo')
-
+  async function checkUser() {
+    const userInfo = await registerUser(platform, getSelfNameByDom())
+    if (userInfo.status === -1) {
+      openTweetDialog(platform)
+    } else  {
+      console.log('call createMessageBox')
+      createMessageBox()
+    }
   }
-
 
   function getSelfNameByDom() {
     let selfDom = $("a[data-testid='AppTabBar_Profile_Link']");
@@ -110,8 +147,6 @@ $().ready(() => {
   }
 
   async function createMessageBox() {
-    // await checkUser(platform, getSelfNameByDom())
-    // return
     if ($(".twitter-housechan-message-box").length) return;
     console.log("ready to create message box");
     // get friend username
@@ -120,8 +155,7 @@ $().ready(() => {
     let selfUserName = getSelfNameByDom();
     if (!selfUserName) return;
     if (selfUserName === friendUserName) return;
-    // 修改iframe src
-    let src = `${iframeSrc}/chat/chatWebPage/${selfUserName}@@${friendUserName}?platform=${platform}`;
+    let src = `${iframeSrc}/chat/webChat/${friendUserName}?platform=${platform}`
     // 获取Twitter原始message dom 向左移动
     let messageDom = $("div[data-testid='DMDrawer']");
     messageDom.css("transform", "translateX(-500px)");
@@ -220,7 +254,7 @@ $().ready(() => {
         </div>
         `);
     buttonDom.click(function () {
-      createMessageBox();
+      checkUser()
     });
     userNameEle.append(buttonDom);
   }

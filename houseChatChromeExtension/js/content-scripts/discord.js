@@ -48,7 +48,8 @@ $().ready(() => {
         $(".discord-housechan-message-box").length
     ) {
       // 修改header字
-      let src = `${iframeSrc}/chat/chatWebPage/${selfUserName.replace('#', '@')}@@${friendUserName.replace('#', '@')}?platform=${platform}`;
+      let src = `${iframeSrc}/chat/webChat/${friendUserName.replace('#', '@')}?platform=${platform}`
+      // let src = `${iframeSrc}/chat/chatWebPage/${selfUserName.replace('#', '@')}@@${friendUserName.replace('#', '@')}?platform=${platform}`;
       $(".discord-housechan-message-header-iframe").remove()
       $(".discord-housechan-message-body").append(`
         <iframe class="discord-housechan-message-header-iframe" style='width: 100%; height: 86vh; border: 0;' src="${src}"></iframe>
@@ -57,7 +58,7 @@ $().ready(() => {
     }
     // get friend username
     console.log('create private room')
-    let src = `${iframeSrc}/chat/chatWebPage/${selfUserName.replace('#', '@')}@@${friendUserName.replace('#', '@')}?platform=${platform}`;
+    let src = `${iframeSrc}/chat/webChat/${friendUserName.replace('#', '@')}?platform=${platform}`
     let formEle = getEle("form[class^='form']")
     let children = formEle.children()[0]
     formEle.css('display', 'flex')
