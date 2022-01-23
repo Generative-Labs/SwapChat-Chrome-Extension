@@ -129,6 +129,7 @@ $().ready(() => {
 
   async function checkUser() {
     if ($(".twitter-housechan-message-box").length) return;
+    createDisablePrivateRoomButton()
     // get friend username
     let friendUserName = location.pathname.split("/")[1];
     // get self username
@@ -136,6 +137,7 @@ $().ready(() => {
     if (!selfUserName) return;
     if (selfUserName === friendUserName) return;
     const userInfo = await registerUser(platform, getSelfNameByDom());
+    $(".disable-create-private-button").remove()
     if (userInfo.status === -1) {
       openTweetDialog(platform);
     } else {
@@ -166,10 +168,10 @@ $().ready(() => {
     let selfUserName = getSelfNameByDom();
     if (!selfUserName) return;
     if (selfUserName === friendUserName) return;
-    let src = `${iframeSrc}/chat/chatWebPage/${selfUserName}@@${friendUserName}?platform=${platform}`;
+    let src = `${iframeSrc}/chat/chatWebPage?userHash=${selfUserName}@@${friendUserName}&platform=${platform}`;
     // 获取Twitter原始message dom 向左移动
     let messageDom = $("div[data-testid='DMDrawer']");
-    messageDom.css("transform", "translateX(-500px)");
+    messageDom.css("transform", "translateX(-700px)");
     let messageBoxEle = $(`
             <div class="twitter-housechan-message-box" id="housechan-message-box">
             </div>
@@ -269,6 +271,45 @@ $().ready(() => {
     buttonDom.click(function () {
       checkUser();
     });
+    userNameEle.append(buttonDom);
+  }
+
+  function createDisablePrivateRoomButton() {
+    console.log('createDisablePrivateRoomButton')
+    const selfUserName = getSelfNameByDom();
+    // 判断是否在个人主页
+    const userNameEle = $("div[data-testid='UserName']");
+    if (userNameEle.length <= 0) return;
+    let friendName = location.pathname.split("/")[1];
+    if (friendName === selfUserName) {
+      $(".create-private-room").css("display", "none");
+      return;
+    }
+    console.log("ready to create private room button");
+    userNameEle.css("position", "relative");
+    let buttonDom = $(`
+        <div
+        class="disable-create-private-button"
+         style="position: absolute;
+         top: 0;
+         right: 0; 
+         height: 44px; 
+         min-width: 44px;
+         border: 1px solid rgb(207, 217, 222);
+         background: #ccc;
+         border-radius: 999px;
+         padding: 0 10px;
+         display: flex; 
+         align-items: center;
+         font-family: sans-serif;
+         pointer-events: none;
+         cursor: default;
+         "
+         >
+               <img style="width: 30px;height: 30px; border-radius: 50%; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/loading.png" alt="">
+            Create Private Room
+        </div>
+        `);
     userNameEle.append(buttonDom);
   }
 

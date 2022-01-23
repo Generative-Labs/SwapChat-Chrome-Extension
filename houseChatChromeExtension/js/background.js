@@ -42,8 +42,10 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
       (tabs) => {
         console.log(tabs[0]);
         let href = tabs[0].url;
+        let loginUrl = `https://newbietown.com/chat/auth?callbackUrl=${href}&fromPage=normal&platform=twitter`
+        // let loginUrl = `http://localhost:3000/chat/auth?callbackUrl=${href}&fromPage=normal&platform=twitter`
         chrome.tabs.create({
-          url: `http://localhost:3000/chat/auth?callbackUrl=${href}&fromPage=normal&platform=twitter`,
+          url: loginUrl,
         });
 
         chrome.tabs.remove(tabs[0].id)

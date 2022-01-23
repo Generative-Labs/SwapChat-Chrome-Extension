@@ -5,8 +5,8 @@ $().ready(() => {
       currentWindow: true,
     },
     (tabs) => {
-      // const iframeSrc = "https://newbietown.com";
-      const iframeSrc = "http://localhost:3000";
+      const iframeSrc = "https://newbietown.com";
+      // const iframeSrc = "http://localhost:3000";
       const discord = "discord.com";
       const twitter = "twitter.com";
       const popupPage = $("#popup-page");
