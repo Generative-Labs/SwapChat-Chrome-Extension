@@ -93,28 +93,52 @@ $().ready(() => {
     let dialog = $(`
       <div class="bind-platform-dialog-box">
         <div class="bind-platform-dialog">
-            <div>
-              <img class="close-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/closeIcon.png" alt="">
+            <div class="bind-platform-dialog-header">
+              <img class="bind-platform-dialog-header-close-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/closeIcon.png" alt="">
+              <h1 class="bind-platform-dialog-header-title">Verify your Twitter account</h1>
             </div>
-            <h1>You must bind your Twitter </h1>
-            <div>
-                step1. <a class="send-tweet-button" href="https://twitter.com/intent/tweet?text=I am verifying my HCCS account, my wallet address is: 0x0000000" target="_blank">Send</a> a tweet
-            </div>
-           <div>
-            <p>step2. Open the individual Tweet’s main page, copy the url of the Tweet that includes the Tweet ID, and paste it below</p>
-            <input type="text" placeholder="Enter the tweet address here" class="bind-platform-input" value="">
-           </div>
-            <div class="bind-platform-btns">
-            <p>step3. <span class="submit-address-tweet-button">Submit</span> the Tweet’s url</p>
+            <div class="bind-platform-dialog-content">
+              <div class="bind-platform-dialog-box">
+                <div class="step-item-box">
+                    <div class="step-item-box-circle-box">1</div>
+                    <h1>Step 1</h1>
+                    <p>Click the button below to post a tweet. </p>
+                    <div class="step-item-box-button step-item-box-post-tweet-button" >
+                      <span>Post a tweet</span>
+                    </div>
+                </div>
+                <div class="step-item-box">
+                    <div class="step-item-box-circle-box">2</div>
+                    <h1>Step 2</h1>
+                    <p>Copy and paste the tweet URL in below.</p>
+                    <div class="step-item-box-input">
+                      <input type="text" placeholder="Enter the tweet address here" class="bind-platform-input" value="">
+                    </div>
+                </div>
+              </div>
+              <div class="step-item-box final-step-item-box">
+                    <div class="step-item-box-circle-box">3</div>
+                    <h1>Step 3</h1>
+                    <p>Hit the submit button once you pasted the URL.</p>
+                    <div class="step-item-box-button step-item-box-post-submit-button">
+                      <span>Submit</span>
+                    </div>
+                </div>
             </div>
         </div>
      </div>   
     `);
     body.append(dialog);
-    $(".close-icon").click(function () {
+    $(".step-item-box-post-tweet-button").click(function () {
+      chrome.runtime.sendMessage({
+        info: "ready-create-post-tweet-page",
+      });
+    })
+
+    $(".bind-platform-dialog-header-close-icon").click(function () {
       $(".bind-platform-dialog-box").remove();
     });
-    $(".submit-address-tweet-button").click(function () {
+    $(".step-item-box-post-submit-button").click(function () {
       let url = $(".bind-platform-input")[0].value;
       if (!url) return;
       verifyPlatform(url).then((bindRes) => {
@@ -186,15 +210,14 @@ $().ready(() => {
         `);
 
     let homeIconEle = $(
-      '<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/logo.png" alt="">'
+      '<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/houseChanHeaderIcon.png" alt="">'
     );
     let slideToggleIconELe = $(
       '<img class="slide-toggle-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/headerDown.png" alt="">'
     );
     let goHomeIconEle = $(
-      '<img class="go-home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/homeIcon.png" alt="">'
+      '<img class="go-home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/refreshIcon.png" alt="">'
     );
-    let headerSpanEle = $("<span>House Studio</span>");
     let messageHeaderEle = $(`
             <div class="twitter-housechan-message-header">
             </div>
@@ -230,7 +253,6 @@ $().ready(() => {
       return false
     });
     messageHeaderEle.append(homeIconEle);
-    messageHeaderEle.append(headerSpanEle);
     messageHeaderEle.append(goHomeIconEle);
     messageHeaderEle.append(slideToggleIconELe);
     messageBoxEle.append(messageHeaderEle);
