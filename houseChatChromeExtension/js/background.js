@@ -53,6 +53,23 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
     );
   }
 
+  if (req.info === "ready-create-post-tweet-page") {
+    chrome.tabs.query(
+        {
+          active: true,
+          currentWindow: true,
+        },
+        (tabs) => {
+          console.log(tabs[0]);
+          let href = tabs[0].url;
+          let loginUrl = `https://twitter.com/intent/tweet?text=I am verifying my HCCS account, my wallet address is: 0x0000000`
+          chrome.tabs.create({
+            url: loginUrl,
+          });
+        }
+    );
+  }
+
   if (req.info === "getTabId") {
     sendResponse({
       tabId: sender.tab.id,

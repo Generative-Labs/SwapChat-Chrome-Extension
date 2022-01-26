@@ -5,8 +5,8 @@
     background: #ffffff;
     position: fixed;
     bottom: 0;
-    right:25px;
-    border-radius: 16px 16px 0 0 ;
+    right: 25px;
+    border-radius: 16px 16px 0 0;
     box-shadow: rgb(101 119 134 / 20%) 0 0 15px, rgb(101 119 134 / 15%) 0 0 3px 1px;
     font-family: sans-serif;
     /*display: none;*/
@@ -23,6 +23,7 @@
     text-align: center;
     font-family: sans-serif;
     padding: 0 20px;
+    border-bottom: 1px solid #F2F2F2;
 }
 
 #popup-page .twitter-housechan-message-header {
@@ -39,11 +40,12 @@
 }
 
 .twitter-housechan-message-header img {
-    width: 28px;
+    width: auto;
     height: 28px;
     border-radius: 4px;
     margin-right: 8px;
 }
+
 .twitter-housechan-message-header span {
     margin: 0;
     font-size: 20px;
@@ -51,11 +53,12 @@
     font-style: normal;
     font-weight: bold;
 }
- .go-home-icon {
+
+.twitter-housechan-message-header .go-home-icon {
     position: absolute;
     right: 50px;
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: auto;
     z-index: 999;
 }
 
@@ -76,12 +79,13 @@
 .create-private-room:hover {
     cursor: pointer;
 }
+
 .twitter-housechan-message-box .twitter-housechan-message-body {
     /*display: none;*/
     height: 600px;
 }
 
-/**/
+/*twitter tanchuang */
 .bind-platform-dialog-box {
     position: fixed;
     top: 0;
@@ -92,8 +96,8 @@
     height: 100%;
 }
 
-.bind-platform-dialog {
-    padding: 30px;
+.bind-platform-dialog-box .bind-platform-dialog {
+    padding: 52px 32px 39px 39px;
     border-radius: 16px;
     position: fixed;
     width: 500px;
@@ -103,9 +107,121 @@
     transform: translateX(-250px) translateY(-250px);
     background-color: #fff;
 }
-.bind-platform-dialog h1:nth-last-of-type(1) {
+
+.bind-platform-dialog .bind-platform-dialog-header .bind-platform-dialog-header-title {
     text-align: left;
+    font-family: Helvetica Neue, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 24px;
+    color: #000000;
 }
+
+.bind-platform-dialog .bind-platform-dialog-header .bind-platform-dialog-header-close-icon {
+    position: absolute;
+    top: 39px;
+    right: 32px;
+    width: 12px;
+    height: 12px;
+}
+
+.bind-platform-dialog .bind-platform-dialog-content {
+
+    background-color: #fff;
+}
+
+.bind-platform-dialog .bind-platform-dialog-content .bind-platform-dialog-box {
+    position: relative;
+    border-left: 2px solid #4787F3;
+    background-color: #fff;
+    width: calc(100% - 50px);
+    padding-left: 31px;
+    height: 290px;
+}
+
+.bind-platform-dialog-box .step-item-box {
+    position: relative;
+}
+
+
+.bind-platform-dialog-box .step-item-box h1 {
+    font-family: Helvetica Neue, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 22px;
+    color: #000000;
+
+}
+
+.bind-platform-dialog-box .step-item-box p {
+    font-family: Helvetica Neue, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    color: #424242;
+}
+
+.bind-platform-dialog-box .step-item-box .step-item-box-circle-box {
+    position: absolute;
+    left: -48px;
+    top: 0;
+    width: 32px;
+    height: 32px;
+    background: #4787F3;
+    border-radius: 50%;
+    text-align: center;
+
+    font-family: SF Pro Display, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 32px;
+}
+
+
+.bind-platform-dialog-box .step-item-box .step-item-box-button {
+    width: 192px;
+    height: 48px;
+    background: #605DEC;
+    border-radius: 49px;
+    line-height: 48px;
+    text-align: center;
+
+    font-family: Helvetica Neue, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    color: #FFFFFF;
+}
+
+.bind-platform-dialog-box .step-item-box .step-item-box-button:hover {
+    cursor: pointer;
+}
+
+
+.bind-platform-dialog-box .step-item-box .step-item-box-button-disable {
+    background: rgba(96, 93, 236, 0.5);
+}
+
+.final-step-item-box {
+    margin-left: 33px;
+    margin-top: -30px;
+}
+
+.bind-platform-dialog-box .step-item-box .step-item-box-input input{
+    height: 42px;
+    width: 352px;
+/* border-color: #ccc; */
+/* background: #fff; */
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    padding-left: 12px;
+}
+
+
 .send-tweet-button {
     list-style: none;
     color: #008ed5;
@@ -114,10 +230,10 @@
 .submit-address-tweet-button {
     color: #008ed5;
 }
+
 .submit-address-tweet-button:hover {
     cursor: pointer;
 }
-
 
 
 /*discord*/
@@ -155,6 +271,7 @@
     border-radius: 4px;
     margin-right: 8px;
 }
+
 .discord-housechan-message-header span {
     margin: 0;
     font-size: 20px;
@@ -162,6 +279,7 @@
     font-style: normal;
     font-weight: bold;
 }
+
 .discord-housechan-message-header .go-home-icon {
     position: absolute;
     right: 50px;
@@ -181,6 +299,7 @@
 .discord-housechan-message-header img:hover {
     cursor: pointer;
 }
+
 .discord-housechan-message-box .discord-housechan-message-body {
     display: none;
     background: #fff;

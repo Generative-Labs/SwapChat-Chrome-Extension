@@ -71,7 +71,7 @@ $().ready(() => {
             <div class="discord-housechan-message-box"></div>
         `);
     let homeIconEle = $(
-        '<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/logo.png" alt="">'
+        '<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/houseChanHeaderIcon.png" alt="">'
     );
     let slideToggleIconELe = $(
         '<img class="slide-toggle-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/headerUp.png" alt="">'
@@ -79,7 +79,6 @@ $().ready(() => {
     let goHomeIconEle = $(
         '<img class="go-home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/homeIcon.png" alt="">'
     );
-    let headerSpanEle = $("<span>House Studio</span>");
 
     let messageHeaderEle = $(`
             <div class="discord-housechan-message-header" id="discord-housechan-message-header" style=""></div>
@@ -116,7 +115,6 @@ $().ready(() => {
     });
 
     messageHeaderEle.append(homeIconEle);
-    messageHeaderEle.append(headerSpanEle);
     messageHeaderEle.append(goHomeIconEle);
     messageHeaderEle.append(slideToggleIconELe);
     messageBoxEle.append(messageHeaderEle);
