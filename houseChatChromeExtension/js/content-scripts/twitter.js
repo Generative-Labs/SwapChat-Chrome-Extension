@@ -101,11 +101,11 @@ $().ready(() => {
                 step1. <a class="send-tweet-button" href="https://twitter.com/intent/tweet?text=I am verifying my HCCS account, my wallet address is: 0x0000000" target="_blank">Send</a> a tweet
             </div>
            <div>
-            <p>step2. Enter the tweet address here</p>
+            <p>step2. Open the individual Tweet’s main page, copy the url of the Tweet that includes the Tweet ID, and paste it below</p>
             <input type="text" placeholder="Enter the tweet address here" class="bind-platform-input" value="">
            </div>
             <div class="bind-platform-btns">
-            <p>step3. <span class="submit-address-tweet-button">submit</span> the tweet address to us</p>
+            <p>step3. <span class="submit-address-tweet-button">Submit</span> the Tweet’s url</p>
             </div>
         </div>
      </div>   
@@ -128,7 +128,7 @@ $().ready(() => {
   }
 
   async function checkUser() {
-    if ($(".twitter-housechan-message-box").length) return;
+    // if ($(".twitter-housechan-message-box").length) return;
     createDisablePrivateRoomButton()
     // get friend username
     let friendUserName = location.pathname.split("/")[1];
@@ -160,8 +160,6 @@ $().ready(() => {
   }
 
   async function createMessageBox() {
-    if ($(".twitter-housechan-message-box").length) return;
-    console.log("ready to create message box");
     // get friend username
     let friendUserName = location.pathname.split("/")[1];
     // get self username
@@ -169,6 +167,16 @@ $().ready(() => {
     if (!selfUserName) return;
     if (selfUserName === friendUserName) return;
     let src = `${iframeSrc}/chat/chatWebPage?userHash=${selfUserName}@@${friendUserName}&platform=${platform}`;
+
+    if ($(".twitter-housechan-message-box").length) {
+
+      $(".twitter-housechan-message-header-iframe").remove();
+      $(".twitter-housechan-message-body").append(`
+        <iframe class="twitter-housechan-message-header-iframe" style='width: 100%; height: 600px; border: 0;' src="${src}"></iframe>
+      `)
+      return
+    };
+    console.log("ready to create message box");
     // 获取Twitter原始message dom 向左移动
     let messageDom = $("div[data-testid='DMDrawer']");
     messageDom.css("transform", "translateX(-700px)");
@@ -276,6 +284,7 @@ $().ready(() => {
 
   function createDisablePrivateRoomButton() {
     console.log('createDisablePrivateRoomButton')
+    if ($(".disable-create-private-button") && $(".disable-create-private-button").length)return
     const selfUserName = getSelfNameByDom();
     // 判断是否在个人主页
     const userNameEle = $("div[data-testid='UserName']");

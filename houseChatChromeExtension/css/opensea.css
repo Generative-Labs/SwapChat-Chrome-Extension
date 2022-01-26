@@ -1,0 +1,71 @@
+/*opensea*/
+.opensea-housechan-message-box {
+    width: 400px;
+    min-height: 50px;
+    background: #ffffff;
+    position: fixed;
+    bottom: 0;
+    right:25px;
+    border-radius: 16px 16px 0 0 ;
+    box-shadow: rgb(101 119 134 / 20%) 0 0 15px, rgb(101 119 134 / 15%) 0 0 3px 1px;
+    font-family: sans-serif;
+    z-index: 999;
+    /*display: none;*/
+}
+
+.opensea-housechan-message-box .opensea-housechan-message-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    font-family: sans-serif;
+    padding: 0 20px;
+}
+
+.opensea-housechan-message-header img {
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    margin-right: 8px;
+}
+.opensea-housechan-message-header span {
+    margin: 0;
+    font-size: 20px;
+    color: rgb(15, 20, 25);
+    font-style: normal;
+    font-weight: bold;
+}
+.opensea-housechan-message-header:hover {
+    cursor: pointer;
+}
+
+.opensea-housechan-message-header img:hover {
+    cursor: pointer;
+}
+
+.go-home-icon {
+    position: absolute;
+    right: 50px;
+    width: 20px;
+    height: 20px;
+    z-index: 999;
+}
+
+.slide-toggle-icon {
+    position: absolute;
+    right: 12px;
+    z-index: 999;
+}
+
+
+.create-private-room:hover {
+    cursor: pointer;
+}
+.opensea-housechan-message-box .opensea-housechan-message-body {
+    /*display: none;*/
+    height: 600px;
+}
