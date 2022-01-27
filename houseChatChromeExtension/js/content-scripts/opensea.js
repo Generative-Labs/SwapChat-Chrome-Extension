@@ -170,24 +170,43 @@ $().ready(() => {
     if (type === BUTTON_TYPE_ENUM.PRIVATE_ROOM) {
       let realAddress = "";
       let nextDataDom = document.getElementById("__NEXT_DATA__");
+      let addressBtn = $(".AccountHeader--address");
+      let innerAddress = addressBtn[0].innerText;
+      let simpleAddress = innerAddress.split("...");
       if (nextDataDom && nextDataDom.innerText) {
         if (JSON.parse(nextDataDom.innerText)) {
           let nextData = JSON.parse(nextDataDom.innerText);
           console.log(nextData, 'nextData')
           let ethAddress = nextData?.props?.ssrData?.account?.address;
-          let addressBtn = $(".AccountHeader--address");
-          if (ethAddress && addressBtn && addressBtn.length) {
-            let innerAddress = addressBtn[0].innerText;
-            let simpleAddress = innerAddress.split("...");
-            if (
+          if (
               ethAddress.indexOf(simpleAddress[0]) !== -1 &&
-              innerAddress.indexOf(simpleAddress[1]) !== -1
+              ethAddress.indexOf(simpleAddress[1]) !== -1
+          ) {
+            realAddress = ethAddress;
+          }
+        }
+      }
+
+      if (!realAddress) {
+        let scripts = document.getElementsByTagName('script')
+        let address = ''
+        for (let i = 0; i < scripts.length; i++) {
+          let currentScript = scripts[i]
+          if (currentScript.innerText.indexOf('__wired__') !== -1) {
+            if (
+                currentScript.innerText.indexOf(simpleAddress[0]) !== -1 &&
+                currentScript.innerText.indexOf(simpleAddress[1]) !== -1
             ) {
-              console.log("地址校验成功");
-              realAddress = ethAddress;
+              let start = currentScript.innerText.indexOf(simpleAddress[0])
+              let end = currentScript.innerText.indexOf(simpleAddress[1])
+              address =  currentScript.innerText.substring(start, end)
             }
           }
         }
+        realAddress  = address + simpleAddress[1]
+      }
+      if (realAddress) {
+        src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&openseaAccountAddress=${realAddress}`
       }
     }
 
