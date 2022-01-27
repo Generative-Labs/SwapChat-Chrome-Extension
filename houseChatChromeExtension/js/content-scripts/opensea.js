@@ -230,15 +230,14 @@ $().ready(() => {
         `);
 
     let homeIconEle = $(
-      '<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/logo.png" alt="">'
+      '<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/houseChanHeaderIcon.png" alt="">'
     );
     let slideToggleIconELe = $(
       '<img class="slide-toggle-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/headerDown.png" alt="">'
     );
     let goHomeIconEle = $(
-      '<img class="go-home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/homeIcon.png" alt="">'
+      '<img class="go-home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/refreshIcon.png" alt="">'
     );
-    let headerSpanEle = $("<span>House Studio</span>");
     let messageHeaderEle = $(`
             <div class="opensea-housechan-message-header">
             </div>
@@ -275,7 +274,6 @@ $().ready(() => {
       return false;
     });
     messageHeaderEle.append(homeIconEle);
-    messageHeaderEle.append(headerSpanEle);
     messageHeaderEle.append(goHomeIconEle);
     messageHeaderEle.append(slideToggleIconELe);
     messageBoxEle.append(messageHeaderEle);
