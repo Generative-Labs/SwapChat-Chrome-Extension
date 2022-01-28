@@ -377,7 +377,7 @@ $().ready(() => {
         <button class="${btnClassName}">
         
           <img style="width: 24px;height: 24px; border-radius: 50%; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/icon-60@2x.png" alt="">
-              Join NFT Room
+              Join NFT Thread
         </button>
         </div>
       </div>
