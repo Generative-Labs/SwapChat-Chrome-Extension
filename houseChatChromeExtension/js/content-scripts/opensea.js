@@ -230,13 +230,13 @@ $().ready(() => {
         `);
 
     let homeIconEle = $(
-      '<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/houseChanHeaderIcon.png" alt="">'
+      '<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/homeHeaderIconx3.png" alt="">'
     );
     let slideToggleIconELe = $(
       '<img class="slide-toggle-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/headerDown.png" alt="">'
     );
     let goHomeIconEle = $(
-      '<img class="go-home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/refreshIcon.png" alt="">'
+      '<img class="go-home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/newRefreshIconx3.png" alt="">'
     );
     let messageHeaderEle = $(`
             <div class="opensea-housechan-message-header">
@@ -306,7 +306,7 @@ $().ready(() => {
         display: flex;
         align-items: center;
     ">
-             <img style="width: 23px;height: 23px; border-radius: 50%; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/icon-60@2x.png" alt="">
+             <img style="width: 23px;height: 23px; border-radius: 50%; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/houseLogox3.png" alt="">
             Create Private Room
         </button>
         </div>

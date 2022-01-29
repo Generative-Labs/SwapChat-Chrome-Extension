@@ -108,42 +108,51 @@ $().ready(() => {
   function openTweetDialog(platform) {
     let dialog = $(`
       <div class="bind-platform-dialog-box">
+<!--            <div class="bind-platform-dialog-content">-->
+<!--              <div class="bind-platform-dialog-box">-->
+<!--                <div class="step-item-box">-->
+<!--                    <div class="step-item-box-circle-box">1</div>-->
+<!--                    <h1>Step 1</h1>-->
+<!--                    <p>Click the button below to post a tweet. </p>-->
+<!--                    <div class="step-item-box-button step-item-box-post-tweet-button" >-->
+<!--                      <span>Post a tweet</span>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="step-item-box">-->
+<!--                    <div class="step-item-box-circle-box">2</div>-->
+<!--                    <h1>Step 2</h1>-->
+<!--                    <p>Copy and paste the tweet URL in below.</p>-->
+<!--                    <div class="step-item-box-input">-->
+<!--                      <input type="text" placeholder="Enter the tweet address here" class="bind-platform-input" value="">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="step-item-box final-step-item-box">-->
+<!--                    <div class="step-item-box-circle-box">3</div>-->
+<!--                    <h1>Step 3</h1>-->
+<!--                    <p>Hit the submit button once you pasted the URL.</p>-->
+<!--                    <div class="step-item-box-button step-item-box-post-submit-button">-->
+<!--                      <span>Submit</span>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+     </div>   
+    `);
+
+    let bindPlatFormDialogEle = $(`
         <div class="bind-platform-dialog">
             <div class="bind-platform-dialog-header">
               <img class="bind-platform-dialog-header-close-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/closeIcon.png" alt="">
-              <h1 class="bind-platform-dialog-header-title">Verify your Twitter account</h1>
-            </div>
-            <div class="bind-platform-dialog-content">
-              <div class="bind-platform-dialog-box">
-                <div class="step-item-box">
-                    <div class="step-item-box-circle-box">1</div>
-                    <h1>Step 1</h1>
-                    <p>Click the button below to post a tweet. </p>
-                    <div class="step-item-box-button step-item-box-post-tweet-button" >
-                      <span>Post a tweet</span>
-                    </div>
-                </div>
-                <div class="step-item-box">
-                    <div class="step-item-box-circle-box">2</div>
-                    <h1>Step 2</h1>
-                    <p>Copy and paste the tweet URL in below.</p>
-                    <div class="step-item-box-input">
-                      <input type="text" placeholder="Enter the tweet address here" class="bind-platform-input" value="">
-                    </div>
-                </div>
-              </div>
-              <div class="step-item-box final-step-item-box">
-                    <div class="step-item-box-circle-box">3</div>
-                    <h1>Step 3</h1>
-                    <p>Hit the submit button once you pasted the URL.</p>
-                    <div class="step-item-box-button step-item-box-post-submit-button">
-                      <span>Submit</span>
-                    </div>
-                </div>
             </div>
         </div>
-     </div>   
-    `);
+    `)
+    let openTweetIframeSrc = `${iframeSrc}/chat/verifyTwitterPage`
+    let openTweetIframe = $(`
+        <iframe class="bind-platform-dialog-box-iframe" style='width: 100%; height: 600px; border: 0;' src="${openTweetIframeSrc}"></iframe>
+    `)
+    bindPlatFormDialogEle.append(openTweetIframe)
+    dialog.append(bindPlatFormDialogEle)
+    // dialog.append()
     body.append(dialog);
     $(".step-item-box-post-tweet-button").click(function () {
       chrome.runtime.sendMessage({
@@ -153,6 +162,13 @@ $().ready(() => {
 
     $(".bind-platform-dialog-header-close-icon").click(function () {
       $(".bind-platform-dialog-box").remove();
+      registerUser(platform, getSelfNameByDom()).then(userInfo => {
+        let twitterStatus = getUserStatus(userInfo.status, 'twitter')
+        if (!twitterStatus) {
+        } else {
+          createMessageBox();
+        }
+      });
     });
     $(".step-item-box-post-submit-button").click(function () {
       let url = $(".bind-platform-input")[0].value;
@@ -170,6 +186,8 @@ $().ready(() => {
   async function checkUser() {
     // if ($(".twitter-housechan-message-box").length) return;
     createDisablePrivateRoomButton();
+    // openTweetDialog(platform);
+    // return
     // get friend username
     let friendUserName = location.pathname.split("/")[1];
     // get self username
@@ -228,13 +246,13 @@ $().ready(() => {
         `);
 
     let homeIconEle = $(
-      '<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/houseChanHeaderIcon.png" alt="">'
+      '<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/homeHeaderIconx3.png" alt="">'
     );
     let slideToggleIconELe = $(
       '<img class="slide-toggle-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/headerDown.png" alt="">'
     );
     let goHomeIconEle = $(
-      '<img class="go-home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/refreshIcon.png" alt="">'
+      '<img class="go-home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/newRefreshIconx3.png" alt="">'
     );
     let messageHeaderEle = $(`
             <div class="twitter-housechan-message-header">
