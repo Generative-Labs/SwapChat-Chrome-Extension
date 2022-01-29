@@ -159,11 +159,11 @@ $().ready(() => {
       // src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&collectionName=${collectionName}`;
       console.log("创建thread");
       let realContractAddress = "";
-      let realTokenId = ''
-      let pathNameArr = location.pathname.split('/')
+      let realTokenId = "";
+      let pathNameArr = location.pathname.split("/");
       if (pathNameArr) {
-        realTokenId = pathNameArr[pathNameArr.length - 1]
-        realContractAddress = pathNameArr[pathNameArr.length - 2]
+        realTokenId = pathNameArr[pathNameArr.length - 1];
+        realContractAddress = pathNameArr[pathNameArr.length - 2];
       }
       src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&itemTokenId=${realTokenId}&itemContractAddress=${realContractAddress}`;
     }
@@ -176,11 +176,11 @@ $().ready(() => {
       if (nextDataDom && nextDataDom.innerText) {
         if (JSON.parse(nextDataDom.innerText)) {
           let nextData = JSON.parse(nextDataDom.innerText);
-          console.log(nextData, 'nextData')
+          console.log(nextData, "nextData");
           let ethAddress = nextData?.props?.ssrData?.account?.address;
           if (
-              ethAddress.indexOf(simpleAddress[0]) !== -1 &&
-              ethAddress.indexOf(simpleAddress[1]) !== -1
+            ethAddress.indexOf(simpleAddress[0]) !== -1 &&
+            ethAddress.indexOf(simpleAddress[1]) !== -1
           ) {
             realAddress = ethAddress;
           }
@@ -188,25 +188,25 @@ $().ready(() => {
       }
 
       if (!realAddress) {
-        let scripts = document.getElementsByTagName('script')
-        let address = ''
+        let scripts = document.getElementsByTagName("script");
+        let address = "";
         for (let i = 0; i < scripts.length; i++) {
-          let currentScript = scripts[i]
-          if (currentScript.innerText.indexOf('__wired__') !== -1) {
+          let currentScript = scripts[i];
+          if (currentScript.innerText.indexOf("__wired__") !== -1) {
             if (
-                currentScript.innerText.indexOf(simpleAddress[0]) !== -1 &&
-                currentScript.innerText.indexOf(simpleAddress[1]) !== -1
+              currentScript.innerText.indexOf(simpleAddress[0]) !== -1 &&
+              currentScript.innerText.indexOf(simpleAddress[1]) !== -1
             ) {
-              let start = currentScript.innerText.indexOf(simpleAddress[0])
-              let end = currentScript.innerText.indexOf(simpleAddress[1])
-              address =  currentScript.innerText.substring(start, end)
+              let start = currentScript.innerText.indexOf(simpleAddress[0]);
+              let end = currentScript.innerText.indexOf(simpleAddress[1]);
+              address = currentScript.innerText.substring(start, end);
             }
           }
         }
-        realAddress  = address + simpleAddress[1]
+        realAddress = address + simpleAddress[1];
       }
       if (realAddress) {
-        src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&openseaAccountAddress=${realAddress}`
+        src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&openseaAccountAddress=${realAddress}`;
       }
     }
 
@@ -278,7 +278,6 @@ $().ready(() => {
     messageHeaderEle.append(slideToggleIconELe);
     messageBoxEle.append(messageHeaderEle);
     messageBoxEle.append(messageBodyEle);
-    chrome.storage.sync.set({ isShowHouseChat: true });
     body.append(messageBoxEle);
   }
 
@@ -360,32 +359,70 @@ $().ready(() => {
   }
 
   function createJoinItemThreadRoom() {
-    if ($(".join-item-Thread-room") && $(".join-item-Thread-room").length > 0)
-      return;
+    // if ($(".join-item-Thread-room") && $(".join-item-Thread-room").length > 0)
+    //   return;
     let itemCollectionToolbarWrapperEle = $(
       ".item--collection-toolbar-wrapper"
     );
-    let itemChildBox = itemCollectionToolbarWrapperEle.children();
-    let btnEle = itemChildBox.find("button");
-    let btnClassName = btnEle[0].className;
-    let btnDivClassName = itemCollectionToolbarWrapperEle[0].className;
-    let itemChildBoxClassName = itemChildBox[0].className;
+    if ($(".big-join-nft-room") && $(".big-join-nft-room").length > 0) return;
 
-    let joinItemThreadRoomBtnDom = $(`
-      <div class="join-item-Thread-room ${btnDivClassName}" style="min-width: 200px;">
-        <div class="${itemChildBoxClassName}">
-        <button class="${btnClassName}">
-        
-          <img style="width: 24px;height: 24px; border-radius: 50%; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/icon-60@2x.png" alt="">
-              Join NFT Thread
-        </button>
-        </div>
-      </div>
+    let priceBox = $(".TradeStation--price-container");
+    let askButtonBox = priceBox.next();
+    askButtonBox.css("max-width", "100%");
+    let btns = $(askButtonBox).children();
+    let copyBtnBox = btns[0];
+    let copyBtnBoxClassName = btns[0].className;
+
+    let copyBtnEle = $(copyBtnBox).children();
+    // console.log($(copyBtnEle).className, '$(copyBtnEle[0]).className')
+    let copyBtnClassName = copyBtnEle[0].className;
+
+    let buttonChildDiv = copyBtnEle.children();
+    let btnChildDivClassName = buttonChildDiv[0].className;
+    console.log(buttonChildDiv, "buttonChildDiv");
+
+    let newBtnBoxEle = $(`
+    <div class="${copyBtnBoxClassName} big-join-nft-room" style="margin-right: 10px;">
+    </div>
     `);
-    joinItemThreadRoomBtnDom.click(function () {
+
+    let newBtnEle = $(`
+      <button type="button" width="100%" class="${copyBtnClassName}">
+      <div class="${btnChildDivClassName}">
+      <img  src="https://d97ch61yqe5j6.cloudfront.net/frontend/icon-60@2x.png" style="width: 30px; border-radius: 10px;" alt="">
+</div>
+Join NFT Thread
+</button>
+    `);
+
+    newBtnEle.click(function () {
       createMessageBox(BUTTON_TYPE_ENUM.JOIN_ITEM_THREAD_ROOM);
     });
-    itemCollectionToolbarWrapperEle.before(joinItemThreadRoomBtnDom);
+
+    newBtnBoxEle.append(newBtnEle);
+
+    askButtonBox.prepend(newBtnBoxEle);
+
+    console.log(btns, "btns");
+
+    // let itemChildBox = itemCollectionToolbarWrapperEle.children();
+    // let btnEle = itemChildBox.find("button");
+    // let btnClassName = btnEle[0].className;
+    // let btnDivClassName = itemCollectionToolbarWrapperEle[0].className;
+    // let itemChildBoxClassName = itemChildBox[0].className;
+    //
+    // let joinItemThreadRoomBtnDom = $(`
+    //   <div class="join-item-Thread-room ${btnDivClassName}" style="min-width: 200px;">
+    //     <div class="${itemChildBoxClassName}">
+    //     <button class="${btnClassName}">
+    //
+    //       <img style="width: 24px;height: 24px; border-radius: 50%; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/icon-60@2x.png" alt="">
+    //           Join NFT Thread
+    //     </button>
+    //     </div>
+    //   </div>
+    // `);
+    // itemCollectionToolbarWrapperEle.before(joinItemThreadRoomBtnDom);
   }
 
   function listenHistory() {
