@@ -9,7 +9,6 @@
     "128": "img/icon.png"
   },
   "background": {
-    //    "page": "background.html"
     "service_worker": "js/background.js"
   },
   "action": {
@@ -59,8 +58,4 @@
     "keyword": "go"
   },
   "default_locale": "zh_CN"
-//  "content_security_policy": {
-//    "extension_pages": "...",
-//    "sandbox": "..."
-//  }
 }

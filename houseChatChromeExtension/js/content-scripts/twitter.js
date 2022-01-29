@@ -6,6 +6,16 @@ $().ready(() => {
   const iframeSrc = "https://newbietown.com";
   // const iframeSrc = "http://localhost:3000";
 
+  const platformStatus = {
+    eth: 0,
+    twitter: 1,
+    ins: 2,
+    facebook: 3,
+    discord: 4,
+    opensea: 5,
+    invited: 6
+  };
+
   const apiHost = "https://newbietown.com";
 
   if (host !== twitter) {
@@ -14,7 +24,6 @@ $().ready(() => {
   }
   console.log("插件生效");
 
-
   // 右键菜单事件
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log(request.info, "content");
@@ -22,6 +31,18 @@ $().ready(() => {
       // checkUser();
     }
   });
+  function getUserStatus(code, platform) {
+    if (!code) return false
+    let status = code[platformStatus[platform]]
+    console.log(status, 'status')
+    if (status) {
+      console.log(Boolean(Number(status)), 'Boolean(Number(status))')
+      return Boolean(Number(status))
+    }else {
+      //没有验证通过
+      return false
+    }
+  }
 
   async function selfFetch(url, params, headers = null) {
     let res = null;
@@ -127,7 +148,7 @@ $().ready(() => {
       chrome.runtime.sendMessage({
         info: "ready-create-post-tweet-page",
       });
-    })
+    });
 
     $(".bind-platform-dialog-header-close-icon").click(function () {
       $(".bind-platform-dialog-box").remove();
@@ -147,7 +168,7 @@ $().ready(() => {
 
   async function checkUser() {
     // if ($(".twitter-housechan-message-box").length) return;
-    createDisablePrivateRoomButton()
+    createDisablePrivateRoomButton();
     // get friend username
     let friendUserName = location.pathname.split("/")[1];
     // get self username
@@ -155,8 +176,11 @@ $().ready(() => {
     if (!selfUserName) return;
     if (selfUserName === friendUserName) return;
     const userInfo = await registerUser(platform, getSelfNameByDom());
-    $(".disable-create-private-button").remove()
-    if (userInfo && userInfo.status === -1) {
+    $(".disable-create-private-button").remove();
+    if (!userInfo) return createMessageBox()
+    let twitterStatus = getUserStatus(userInfo.status, 'twitter')
+    if (!twitterStatus) {
+      console.log('该用户没有绑定tw')
       openTweetDialog(platform);
     } else {
       console.log("call createMessageBox");
@@ -187,13 +211,12 @@ $().ready(() => {
     let src = `${iframeSrc}/chat/chatWebPage?userHash=${selfUserName}@@${friendUserName}&platform=${platform}`;
 
     if ($(".twitter-housechan-message-box").length) {
-
       $(".twitter-housechan-message-header-iframe").remove();
       $(".twitter-housechan-message-body").append(`
         <iframe class="twitter-housechan-message-header-iframe" style='width: 100%; height: 600px; border: 0;' src="${src}"></iframe>
-      `)
-      return
-    };
+      `);
+      return;
+    }
     console.log("ready to create message box");
     // 获取Twitter原始message dom 向左移动
     let messageDom = $("div[data-testid='DMDrawer']");
@@ -226,17 +249,17 @@ $().ready(() => {
       let oriIcon = $(".slide-toggle-icon").attr("src");
       if (oriIcon.indexOf("Up") !== -1) {
         $(".slide-toggle-icon").attr(
-            "src",
-            "https://d97ch61yqe5j6.cloudfront.net/frontend/headerDown.png"
+          "src",
+          "https://d97ch61yqe5j6.cloudfront.net/frontend/headerDown.png"
         );
       } else {
         $(".slide-toggle-icon").attr(
-            "src",
-            "https://d97ch61yqe5j6.cloudfront.net/frontend/headerUp.png"
+          "src",
+          "https://d97ch61yqe5j6.cloudfront.net/frontend/headerUp.png"
         );
       }
       messageBodyEle.slideToggle();
-    })
+    });
     // 主页button 添加事件
     goHomeIconEle.click(function () {
       $(".twitter-housechan-message-header-iframe").remove();
@@ -244,7 +267,7 @@ $().ready(() => {
       $(".twitter-housechan-message-body").append(`
       <iframe class="twitter-housechan-message-header-iframe" style='width: 100%; height: 600px; border: 0;' src="${src}"></iframe>
       `);
-      return false
+      return false;
     });
     messageHeaderEle.append(homeIconEle);
     messageHeaderEle.append(goHomeIconEle);
@@ -298,8 +321,12 @@ $().ready(() => {
   }
 
   function createDisablePrivateRoomButton() {
-    console.log('createDisablePrivateRoomButton')
-    if ($(".disable-create-private-button") && $(".disable-create-private-button").length)return
+    console.log("createDisablePrivateRoomButton");
+    if (
+      $(".disable-create-private-button") &&
+      $(".disable-create-private-button").length
+    )
+      return;
     const selfUserName = getSelfNameByDom();
     // 判断是否在个人主页
     const userNameEle = $("div[data-testid='UserName']");
@@ -362,8 +389,8 @@ $().ready(() => {
   setInterval(() => {
     if (getSelfNameByDom()) {
       if (
-          $(".twitter-housechan-message-box") &&
-          $(".twitter-housechan-message-box").length
+        $(".twitter-housechan-message-box") &&
+        $(".twitter-housechan-message-box").length
       ) {
         let messageDom = $("div[data-testid='DMDrawer']");
         messageDom.css("transform", "translateX(-500px)");
