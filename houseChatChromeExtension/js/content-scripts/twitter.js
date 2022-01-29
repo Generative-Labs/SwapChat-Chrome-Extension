@@ -80,7 +80,8 @@ $().ready(() => {
 
   async function verifyPlatform(url) {
     return await selfFetch(`${apiHost}/verify_platform`, {
-      tweet_url: url,
+      data: url,
+      platform: 'twitter'
     });
   }
 
