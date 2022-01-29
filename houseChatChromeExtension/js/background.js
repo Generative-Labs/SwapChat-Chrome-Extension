@@ -39,7 +39,7 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
         currentWindow: true,
       },
       (tabs) => {
-        let loginUrl = `https://newbietown.com/chat/auth`;
+        let loginUrl = `https://newbietown.com/chat/auth?fromPage=normal`;
         chrome.tabs.create({
           url: loginUrl,
         });
