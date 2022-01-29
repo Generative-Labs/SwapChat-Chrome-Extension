@@ -48,7 +48,7 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
           url: loginUrl,
         });
 
-        chrome.tabs.remove(tabs[0].id)
+        // chrome.tabs.remove(tabs[0].id)
       }
     );
   }
@@ -70,23 +70,23 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
     );
   }
 
-  if (req.info === "getTabId") {
-    sendResponse({
-      tabId: sender.tab.id,
-    });
-  }
+  // if (req.info === "getTabId") {
+  //   sendResponse({
+  //     tabId: sender.tab.id,
+  //   });
+  // }
 
-  if (req.info === "open-bind-twitter-tab") {
-    chrome.tabs.query(
-      {
-        active: true,
-        currentWindow: true,
-      },
-      (tabs) => {
-        chrome.tabs.create({
-          url: "https://twitter.com/intent/tweet?text=I am verifying my HCCS account, my wallet address is: 0x0000000",
-        });
-      }
-    );
-  }
+  // if (req.info === "open-bind-twitter-tab") {
+  //   chrome.tabs.query(
+  //     {
+  //       active: true,
+  //       currentWindow: true,
+  //     },
+  //     (tabs) => {
+  //       chrome.tabs.create({
+  //         url: "https://twitter.com/intent/tweet?text=I am verifying my HCCS account, my wallet address is: 0x0000000",
+  //       });
+  //     }
+  //   );
+  // }
 });

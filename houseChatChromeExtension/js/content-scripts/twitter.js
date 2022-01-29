@@ -156,7 +156,7 @@ $().ready(() => {
     if (selfUserName === friendUserName) return;
     const userInfo = await registerUser(platform, getSelfNameByDom());
     $(".disable-create-private-button").remove()
-    if (userInfo.status === -1) {
+    if (userInfo && userInfo.status === -1) {
       openTweetDialog(platform);
     } else {
       console.log("call createMessageBox");
@@ -251,7 +251,6 @@ $().ready(() => {
     messageHeaderEle.append(slideToggleIconELe);
     messageBoxEle.append(messageHeaderEle);
     messageBoxEle.append(messageBodyEle);
-    chrome.storage.sync.set({ isShowHouseChat: true });
     body.append(messageBoxEle);
   }
 
