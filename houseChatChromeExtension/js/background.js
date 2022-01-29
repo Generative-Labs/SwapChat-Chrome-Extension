@@ -7,7 +7,6 @@
 //
 //
 
-
 // chrome.contextMenus.create({
 //   title: `Create Private Room`, // 只有当选中文字时才会出现此右键菜单
 //   onclick: function () {
@@ -40,14 +39,10 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
         currentWindow: true,
       },
       (tabs) => {
-        console.log(tabs[0]);
-        let href = tabs[0].url;
-        let loginUrl = `https://newbietown.com/chat/auth?callbackUrl=${href}&fromPage=normal&platform=twitter`
-        // let loginUrl = `http://localhost:3000/chat/auth?callbackUrl=${href}&fromPage=normal&platform=twitter`
+        let loginUrl = `https://newbietown.com/chat/auth`;
         chrome.tabs.create({
           url: loginUrl,
         });
-
         // chrome.tabs.remove(tabs[0].id)
       }
     );
@@ -55,18 +50,18 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
 
   if (req.info === "ready-create-post-tweet-page") {
     chrome.tabs.query(
-        {
-          active: true,
-          currentWindow: true,
-        },
-        (tabs) => {
-          console.log(tabs[0]);
-          let href = tabs[0].url;
-          let loginUrl = `https://twitter.com/intent/tweet?text=I am verifying my HCCS account, my wallet address is: 0x0000000`
-          chrome.tabs.create({
-            url: loginUrl,
-          });
-        }
+      {
+        active: true,
+        currentWindow: true,
+      },
+      (tabs) => {
+        console.log(tabs[0]);
+        let href = tabs[0].url;
+        let loginUrl = `https://twitter.com/intent/tweet?text=I am verifying my HCCS account, my wallet address is: 0x0000000`;
+        chrome.tabs.create({
+          url: loginUrl,
+        });
+      }
     );
   }
 
