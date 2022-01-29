@@ -14,12 +14,6 @@ $().ready(() => {
   }
   console.log("插件生效");
 
-  // 刷新页面的时候
-  setTimeout(function () {
-    if (getSelfNameByDom()) {
-      createPrivateRoomButton();
-    }
-  }, 3000);
 
   // 右键菜单事件
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -368,9 +362,16 @@ $().ready(() => {
   // 项目入口
   setInterval(() => {
     if (getSelfNameByDom()) {
-      listenHistory();
+      if (
+          $(".twitter-housechan-message-box") &&
+          $(".twitter-housechan-message-box").length
+      ) {
+        let messageDom = $("div[data-testid='DMDrawer']");
+        messageDom.css("transform", "translateX(-500px)");
+      }
+      createPrivateRoomButton();
     }
-  }, 300);
+  }, 500);
 
   // async function joinHouseChan(selfUserName) {
   //   fetch(`${apiHost}/register`, {
