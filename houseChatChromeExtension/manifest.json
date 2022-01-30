@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "house studio chat",
+  "name": "House Chat",
   "version": "1.0.0",
-  "description": "house studio跨平台聊天插件",
+  "description": "Cross-platform messaging service.",
   "icons": {
     "16": "img/icon.png",
     "48": "img/icon.png",
@@ -13,7 +13,7 @@
   },
   "action": {
     "default_icon": "img/icon.png",
-    "default_title": "house studio跨平台聊天插件",
+    "default_title": "House Chat",
     "default_popup": "popup.html"
   },
   "content_scripts": [
