@@ -62,3 +62,25 @@
     /*display: none;*/
     height: 600px;
 }
+
+
+.create-join-collection-room-button .join-collection-room-button {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.join-collection-room-button img {
+    width: 50%;
+}
+
+
+
+
+.create-join-collection-room-button:hover {
+    cursor: pointer;
+    border: 1px solid #ccc;
+    box-shadow: rgb(101 119 134 / 20%) 0 0 15px, rgb(101 119 134 / 15%) 0 0 3px 1px;
+    
+} 

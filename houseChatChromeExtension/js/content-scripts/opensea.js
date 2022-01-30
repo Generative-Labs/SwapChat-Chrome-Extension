@@ -178,11 +178,13 @@ $().ready(() => {
           let nextData = JSON.parse(nextDataDom.innerText);
           console.log(nextData, "nextData");
           let ethAddress = nextData?.props?.ssrData?.account?.address;
-          if (
-            ethAddress.indexOf(simpleAddress[0]) !== -1 &&
-            ethAddress.indexOf(simpleAddress[1]) !== -1
-          ) {
-            realAddress = ethAddress;
+          if (ethAddress) {
+            if (
+                ethAddress.indexOf(simpleAddress[0]) !== -1 &&
+                ethAddress.indexOf(simpleAddress[1]) !== -1
+            ) {
+              realAddress = ethAddress;
+            }
           }
         }
       }
@@ -305,7 +307,7 @@ $().ready(() => {
         display: flex;
         align-items: center;
     ">
-             <img style="width: 23px;height: 23px; border-radius: 50%; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/houseLogox3.png" alt="">
+             <img style="width: 23px;height: 23px; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/HouseChatIcon.png" alt="">
             Create Private Room
         </button>
         </div>
@@ -316,6 +318,47 @@ $().ready(() => {
     });
 
     $(btnBoxDom).prepend(buttonDom);
+  }
+
+  function newCreateJoinNFTRoomButton() {
+    let btnEle = $(".create-join-collection-room-button");
+    if (btnEle.length && btnEle.length > 0) {
+      return;
+    }
+    let copyBoxEle = $("div[class*='InfoContainerreact__InfoContainer']");
+    let copyBoxParentEle = copyBoxEle.parent()
+    console.log(copyBoxEle, 'copyBoxEle')
+    console.log(copyBoxEle.className, 'copyBoxEle')
+
+    let copyBoxClassName = copyBoxEle[0].className
+
+    let newBox = $(`
+      <div class="${copyBoxClassName} create-join-collection-room-button" style="width: 100%; margin: 10px auto; overflow:hidden;">
+      
+        </div>
+    `)
+    let newbtnBox = $(`
+      <div class="join-collection-room-button">
+        <div class="join-collection-room-button-test-box" style="
+    width: 100%;
+    height: 60px;
+    background: #fff;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    ">
+             <img style="width: 30px;height: auto; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/HouseChatIcon.png" alt="">
+            Join NFT Room
+        </div>
+       </div>
+    `)
+    newbtnBox.click(function () {
+      createMessageBox(BUTTON_TYPE_ENUM.COLLECTION_ROOM);
+    })
+    newBox.append(newbtnBox)
+    copyBoxParentEle.append(newBox)
   }
 
   function createCollectionRoomButton() {
@@ -345,7 +388,7 @@ $().ready(() => {
         display: flex;
         align-items: center;
     ">
-             <img style="width: 23px;height: 23px; border-radius: 50%; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/icon-60@2x.png" alt="">
+             <img style="width: 23px;height: 23px; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/HouseChatIcon.png" alt="">
             Join NFT Room
         </button>
         </div>
@@ -367,31 +410,37 @@ $().ready(() => {
     if ($(".big-join-nft-room") && $(".big-join-nft-room").length > 0) return;
 
     let priceBox = $(".TradeStation--price-container");
-    let askButtonBox = priceBox.next();
+    let askButtonBox = null
+    if (priceBox.length > 0) {
+      askButtonBox = priceBox.next();
+    } else  {
+      priceBox = $(".TradeStation--main")
+      askButtonBox = $(".TradeStation--main")
+    }
+    let btnELe = askButtonBox.find("button");
+    let btnParentELe = btnELe.parent();
+    let btnGrandFatherEle = btnParentELe.parent();
     askButtonBox.css("max-width", "100%");
-    let btns = $(askButtonBox).children();
-    let copyBtnBox = btns[0];
-    let copyBtnBoxClassName = btns[0].className;
-
-    let copyBtnEle = $(copyBtnBox).children();
-    // console.log($(copyBtnEle).className, '$(copyBtnEle[0]).className')
-    let copyBtnClassName = copyBtnEle[0].className;
-
-    let buttonChildDiv = copyBtnEle.children();
+    let copyBtnBoxClassName = btnELe[0].className;
+    let copyBtnClassName = btnParentELe[0].className;
+    let buttonChildDiv = btnELe.children();
     let btnChildDivClassName = buttonChildDiv[0].className;
     console.log(buttonChildDiv, "buttonChildDiv");
 
     let newBtnBoxEle = $(`
-    <div class="${copyBtnBoxClassName} big-join-nft-room" style="margin-right: 10px;">
+    <div class="${copyBtnBoxClassName} big-join-nft-room" style="margin-right: 10px; margin-bottom: 10px;">
     </div>
     `);
 
     let newBtnEle = $(`
-      <button type="button" width="100%" class="${copyBtnClassName}">
+      <button type="button" width="100%" class="${copyBtnClassName}" style="    background: none;
+    border: none;
+    align-items: center;
+    justify-content: center;">
       <div class="${btnChildDivClassName}">
-      <img  src="https://d97ch61yqe5j6.cloudfront.net/frontend/icon-60@2x.png" style="width: 30px; border-radius: 10px;" alt="">
+      <img  src="https://d97ch61yqe5j6.cloudfront.net/frontend/HouseChatIcon.png" style="width: 30px;" alt="">
 </div>
-Join NFT Thread
+Join the conversation Thread on this NFT art piece
 </button>
     `);
 
@@ -400,11 +449,10 @@ Join NFT Thread
     });
 
     newBtnBoxEle.append(newBtnEle);
-
-    askButtonBox.prepend(newBtnBoxEle);
-
-    console.log(btns, "btns");
-
+    //
+    priceBox.after(newBtnBoxEle)
+    // btnGrandFatherEle.prepend(newBtnBoxEle);
+    //
     // let itemChildBox = itemCollectionToolbarWrapperEle.children();
     // let btnEle = itemChildBox.find("button");
     // let btnClassName = btnEle[0].className;
@@ -416,7 +464,7 @@ Join NFT Thread
     //     <div class="${itemChildBoxClassName}">
     //     <button class="${btnClassName}">
     //
-    //       <img style="width: 24px;height: 24px; border-radius: 50%; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/icon-60@2x.png" alt="">
+    //       <img style="width: 24px;height: 24px; border-radius: 50%; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/HouseChatIcon.png" alt="">
     //           Join NFT Thread
     //     </button>
     //     </div>
@@ -431,7 +479,8 @@ Join NFT Thread
 
     if (path === "collection") {
       // 准备创建基于collect的room按钮
-      createCollectionRoomButton();
+      // createCollectionRoomButton();
+      newCreateJoinNFTRoomButton()
     }
     if (path === "assets") {
       createJoinItemThreadRoom();
