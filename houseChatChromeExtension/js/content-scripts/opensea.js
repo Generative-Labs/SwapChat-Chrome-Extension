@@ -232,7 +232,7 @@ $().ready(() => {
         `);
 
     let homeIconEle = $(
-      '<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/homeHeaderIconx3.png" alt="">'
+      '<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/newHomeHeaderIcon.png" alt="">'
     );
     let slideToggleIconELe = $(
       '<img class="slide-toggle-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/headerDown.png" alt="">'
@@ -307,7 +307,7 @@ $().ready(() => {
         display: flex;
         align-items: center;
     ">
-             <img style="width: 23px;height: 23px; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/HouseChatIcon.png" alt="">
+             <img style="width: 23px;height: 23px; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/newHouseChatIcon.png" alt="">
             Create Private Room
         </button>
         </div>
@@ -349,7 +349,7 @@ $().ready(() => {
     justify-content: center;
     font-weight: 700;
     ">
-             <img style="width: 30px;height: auto; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/HouseChatIcon.png" alt="">
+             <img style="width: 30px;height: auto; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/newHouseChatIcon.png" alt="">
             Join NFT Room
         </div>
        </div>
@@ -388,7 +388,7 @@ $().ready(() => {
         display: flex;
         align-items: center;
     ">
-             <img style="width: 23px;height: 23px; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/HouseChatIcon.png" alt="">
+             <img style="width: 23px;height: 23px; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/newHouseChatIcon.png" alt="">
             Join NFT Room
         </button>
         </div>
@@ -438,7 +438,7 @@ $().ready(() => {
     align-items: center;
     justify-content: center;">
       <div class="${btnChildDivClassName}">
-      <img  src="https://d97ch61yqe5j6.cloudfront.net/frontend/HouseChatIcon.png" style="width: 30px;" alt="">
+      <img  src="https://d97ch61yqe5j6.cloudfront.net/frontend/newHouseChatIcon.png" style="width: 30px;" alt="">
 </div>
 Join the conversation Thread on this NFT art piece
 </button>
@@ -464,7 +464,7 @@ Join the conversation Thread on this NFT art piece
     //     <div class="${itemChildBoxClassName}">
     //     <button class="${btnClassName}">
     //
-    //       <img style="width: 24px;height: 24px; border-radius: 50%; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/HouseChatIcon.png" alt="">
+    //       <img style="width: 24px;height: 24px; border-radius: 50%; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/newHouseChatIcon.png" alt="">
     //           Join NFT Thread
     //     </button>
     //     </div>

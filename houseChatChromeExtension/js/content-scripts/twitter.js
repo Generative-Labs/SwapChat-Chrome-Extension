@@ -246,7 +246,7 @@ $().ready(() => {
         `);
 
     let homeIconEle = $(
-      '<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/homeHeaderIconx3.png" alt="">'
+      '<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/newHomeHeaderIcon.png" alt="">'
     );
     let slideToggleIconELe = $(
       '<img class="slide-toggle-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/headerDown.png" alt="">'
@@ -329,7 +329,7 @@ $().ready(() => {
          font-family: sans-serif;
          "
          >
-               <img style="width: 30px;height: 30px; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/HouseChatIcon.png" alt="">
+               <img style="width: 30px;height: 30px; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/newHouseChatIcon.png" alt="">
             Create Private Room        
         </div>
         `);
