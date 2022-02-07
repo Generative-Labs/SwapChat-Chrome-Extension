@@ -45,7 +45,8 @@
     }
   ],
   "permissions": [
-    "tabs"
+    "tabs",
+    "clipboardRead"
   ],
   "optional_permissions": [
   ],

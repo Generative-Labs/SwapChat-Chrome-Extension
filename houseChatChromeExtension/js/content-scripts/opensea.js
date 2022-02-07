@@ -169,45 +169,63 @@ $().ready(() => {
     }
     if (type === BUTTON_TYPE_ENUM.PRIVATE_ROOM) {
       let realAddress = "";
-      let nextDataDom = document.getElementById("__NEXT_DATA__");
       let addressBtn = $(".AccountHeader--address");
       let innerAddress = addressBtn[0].innerText;
       let simpleAddress = innerAddress.split("...");
-      if (nextDataDom && nextDataDom.innerText) {
-        if (JSON.parse(nextDataDom.innerText)) {
-          let nextData = JSON.parse(nextDataDom.innerText);
-          console.log(nextData, "nextData");
-          let ethAddress = nextData?.props?.ssrData?.account?.address;
-          if (ethAddress) {
-            if (
-                ethAddress.indexOf(simpleAddress[0]) !== -1 &&
-                ethAddress.indexOf(simpleAddress[1]) !== -1
-            ) {
-              realAddress = ethAddress;
-            }
-          }
-        }
+      if (addressBtn) {
+        addressBtn.click()
+        let t = document.createElement("input");
+        document.body.insertBefore(t, document.body.childNodes[0]);
+        t.focus();
+        document.execCommand("paste");
+        realAddress = t.value; //this is your clipboard data
+        document.body.removeChild(t);
       }
+      // if (nextDataDom && nextDataDom.innerText) {
+      //   if (JSON.parse(nextDataDom.innerText)) {
+      //     let nextData = JSON.parse(nextDataDom.innerText);
+      //     console.log(nextData, "nextData");
+      //
+      //
+      //
+      //
+      //     let ethAddress = nextData?.props?.ssrData?.account?.address;
+      //     if (ethAddress) {
+      //       if (
+      //           ethAddress.indexOf(simpleAddress[0]) !== -1 &&
+      //           ethAddress.indexOf(simpleAddress[1]) !== -1
+      //       ) {
+      //         realAddress = ethAddress;
+      //       }
+      //     }
+      //
+      //     console.log(JSON.stringify(nextData).indexOf(simpleAddress[0]), 'start')
+      //     console.log(JSON.stringify(nextData).indexOf(simpleAddress[1]), 'end')
+      //
+      //
+      //
+      //   }
+      // }
 
-      if (!realAddress) {
-        let scripts = document.getElementsByTagName("script");
-        let address = "";
-        for (let i = 0; i < scripts.length; i++) {
-          let currentScript = scripts[i];
-          if (currentScript.innerText.indexOf("__wired__") !== -1) {
-            if (
-              currentScript.innerText.indexOf(simpleAddress[0]) !== -1 &&
-              currentScript.innerText.indexOf(simpleAddress[1]) !== -1
-            ) {
-              let start = currentScript.innerText.indexOf(simpleAddress[0]);
-              let end = currentScript.innerText.indexOf(simpleAddress[1]);
-              address = currentScript.innerText.substring(start, end);
-            }
-          }
-        }
-        realAddress = address + simpleAddress[1];
-      }
-      if (realAddress) {
+      // if (!realAddress) {
+      //   let scripts = document.getElementsByTagName("script");
+      //   let address = "";
+      //   for (let i = 0; i < scripts.length; i++) {
+      //     let currentScript = scripts[i];
+      //     if (currentScript.innerText.indexOf("__wired__") !== -1) {
+      //       if (
+      //         currentScript.innerText.indexOf(simpleAddress[0]) !== -1 &&
+      //         currentScript.innerText.indexOf(simpleAddress[1]) !== -1
+      //       ) {
+      //         let start = currentScript.innerText.indexOf(simpleAddress[0]);
+      //         let end = currentScript.innerText.indexOf(simpleAddress[1]);
+      //         address = currentScript.innerText.substring(start, end);
+      //       }
+      //     }
+      //   }
+      //   realAddress = address + simpleAddress[1];
+      // }
+      if (realAddress && realAddress.indexOf(simpleAddress[0]) !== -1 && realAddress.indexOf(simpleAddress[1]) !== -1) {
         src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&openseaAccountAddress=${realAddress}`;
       }
     }
@@ -326,17 +344,17 @@ $().ready(() => {
       return;
     }
     let copyBoxEle = $("div[class*='InfoContainerreact__InfoContainer']");
-    let copyBoxParentEle = copyBoxEle.parent()
-    console.log(copyBoxEle, 'copyBoxEle')
-    console.log(copyBoxEle.className, 'copyBoxEle')
+    let copyBoxParentEle = copyBoxEle.parent();
+    console.log(copyBoxEle, "copyBoxEle");
+    console.log(copyBoxEle.className, "copyBoxEle");
 
-    let copyBoxClassName = copyBoxEle[0].className
+    let copyBoxClassName = copyBoxEle[0].className;
 
     let newBox = $(`
       <div class="${copyBoxClassName} create-join-collection-room-button" style="width: 100%; margin: 10px auto; overflow:hidden;">
       
         </div>
-    `)
+    `);
     let newbtnBox = $(`
       <div class="join-collection-room-button">
         <div class="join-collection-room-button-test-box" style="
@@ -353,12 +371,12 @@ $().ready(() => {
             Join NFT Room
         </div>
        </div>
-    `)
+    `);
     newbtnBox.click(function () {
       createMessageBox(BUTTON_TYPE_ENUM.COLLECTION_ROOM);
-    })
-    newBox.append(newbtnBox)
-    copyBoxParentEle.append(newBox)
+    });
+    newBox.append(newbtnBox);
+    copyBoxParentEle.append(newBox);
   }
 
   function createCollectionRoomButton() {
@@ -410,12 +428,12 @@ $().ready(() => {
     if ($(".big-join-nft-room") && $(".big-join-nft-room").length > 0) return;
 
     let priceBox = $(".TradeStation--price-container");
-    let askButtonBox = null
+    let askButtonBox = null;
     if (priceBox.length > 0) {
       askButtonBox = priceBox.next();
-    } else  {
-      priceBox = $(".TradeStation--main")
-      askButtonBox = $(".TradeStation--main")
+    } else {
+      priceBox = $(".TradeStation--main");
+      askButtonBox = $(".TradeStation--main");
     }
     let btnELe = askButtonBox.find("button");
     let btnParentELe = btnELe.parent();
@@ -450,7 +468,7 @@ Join the conversation Thread on this NFT art piece
 
     newBtnBoxEle.append(newBtnEle);
     //
-    priceBox.after(newBtnBoxEle)
+    priceBox.after(newBtnBoxEle);
     // btnGrandFatherEle.prepend(newBtnBoxEle);
     //
     // let itemChildBox = itemCollectionToolbarWrapperEle.children();
@@ -480,7 +498,7 @@ Join the conversation Thread on this NFT art piece
     if (path === "collection") {
       // 准备创建基于collect的room按钮
       // createCollectionRoomButton();
-      newCreateJoinNFTRoomButton()
+      newCreateJoinNFTRoomButton();
     }
     if (path === "assets") {
       createJoinItemThreadRoom();
