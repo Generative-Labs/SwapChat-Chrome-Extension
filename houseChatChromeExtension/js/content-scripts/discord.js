@@ -2,7 +2,7 @@ $().ready(() => {
   const host = location.host;
   const discord = "discord.com";
   const platform = 'discord'
-  const iframeSrc = "https://newbietown.com";
+  const iframeSrc = "https://web3messaging.online";
   // const iframeSrc = 'http://localhost:3000'
 
   if (host !== discord) {

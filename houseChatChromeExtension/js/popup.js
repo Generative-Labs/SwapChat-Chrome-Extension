@@ -5,7 +5,7 @@ $().ready(() => {
       currentWindow: true,
     },
     (tabs) => {
-      const iframeSrc = "https://newbietown.com";
+      const iframeSrc = "https://web3messaging.online";
       // const iframeSrc = "http://localhost:3000";
       const discord = "discord.com";
       const twitter = "twitter.com";

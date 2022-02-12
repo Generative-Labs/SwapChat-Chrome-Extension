@@ -3,7 +3,7 @@ $().ready(() => {
   const body = $("#react-root");
   const twitter = "twitter.com";
   const platform = "twitter";
-  const iframeSrc = "https://newbietown.com";
+  const iframeSrc = "https://web3messaging.online";
   // const iframeSrc = "http://localhost:3000";
 
   const platformStatus = {
@@ -16,13 +16,23 @@ $().ready(() => {
     invited: 6
   };
 
-  const apiHost = "https://newbietown.com";
+  const apiHost = "https://web3messaging.online";
 
   if (host !== twitter) {
     console.log("不是twitter，该插件无效");
     return;
   }
   console.log("插件生效");
+
+
+  window.onpopstate = function(event) {
+    console.log('路由跳转')
+    let src = $(".twitter-housechan-message-header-iframe").attr('src');
+    $(".twitter-housechan-message-header-iframe").remove();
+    $(".twitter-housechan-message-body").append(`
+      <iframe class="twitter-housechan-message-header-iframe" style='width: 100%; height: 600px; border: 0;' src="${src}"></iframe>
+      `);
+  };
 
   // 右键菜单事件
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -246,7 +256,7 @@ $().ready(() => {
         `);
 
     let homeIconEle = $(
-      '<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/newHomeHeaderIcon.png" alt="">'
+      '<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/newHomeHeaderIcon.svg" alt="">'
     );
     let slideToggleIconELe = $(
       '<img class="slide-toggle-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/headerDown.png" alt="">'
@@ -327,9 +337,13 @@ $().ready(() => {
          display: flex; 
          align-items: center;
          font-family: sans-serif;
+         background: #ffffff;
          "
          >
-               <img style="width: 30px;height: 30px; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/newHouseChatIcon.png" alt="">
+         <div style="display: inline-block; width: 30px; height: 30px; margin-right: 10px;">
+         <img style="width: 100%; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/newHouseChatIcon.svg" alt="">
+         </div>
+               
             Create Private Room        
         </div>
         `);

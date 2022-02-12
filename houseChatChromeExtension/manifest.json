@@ -51,7 +51,7 @@
   "optional_permissions": [
   ],
   "host_permissions": [
-    "https://newbietown.com/",
+    "https://web3messaging.online/",
     "*://*/*"
   ],
   "homepage_url": "https://www.baidu.com",
