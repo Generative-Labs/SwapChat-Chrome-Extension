@@ -109,44 +109,11 @@ $().ready(() => {
     });
   }
 
-  function loginToHouse() {
-    chrome.runtime.sendMessage({
-      info: "ready-create-auth-page",
-    });
-  }
 
   function openTweetDialog(platform) {
     let dialog = $(`
       <div class="bind-platform-dialog-box">
-<!--            <div class="bind-platform-dialog-content">-->
-<!--              <div class="bind-platform-dialog-box">-->
-<!--                <div class="step-item-box">-->
-<!--                    <div class="step-item-box-circle-box">1</div>-->
-<!--                    <h1>Step 1</h1>-->
-<!--                    <p>Click the button below to post a tweet. </p>-->
-<!--                    <div class="step-item-box-button step-item-box-post-tweet-button" >-->
-<!--                      <span>Post a tweet</span>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="step-item-box">-->
-<!--                    <div class="step-item-box-circle-box">2</div>-->
-<!--                    <h1>Step 2</h1>-->
-<!--                    <p>Copy and paste the tweet URL in below.</p>-->
-<!--                    <div class="step-item-box-input">-->
-<!--                      <input type="text" placeholder="Enter the tweet address here" class="bind-platform-input" value="">-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="step-item-box final-step-item-box">-->
-<!--                    <div class="step-item-box-circle-box">3</div>-->
-<!--                    <h1>Step 3</h1>-->
-<!--                    <p>Hit the submit button once you pasted the URL.</p>-->
-<!--                    <div class="step-item-box-button step-item-box-post-submit-button">-->
-<!--                      <span>Submit</span>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-     </div>   
+     </div>
     `);
 
     let bindPlatFormDialogEle = $(`
@@ -396,28 +363,6 @@ $().ready(() => {
         `);
     userNameEle.append(buttonDom);
   }
-
-  function listenHistory() {
-    // 当前path
-    let path = location.pathname.split("/")[1];
-    // 缓存上次path
-    chrome.storage.sync.get("prevHost", function (script) {
-      if (script.prevHost && script.prevHost === path) {
-      } else {
-        // 同步最新path 删除message
-        if (
-          $(".twitter-housechan-message-box") &&
-          $(".twitter-housechan-message-box").length
-        ) {
-          let messageDom = $("div[data-testid='DMDrawer']");
-          messageDom.css("transform", "translateX(-500px)");
-        }
-        createPrivateRoomButton();
-        chrome.storage.sync.set({ prevHost: path });
-      }
-    });
-  }
-
   // 项目入口
   setInterval(() => {
     if (getSelfNameByDom()) {
@@ -431,161 +376,4 @@ $().ready(() => {
       createPrivateRoomButton();
     }
   }, 500);
-
-  // async function joinHouseChan(selfUserName) {
-  //   fetch(`${apiHost}/register`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     mode: "cors",
-  //     body: JSON.stringify({
-  //       platform: "twitter",
-  //       user_name: selfUserName,
-  //     }),
-  //   })
-  //     .then((response) => {
-  //       if (response.status === 200) {
-  //         return response.json();
-  //       } else {
-  //         return Promise.reject(response.json());
-  //       }
-  //     })
-  //     .then((res) => {
-  //       if (res.data) {
-  //         $(".join-house-chan-button").css("display", "none");
-  //         addCheckHouseChanButton(selfUserName);
-  //       }
-  //     })
-  //     .catch((e) => {
-  //       console.log(e);
-  //     });
-  // }
-
-  // function addJoinHouseChanButton(selfUserName) {
-  //   let commonMenuBoxEle = $("div[data-testid='AppTabBar_More_Menu']");
-  //   let parent = commonMenuBoxEle.parent();
-  //   let commMenuChild = commonMenuBoxEle.children();
-  //   let graSonEle = $(commMenuChild).children();
-  //   let bro = $(`
-  //                   <div aria-expanded="false" aria-haspopup="menu" aria-label="Join House Chan" role="button" class="${commonMenuBoxEle.className} join-house-chan-button" tabindex="1">
-  //                       <div class="${commMenuChild[0].className}">
-  //                           <div class="${graSonEle[0].className}">
-  //                              <img style="width: 26px;height: 26px; border-radius: 50%;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/icon-40@2x.png" alt="">
-  //                           </div>
-  //                           <div dir="auto" class="${graSonEle[1].className}">
-  //                               <span>Join House Chan</span>
-  //                           </div>
-  //                       </div>
-  //                   </div>
-  //               `);
-  //   bro.hover(function () {
-  //     bro.css("border-radius", "999px");
-  //     bro.css("background", "rgba(15, 20, 25, 0.1)");
-  //     bro.css("cursor", "pointer");
-  //   });
-  //
-  //   bro.mousedown(function () {
-  //     bro.css("cursor", "pointer");
-  //     bro.css("border-radius", "999px");
-  //     bro.css("background", "rgba(15, 20, 25, 0.2)");
-  //   });
-  //
-  //   bro.mouseup(function () {
-  //     bro.css("border-radius", "999px");
-  //     bro.css("background", "rgba(15, 20, 25, 0.1)");
-  //     bro.css("cursor", "pointer");
-  //   });
-  //
-  //   bro.mouseleave(function () {
-  //     bro.css("border-radius", "999px");
-  //     bro.css("background", "#fff");
-  //     bro.css("cursor", "default");
-  //   });
-  //   parent.append(bro);
-  //   bro.click(function () {
-  //     joinHouseChan(selfUserName).then((r) => {
-  //       console.log(r);
-  //     });
-  //   });
-  // }
-
-  // function addCheckHouseChanButton(selfUserName) {
-  //   if ($(".check-house-chan-button") && $(".check-house-chan-button").length) return
-  //   let commonMenuBoxEle = $("div[data-testid='AppTabBar_More_Menu']");
-  //   let parent = commonMenuBoxEle.parent();
-  //   let commMenuChild = commonMenuBoxEle.children();
-  //   let graSonEle = $(commMenuChild).children();
-  //   let bro = $(`
-  //                   <div aria-expanded="false" aria-haspopup="menu" aria-label="Check House Chan" role="button" class="${commonMenuBoxEle.className} check-house-chan-button" tabindex="1">
-  //                       <div class="${commMenuChild[0].className}">
-  //                           <div class="${graSonEle[0].className}">
-  //                              <img style="width: 26px;height: 26px; border-radius: 50%;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/icon-40@2x.png" alt="">
-  //                           </div>
-  //                           <div dir="auto" class="${graSonEle[1].className}">
-  //                               <span>check House Chan</span>
-  //                           </div>
-  //                       </div>
-  //                   </div>
-  //               `);
-  //   bro.hover(function () {
-  //     bro.css("border-radius", "999px");
-  //     bro.css("background", "rgba(15, 20, 25, 0.1)");
-  //     bro.css("cursor", "pointer");
-  //   });
-  //
-  //   bro.mousedown(function () {
-  //     bro.css("cursor", "pointer");
-  //     bro.css("border-radius", "999px");
-  //     bro.css("background", "rgba(15, 20, 25, 0.2)");
-  //   });
-  //
-  //   bro.mouseup(function () {
-  //     bro.css("border-radius", "999px");
-  //     bro.css("background", "rgba(15, 20, 25, 0.1)");
-  //     bro.css("cursor", "pointer");
-  //   });
-  //
-  //   bro.mouseleave(function () {
-  //     bro.css("border-radius", "999px");
-  //     bro.css("background", "#fff");
-  //     bro.css("cursor", "default");
-  //   });
-  //   parent.append(bro);
-  //   bro.click(function () {
-  //     createPrivateRoomButton(selfUserName);
-  //   });
-  // }
-
-  // function initShowButton(selfUserName) {
-  //   fetch(`${apiHost}/info`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     mode: "cors",
-  //     body: JSON.stringify({
-  //       platform: "twitter",
-  //       user_name: selfUserName,
-  //     }),
-  //   })
-  //     .then((response) => {
-  //       if (response.status === 200) {
-  //         return response.json();
-  //       } else {
-  //         return Promise.reject(response.json());
-  //       }
-  //     })
-  //     .then((res) => {
-  //       if (!res.data) {
-  //         // 该用户还咩有注册house
-  //         addJoinHouseChanButton(selfUserName);
-  //       } else {
-  //         addCheckHouseChanButton(selfUserName);
-  //       }
-  //     })
-  //     .catch((e) => {
-  //       console.log(e, "e");
-  //     });
-  // }
 });

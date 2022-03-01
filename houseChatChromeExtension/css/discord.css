@@ -1,0 +1,82 @@
+
+.discord-housechan-message-box {
+    border-radius: 8px;
+    position: absolute;
+    right: 18px;
+    bottom: 24px;
+    width: 38%;
+    min-height: 45px;
+    background: #40444b;
+    overflow: hidden;
+}
+
+.discord-housechan-message-box .discord-housechan-message-header {
+    font-family: sans-serif;
+    height: 45px;
+    line-height: 50px;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    color: #dcddde;
+
+
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.discord-housechan-message-header img {
+    width: auto;
+    height: 28px;
+    border-radius: 4px;
+    margin-right: 8px;
+}
+
+.discord-housechan-message-header span {
+    margin: 0;
+    font-size: 20px;
+    color: rgb(15, 20, 25);
+    font-style: normal;
+    font-weight: bold;
+}
+
+.discord-housechan-message-header .go-home-icon {
+    position: absolute;
+    right: 50px;
+    width: auto;
+    height: 20px;
+}
+
+.discord-housechan-message-header .slide-toggle-icon {
+    position: absolute;
+    right: 12px;
+}
+
+.discord-housechan-message-header:hover {
+    cursor: pointer;
+}
+
+.discord-housechan-message-header img:hover {
+    cursor: pointer;
+}
+
+.discord-housechan-message-box .discord-housechan-message-body {
+    background: #fff;
+}
+
+.discord-housechan-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    transform: translateY(50%);
+    z-index: 999;
+}
+
+.discord-housechan-icon:hover {
+    cursor: pointer;
+}
