@@ -2,7 +2,7 @@ $().ready(() => {
   const host = location.host;
   const discord = "discord.com";
   const platform = 'discord'
-  const iframeSrc = "https://web3messaging.online";
+  const iframeSrc = "https://chat.web3messaging.online";
   // const iframeSrc = 'http://localhost:3000'
 
   if (host !== discord) {
@@ -71,7 +71,7 @@ $().ready(() => {
             <div class="discord-housechan-message-box"></div>
         `);
         let homeIconEle = $(
-            '<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/newHomeHeaderIcon.png" alt="">'
+            '<img class="home-icon" src="https://pre.web3messaging.online/assets/icon/newHomeHeaderIcon.svg" alt="">'
         );
         let slideToggleIconELe = $(
             '<img class="slide-toggle-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/headerDown.png" alt="">'
@@ -135,7 +135,7 @@ $().ready(() => {
         if (friendName === selfName) return
         console.log('ready to add icon')
         if (headerEle.length > 0) {
-            let houseChanButton = $(`<img class="discord-housechan-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/newHouseChatIcon.svg" alt="">`);
+            let houseChanButton = $(`<img class="discord-housechan-icon" src="https://pre.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">`);
             // headerDom.append(houseChanButton)
             headerEle.children().append(houseChanButton);
             houseChanButton.click(function () {

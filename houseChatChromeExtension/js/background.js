@@ -39,7 +39,7 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
         currentWindow: true,
       },
       (tabs) => {
-        let loginUrl = `https://web3messaging.online/chat/auth?fromPage=normal`;
+        let loginUrl = `https://chat.web3messaging.online/chat/auth?fromPage=normal`;
         chrome.tabs.create({
           url: loginUrl,
         });

@@ -3,7 +3,7 @@ $().ready(() => {
   const body = $("#react-root");
   const twitter = "twitter.com";
   const platform = "twitter";
-  const iframeSrc = "https://web3messaging.online";
+  const iframeSrc = "https://chat.web3messaging.online";
   // const iframeSrc = "http://localhost:3000";
 
   const platformStatus = {
@@ -16,7 +16,7 @@ $().ready(() => {
     invited: 6
   };
 
-  const apiHost = "https://web3messaging.online";
+  const apiHost = "https://chat.web3messaging.online";
 
   if (host !== twitter) {
     console.log("不是twitter，该插件无效");
@@ -223,7 +223,7 @@ $().ready(() => {
         `);
 
     let homeIconEle = $(
-      '<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/newHomeHeaderIcon.svg" alt="">'
+      '<img class="home-icon" src="https://pre.web3messaging.online/assets/icon/newHomeHeaderIcon.svg" alt="">'
     );
     let slideToggleIconELe = $(
       '<img class="slide-toggle-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/headerDown.png" alt="">'
@@ -298,20 +298,19 @@ $().ready(() => {
          right: 0; 
          height: 44px; 
          min-width: 44px;
-         border: 1px solid rgb(207, 217, 222);
          border-radius: 999px;
-         padding: 0 10px;
+         padding: 0 20px;
          display: flex; 
          align-items: center;
          font-family: sans-serif;
-         background: #ffffff;
+         background: #605DEC;
+         color: #ffffff;
          "
          >
          <div style="display: inline-block; width: 30px; height: 30px; margin-right: 10px;">
-         <img style="width: 100%; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/newHouseChatIcon.svg" alt="">
+         <img style="width: 100%; margin-right: 10px; filter: drop-shadow(0px 4px 5px rgba(36, 36, 36, 0.45));" src="https://pre.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
          </div>
-               
-            Create Private Room        
+            Create a SwapChat        
         </div>
         `);
     buttonDom.click(function () {
@@ -346,10 +345,9 @@ $().ready(() => {
          right: 0; 
          height: 44px; 
          min-width: 44px;
-         border: 1px solid rgb(207, 217, 222);
          background: #ccc;
          border-radius: 999px;
-         padding: 0 10px;
+         padding: 0 20px;
          display: flex; 
          align-items: center;
          font-family: sans-serif;
@@ -358,7 +356,7 @@ $().ready(() => {
          "
          >
                <img style="width: 30px;height: 30px; border-radius: 50%; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/loading.png" alt="">
-            Create Private Room
+            Create a SwapChat
         </div>
         `);
     userNameEle.append(buttonDom);
