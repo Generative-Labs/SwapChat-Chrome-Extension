@@ -4,9 +4,9 @@ $().ready(() => {
   console.log(body);
   const opensea = "opensea.io";
   const platform = "opensea";
-  const iframeSrc = "https://web3messaging.online";
+  const iframeSrc = "https://chat.web3messaging.online";
   // const iframeSrc = "http://localhost:3000";
-  const apiHost = "https://web3messaging.online";
+  const apiHost = "https://chat.web3messaging.online";
 
   if (host !== opensea) {
     console.log("不是opensea，该插件无效");
@@ -250,7 +250,7 @@ $().ready(() => {
         `);
 
     let homeIconEle = $(
-      '<img class="home-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/newHomeHeaderIcon.svg" alt="">'
+      '<img class="home-icon" src="https://pre.web3messaging.online/assets/icon/newHomeHeaderIcon.svg" alt="">'
     );
     let slideToggleIconELe = $(
       '<img class="slide-toggle-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/headerDown.png" alt="">'
@@ -313,6 +313,8 @@ $().ready(() => {
     let btnBoxELe = $(btnBoxDom).children();
     let btnBoxClassName = btnBoxELe[0].className;
     let btnClassName = btnBoxELe.children()[0].className;
+    let btnDom = btnBoxELe.find('button')
+    let brnDomClass = btnDom[0].className
     let buttonDom = $(`
         <div
         class="opensea-create-private-room ${btnBoxClassName}"
@@ -320,14 +322,16 @@ $().ready(() => {
          margin-right: 10px;
          "
          >
-         <button type="button" class="${btnClassName}" style="
-         background: #fff;
-        display: flex;
-        align-items: center;
-    ">
-             <img style="width: 23px;height: 23px; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/newHouseChatIcon.svg" alt="">
-            Create Private Room
-        </button>
+           <div class="${btnClassName}">
+             <button type="button" class="${brnDomClass}" style="
+             background: #fff;
+            display: flex;
+            align-items: center;
+        ">
+                 <img style="width: 28px;height: 28px; margin-right: 10px;" src="https://pre.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
+                Create a SwapChat
+             </button>
+          </div>
         </div>
         `);
 
@@ -347,15 +351,15 @@ $().ready(() => {
     let copyBoxParentEle = copyBoxEle.parent();
     console.log(copyBoxEle, "copyBoxEle");
     console.log(copyBoxEle.className, "copyBoxEle");
+    if (copyBoxEle[0]) {
 
-    let copyBoxClassName = copyBoxEle[0].className;
+      let copyBoxClassName = copyBoxEle[0].className;
 
-    let newBox = $(`
+      let newBox = $(`
       <div class="${copyBoxClassName} create-join-collection-room-button" style="width: 100%; margin: 10px auto; overflow:hidden;">
-      
         </div>
     `);
-    let newbtnBox = $(`
+      let newbtnBox = $(`
       <div class="join-collection-room-button">
         <div class="join-collection-room-button-test-box" style="
     width: 100%;
@@ -367,16 +371,17 @@ $().ready(() => {
     justify-content: center;
     font-weight: 700;
     ">
-             <img style="width: 30px;height: auto; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/newHouseChatIconx4.png" alt="">
+             <img style="width: 30px;height: auto; margin-right: 10px;" src="https://pre.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
             Join NFT Room
         </div>
        </div>
     `);
-    newbtnBox.click(function () {
-      createMessageBox(BUTTON_TYPE_ENUM.COLLECTION_ROOM);
-    });
-    newBox.append(newbtnBox);
-    copyBoxParentEle.append(newBox);
+      newbtnBox.click(function () {
+        createMessageBox(BUTTON_TYPE_ENUM.COLLECTION_ROOM);
+      });
+      newBox.append(newbtnBox);
+      copyBoxParentEle.append(newBox);
+    }
   }
 
   function createCollectionRoomButton() {
@@ -406,7 +411,7 @@ $().ready(() => {
         display: flex;
         align-items: center;
     ">
-             <img style="width: 23px;height: 23px; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/newHouseChatIconx4.png" alt="">
+             <img style="width: 23px;height: 23px; margin-right: 10px;" src="https://pre.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
             Join NFT Room
         </button>
         </div>
@@ -453,10 +458,11 @@ $().ready(() => {
     let newBtnEle = $(`
       <button type="button" width="100%" class="${copyBtnClassName}" style="    background: none;
     border: none;
+    width: 100%;
     align-items: center;
     justify-content: center;">
       <div class="${btnChildDivClassName}">
-      <img  src="https://d97ch61yqe5j6.cloudfront.net/frontend/newHouseChatIconx4.png" style="width: 30px;" alt="">
+      <img  src="https://pre.web3messaging.online/assets/icon/newHouseChatIcon.svg" style="width: 30px;" alt="">
 </div>
 Join the conversation Thread on this NFT art piece
 </button>
@@ -482,7 +488,7 @@ Join the conversation Thread on this NFT art piece
     //     <div class="${itemChildBoxClassName}">
     //     <button class="${btnClassName}">
     //
-    //       <img style="width: 24px;height: 24px; border-radius: 50%; margin-right: 10px;" src="https://d97ch61yqe5j6.cloudfront.net/frontend/newHouseChatIconx4.png" alt="">
+    //       <img style="width: 24px;height: 24px; border-radius: 50%; margin-right: 10px;" src="https://pre.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
     //           Join NFT Thread
     //     </button>
     //     </div>

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "House Chat",
-  "version": "1.0.2",
+  "name": "SwapChat",
+  "version": "1.0.3",
   "description": "Cross-platform messaging service.",
   "icons": {
     "16": "img/icon.png",
@@ -51,10 +51,10 @@
   "optional_permissions": [
   ],
   "host_permissions": [
-    "https://web3messaging.online/",
+    "https://chat.web3messaging.online/",
     "*://*/*"
   ],
-  "homepage_url": "https://web3messaging.online",
+  "homepage_url": "https://chat.web3messaging.online",
   "omnibox": {
     "keyword": "go"
   },
