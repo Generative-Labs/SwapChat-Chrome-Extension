@@ -3,8 +3,8 @@ $().ready(() => {
   const body = $("#react-root");
   const twitter = "twitter.com";
   const platform = "twitter";
-  const iframeSrc = "https://chat.web3messaging.online";
-  // const iframeSrc = "http://localhost:3000";
+  // const iframeSrc = "https://chat.web3messaging.online";
+  const iframeSrc = "https://pre.web3messaging.online";
 
   const platformStatus = {
     eth: 0,
@@ -41,148 +41,148 @@ $().ready(() => {
       // checkUser();
     }
   });
-  function getUserStatus(code, platform) {
-    if (!code) return false
-    let status = code[platformStatus[platform]]
-    console.log(status, 'status')
-    if (status) {
-      console.log(Boolean(Number(status)), 'Boolean(Number(status))')
-      return Boolean(Number(status))
-    }else {
-      //没有验证通过
-      return false
-    }
-  }
+  // function getUserStatus(code, platform) {
+  //   if (!code) return false
+  //   let status = code[platformStatus[platform]]
+  //   console.log(status, 'status')
+  //   if (status) {
+  //     console.log(Boolean(Number(status)), 'Boolean(Number(status))')
+  //     return Boolean(Number(status))
+  //   }else {
+  //     //没有验证通过
+  //     return false
+  //   }
+  // }
 
-  async function selfFetch(url, params, headers = null) {
-    let res = null;
-    try {
-      res = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        mode: "cors",
-        body: JSON.stringify(params),
-      }).then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        } else {
-          return Promise.reject(response.json());
-        }
-      });
-      console.log(res, "res");
-    } catch (e) {
-      console.log(e, "e");
-    }
-    if (res && res.data) {
-      return res.data;
-    }
-    return res;
-  }
+  // async function selfFetch(url, params, headers = null) {
+  //   let res = null;
+  //   try {
+  //     res = await fetch(url, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       mode: "cors",
+  //       body: JSON.stringify(params),
+  //     }).then((response) => {
+  //       if (response.status === 200) {
+  //         return response.json();
+  //       } else {
+  //         return Promise.reject(response.json());
+  //       }
+  //     });
+  //     console.log(res, "res");
+  //   } catch (e) {
+  //     console.log(e, "e");
+  //   }
+  //   if (res && res.data) {
+  //     return res.data;
+  //   }
+  //   return res;
+  // }
 
-  async function registerUser(platform, username) {
-    return await selfFetch(`${apiHost}/register`, {
-      platform: platform,
-      user_name: username,
-    });
-  }
+  // async function registerUser(platform, username) {
+  //   return await selfFetch(`${apiHost}/register`, {
+  //     platform: platform,
+  //     user_name: username,
+  //   });
+  // }
+  //
+  // async function verifyPlatform(url) {
+  //   return await selfFetch(`${apiHost}/verify_platform`, {
+  //     data: url,
+  //     platform: 'twitter'
+  //   });
+  // }
 
-  async function verifyPlatform(url) {
-    return await selfFetch(`${apiHost}/verify_platform`, {
-      data: url,
-      platform: 'twitter'
-    });
-  }
-
-  // 获取house用户信息
-  async function getHouseUserInfo(platform, username) {
-    return await selfFetch(`${apiHost}/info`, {
-      platform: platform,
-      user_name: username,
-    });
-  }
-
-  async function getLoginRandomSecret(address) {
-    return await selfFetch(`${apiHost}/login_random_secret`, {
-      wallet_address: address,
-    });
-  }
+  // // 获取house用户信息
+  // async function getHouseUserInfo(platform, username) {
+  //   return await selfFetch(`${apiHost}/info`, {
+  //     platform: platform,
+  //     user_name: username,
+  //   });
+  // }
+  //
+  // async function getLoginRandomSecret(address) {
+  //   return await selfFetch(`${apiHost}/login_random_secret`, {
+  //     wallet_address: address,
+  //   });
+  // }
 
 
-  function openTweetDialog(platform) {
-    let dialog = $(`
-      <div class="bind-platform-dialog-box">
-     </div>
-    `);
+  // function openTweetDialog(platform) {
+  //   let dialog = $(`
+  //     <div class="bind-platform-dialog-box">
+  //    </div>
+  //   `);
+  //
+  //   let bindPlatFormDialogEle = $(`
+  //       <div class="bind-platform-dialog">
+  //           <div class="bind-platform-dialog-header">
+  //             <img class="bind-platform-dialog-header-close-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/closeIcon.png" alt="">
+  //           </div>
+  //       </div>
+  //   `)
+  //   let openTweetIframeSrc = `${iframeSrc}/chat/verifyTwitterPage`
+  //   let openTweetIframe = $(`
+  //       <iframe class="bind-platform-dialog-box-iframe" style='width: 100%; height: 600px; border: 0;' src="${openTweetIframeSrc}"></iframe>
+  //   `)
+  //   bindPlatFormDialogEle.append(openTweetIframe)
+  //   dialog.append(bindPlatFormDialogEle)
+  //   // dialog.append()
+  //   body.append(dialog);
+  //   $(".step-item-box-post-tweet-button").click(function () {
+  //     chrome.runtime.sendMessage({
+  //       info: "ready-create-post-tweet-page",
+  //     });
+  //   });
+  //
+  //   $(".bind-platform-dialog-header-close-icon").click(function () {
+  //     $(".bind-platform-dialog-box").remove();
+  //     registerUser(platform, getSelfNameByDom()).then(userInfo => {
+  //       let twitterStatus = getUserStatus(userInfo.status, 'twitter')
+  //       if (!twitterStatus) {
+  //       } else {
+  //         createMessageBox();
+  //       }
+  //     });
+  //   });
+  //   $(".step-item-box-post-submit-button").click(function () {
+  //     let url = $(".bind-platform-input")[0].value;
+  //     if (!url) return;
+  //     verifyPlatform(url).then((bindRes) => {
+  //       if (bindRes.code !== 0) {
+  //         alert(bindRes.msg);
+  //       }
+  //       $(".bind-platform-dialog-box").remove();
+  //       createMessageBox();
+  //     });
+  //   });
+  // }
 
-    let bindPlatFormDialogEle = $(`
-        <div class="bind-platform-dialog">
-            <div class="bind-platform-dialog-header">
-              <img class="bind-platform-dialog-header-close-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/closeIcon.png" alt="">
-            </div>
-        </div>
-    `)
-    let openTweetIframeSrc = `${iframeSrc}/chat/verifyTwitterPage`
-    let openTweetIframe = $(`
-        <iframe class="bind-platform-dialog-box-iframe" style='width: 100%; height: 600px; border: 0;' src="${openTweetIframeSrc}"></iframe>
-    `)
-    bindPlatFormDialogEle.append(openTweetIframe)
-    dialog.append(bindPlatFormDialogEle)
-    // dialog.append()
-    body.append(dialog);
-    $(".step-item-box-post-tweet-button").click(function () {
-      chrome.runtime.sendMessage({
-        info: "ready-create-post-tweet-page",
-      });
-    });
-
-    $(".bind-platform-dialog-header-close-icon").click(function () {
-      $(".bind-platform-dialog-box").remove();
-      registerUser(platform, getSelfNameByDom()).then(userInfo => {
-        let twitterStatus = getUserStatus(userInfo.status, 'twitter')
-        if (!twitterStatus) {
-        } else {
-          createMessageBox();
-        }
-      });
-    });
-    $(".step-item-box-post-submit-button").click(function () {
-      let url = $(".bind-platform-input")[0].value;
-      if (!url) return;
-      verifyPlatform(url).then((bindRes) => {
-        if (bindRes.code !== 0) {
-          alert(bindRes.msg);
-        }
-        $(".bind-platform-dialog-box").remove();
-        createMessageBox();
-      });
-    });
-  }
-
-  async function checkUser() {
-    // if ($(".twitter-housechan-message-box").length) return;
-    createDisablePrivateRoomButton();
-    // openTweetDialog(platform);
-    // return
-    // get friend username
-    let friendUserName = location.pathname.split("/")[1];
-    // get self username
-    let selfUserName = getSelfNameByDom();
-    if (!selfUserName) return;
-    if (selfUserName === friendUserName) return;
-    const userInfo = await registerUser(platform, getSelfNameByDom());
-    $(".disable-create-private-button").remove();
-    if (!userInfo) return createMessageBox()
-    let twitterStatus = getUserStatus(userInfo.status, 'twitter')
-    if (!twitterStatus) {
-      console.log('该用户没有绑定tw')
-      openTweetDialog(platform);
-    } else {
-      console.log("call createMessageBox");
-      createMessageBox();
-    }
-  }
+  // async function checkUser() {
+  //   // if ($(".twitter-housechan-message-box").length) return;
+  //   createDisablePrivateRoomButton();
+  //   // openTweetDialog(platform);
+  //   // return
+  //   // get friend username
+  //   let friendUserName = location.pathname.split("/")[1];
+  //   // get self username
+  //   let selfUserName = getSelfNameByDom();
+  //   if (!selfUserName) return;
+  //   if (selfUserName === friendUserName) return;
+  //   const userInfo = await registerUser(platform, getSelfNameByDom());
+  //   $(".disable-create-private-button").remove();
+  //   if (!userInfo) return createMessageBox()
+  //   let twitterStatus = getUserStatus(userInfo.status, 'twitter')
+  //   if (!twitterStatus) {
+  //     console.log('该用户没有绑定tw')
+  //     openTweetDialog(platform);
+  //   } else {
+  //     console.log("call createMessageBox");
+  //     createMessageBox();
+  //   }
+  // }
 
   function getSelfNameByDom() {
     let selfDom = $("a[data-testid='AppTabBar_Profile_Link']");
@@ -314,7 +314,7 @@ $().ready(() => {
         </div>
         `);
     buttonDom.click(function () {
-      checkUser();
+      createMessageBox();
     });
     userNameEle.append(buttonDom);
   }
