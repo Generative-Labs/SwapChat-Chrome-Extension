@@ -2,8 +2,9 @@ $().ready(() => {
   const host = location.host;
   const discord = "discord.com";
   const platform = 'discord'
-  // const iframeSrc = "https://chat.web3messaging.online";
-  const iframeSrc = 'https://pre.web3messaging.online'
+  const iframeSrc = "https://chat.web3messaging.online";
+  // const iframeSrc = 'https://pre.web3messaging.online'
+  // const iframeSrc = 'http://localhost:3000'
 
   if (host !== discord) {
     console.log("not discord");
