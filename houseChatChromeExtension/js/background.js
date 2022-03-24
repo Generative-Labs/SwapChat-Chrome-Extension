@@ -40,6 +40,7 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
       },
       (tabs) => {
         let loginUrl = `https://chat.web3messaging.online/chat/auth?fromPage=normal`;
+        // let loginUrl = `http://localhost:3000/chat/auth?fromPage=normal`;
         chrome.tabs.create({
           url: loginUrl,
         });
