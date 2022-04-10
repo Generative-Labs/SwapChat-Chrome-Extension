@@ -6,6 +6,7 @@ $().ready(() => {
     },
     (tabs) => {
       const iframeSrc = "https://chat.web3messaging.online";
+      // const iframeSrc = "https://pre.web3messaging.online";
       // const iframeSrc = "http://localhost:3000";
       const discord = "discord.com";
       const twitter = "twitter.com";
@@ -16,7 +17,7 @@ $().ready(() => {
       // if (
       //   currentTabUrl.indexOf(twitter) === -1 &&
       //   currentTabUrl.indexOf(discord) === -1
-      // ) {
+      // )
       //   console.log("当前页面不支持");
       //   return;
       // }

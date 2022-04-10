@@ -205,7 +205,7 @@ $().ready(() => {
     let selfUserName = getSelfNameByDom();
     if (!selfUserName) return;
     if (selfUserName === friendUserName) return;
-    let src = `${iframeSrc}/chat/chatWebPage?userHash=${selfUserName}@@${friendUserName}&platform=${platform}`;
+    let src = `${iframeSrc}/chat/chatWebPage?userHash=${selfUserName}@@${friendUserName}&platform=${platform}&fromPage=normal`;
 
     if ($(".twitter-housechan-message-box").length) {
       $(".twitter-housechan-message-header-iframe").remove();

@@ -153,7 +153,7 @@ $().ready(() => {
       let path = location.pathname.split("/");
       let collectionName = path[path.length - 1];
       if (path.length > 1 && path[1] !== "collection") return;
-      src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&collectionName=${collectionName}`;
+      src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&collectionName=${collectionName}&fromPage=normal`;
     }
     if (type === BUTTON_TYPE_ENUM.JOIN_ITEM_THREAD_ROOM) {
       // src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&collectionName=${collectionName}`;
@@ -165,7 +165,7 @@ $().ready(() => {
         realTokenId = pathNameArr[pathNameArr.length - 1];
         realContractAddress = pathNameArr[pathNameArr.length - 2];
       }
-      src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&itemTokenId=${realTokenId}&itemContractAddress=${realContractAddress}`;
+      src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&itemTokenId=${realTokenId}&itemContractAddress=${realContractAddress}&fromPage=normal`;
     }
     if (type === BUTTON_TYPE_ENUM.PRIVATE_ROOM) {
       let realAddress = "";
@@ -226,7 +226,7 @@ $().ready(() => {
       //   realAddress = address + simpleAddress[1];
       // }
       if (realAddress && realAddress.indexOf(simpleAddress[0]) !== -1 && realAddress.indexOf(simpleAddress[1]) !== -1) {
-        src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&openseaAccountAddress=${realAddress}`;
+        src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&openseaAccountAddress=${realAddress}&fromPage=normal`;
       }
     }
 
