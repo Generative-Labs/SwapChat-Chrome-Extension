@@ -3,6 +3,7 @@ $().ready(() => {
   const discord = "discord.com";
   const platform = 'discord'
   const iframeSrc = "https://chat.web3messaging.online";
+  // const iframeSrc = 'https://pre.web3messaging.online'
   // const iframeSrc = 'http://localhost:3000'
 
   if (host !== discord) {
@@ -49,7 +50,7 @@ $().ready(() => {
     ) {
       // 修改header字
       // let src = `${iframeSrc}/chat/webChat/${friendUserName.replace('#', '@')}?platform=${platform}`
-      let src = `${iframeSrc}/chat/chatWebPage?userHash=${selfUserName.replace('#', '@')}@@${friendUserName.replace('#', '@')}&platform=${platform}`;
+      let src = `${iframeSrc}/chat/chatWebPage?userHash=${selfUserName.replace('#', '@')}@@${friendUserName.replace('#', '@')}&platform=${platform}&fromPage=normal`;
       $(".discord-housechan-message-header-iframe").remove()
       $(".discord-housechan-message-body").append(`
         <iframe class="discord-housechan-message-header-iframe" style='width: 100%; height: 86vh; border: 0;' src="${src}"></iframe>
@@ -59,7 +60,7 @@ $().ready(() => {
         // get friend username
         console.log('create private room')
         // let src = `${iframeSrc}/chat/webChat/${friendUserName.replace('#', '@')}?platform=${platform}`
-        let src = `${iframeSrc}/chat/chatWebPage?userHash=${selfUserName.replace('#', '@')}@@${friendUserName.replace('#', '@')}&platform=${platform}`;
+        let src = `${iframeSrc}/chat/chatWebPage?userHash=${selfUserName.replace('#', '@')}@@${friendUserName.replace('#', '@')}&platform=${platform}&fromPage=normal`;
         let formEle = getEle("form[class^='form']")
         let children = formEle.children()[0]
         formEle.css('display', 'flex')
@@ -71,7 +72,7 @@ $().ready(() => {
             <div class="discord-housechan-message-box"></div>
         `);
         let homeIconEle = $(
-            '<img class="home-icon" src="https://pre.web3messaging.online/assets/icon/newHomeHeaderIcon.svg" alt="">'
+            '<img class="home-icon" src="https://chat.web3messaging.online/assets/icon/newHomeHeaderIcon.svg" alt="">'
         );
         let slideToggleIconELe = $(
             '<img class="slide-toggle-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/headerDown.png" alt="">'
@@ -135,7 +136,7 @@ $().ready(() => {
         if (friendName === selfName) return
         console.log('ready to add icon')
         if (headerEle.length > 0) {
-            let houseChanButton = $(`<img class="discord-housechan-icon" src="https://pre.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">`);
+            let houseChanButton = $(`<img class="discord-housechan-icon" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">`);
             // headerDom.append(houseChanButton)
             headerEle.children().append(houseChanButton);
             houseChanButton.click(function () {

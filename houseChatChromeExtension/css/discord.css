@@ -6,7 +6,7 @@
     bottom: 24px;
     width: 38%;
     min-height: 45px;
-    background: #40444b;
+    background: #fff;
     overflow: hidden;
 }
 
@@ -17,7 +17,8 @@
     font-size: 20px;
     font-weight: 600;
     text-align: center;
-    color: #dcddde;
+    color: #fff;
+    border-bottom: 1px solid #F2F2F2;
 
 
     display: flex;

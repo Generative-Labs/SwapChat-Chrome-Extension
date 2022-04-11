@@ -153,7 +153,7 @@ $().ready(() => {
       let path = location.pathname.split("/");
       let collectionName = path[path.length - 1];
       if (path.length > 1 && path[1] !== "collection") return;
-      src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&collectionName=${collectionName}`;
+      src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&collectionName=${collectionName}&fromPage=normal`;
     }
     if (type === BUTTON_TYPE_ENUM.JOIN_ITEM_THREAD_ROOM) {
       // src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&collectionName=${collectionName}`;
@@ -165,7 +165,7 @@ $().ready(() => {
         realTokenId = pathNameArr[pathNameArr.length - 1];
         realContractAddress = pathNameArr[pathNameArr.length - 2];
       }
-      src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&itemTokenId=${realTokenId}&itemContractAddress=${realContractAddress}`;
+      src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&itemTokenId=${realTokenId}&itemContractAddress=${realContractAddress}&fromPage=normal`;
     }
     if (type === BUTTON_TYPE_ENUM.PRIVATE_ROOM) {
       let realAddress = "";
@@ -226,7 +226,7 @@ $().ready(() => {
       //   realAddress = address + simpleAddress[1];
       // }
       if (realAddress && realAddress.indexOf(simpleAddress[0]) !== -1 && realAddress.indexOf(simpleAddress[1]) !== -1) {
-        src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&openseaAccountAddress=${realAddress}`;
+        src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&openseaAccountAddress=${realAddress}&fromPage=normal`;
       }
     }
 
@@ -250,7 +250,7 @@ $().ready(() => {
         `);
 
     let homeIconEle = $(
-      '<img class="home-icon" src="https://pre.web3messaging.online/assets/icon/newHomeHeaderIcon.svg" alt="">'
+      '<img class="home-icon" src="https://chat.web3messaging.online/assets/icon/newHomeHeaderIcon.svg" alt="">'
     );
     let slideToggleIconELe = $(
       '<img class="slide-toggle-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/headerDown.png" alt="">'
@@ -328,7 +328,7 @@ $().ready(() => {
             display: flex;
             align-items: center;
         ">
-                 <img style="width: 28px;height: 28px; margin-right: 10px;" src="https://pre.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
+                 <img style="width: 28px;height: 28px; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
                 Create a SwapChat
              </button>
           </div>
@@ -371,7 +371,7 @@ $().ready(() => {
     justify-content: center;
     font-weight: 700;
     ">
-             <img style="width: 30px;height: auto; margin-right: 10px;" src="https://pre.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
+             <img style="width: 30px;height: auto; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
             Join NFT Room
         </div>
        </div>
@@ -411,7 +411,7 @@ $().ready(() => {
         display: flex;
         align-items: center;
     ">
-             <img style="width: 23px;height: 23px; margin-right: 10px;" src="https://pre.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
+             <img style="width: 23px;height: 23px; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
             Join NFT Room
         </button>
         </div>
@@ -462,7 +462,7 @@ $().ready(() => {
     align-items: center;
     justify-content: center;">
       <div class="${btnChildDivClassName}">
-      <img  src="https://pre.web3messaging.online/assets/icon/newHouseChatIcon.svg" style="width: 30px;" alt="">
+      <img  src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" style="width: 30px;" alt="">
 </div>
 Join the conversation Thread on this NFT art piece
 </button>
@@ -488,7 +488,7 @@ Join the conversation Thread on this NFT art piece
     //     <div class="${itemChildBoxClassName}">
     //     <button class="${btnClassName}">
     //
-    //       <img style="width: 24px;height: 24px; border-radius: 50%; margin-right: 10px;" src="https://pre.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
+    //       <img style="width: 24px;height: 24px; border-radius: 50%; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
     //           Join NFT Thread
     //     </button>
     //     </div>
