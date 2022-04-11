@@ -250,7 +250,7 @@ $().ready(() => {
         `);
 
     let homeIconEle = $(
-      '<img class="home-icon" src="https://pre.web3messaging.online/assets/icon/newHomeHeaderIcon.svg" alt="">'
+      '<img class="home-icon" src="https://chat.web3messaging.online/assets/icon/newHomeHeaderIcon.svg" alt="">'
     );
     let slideToggleIconELe = $(
       '<img class="slide-toggle-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/headerDown.png" alt="">'
@@ -328,7 +328,7 @@ $().ready(() => {
             display: flex;
             align-items: center;
         ">
-                 <img style="width: 28px;height: 28px; margin-right: 10px;" src="https://pre.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
+                 <img style="width: 28px;height: 28px; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
                 Create a SwapChat
              </button>
           </div>
@@ -371,7 +371,7 @@ $().ready(() => {
     justify-content: center;
     font-weight: 700;
     ">
-             <img style="width: 30px;height: auto; margin-right: 10px;" src="https://pre.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
+             <img style="width: 30px;height: auto; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
             Join NFT Room
         </div>
        </div>
@@ -411,7 +411,7 @@ $().ready(() => {
         display: flex;
         align-items: center;
     ">
-             <img style="width: 23px;height: 23px; margin-right: 10px;" src="https://pre.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
+             <img style="width: 23px;height: 23px; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
             Join NFT Room
         </button>
         </div>
@@ -462,7 +462,7 @@ $().ready(() => {
     align-items: center;
     justify-content: center;">
       <div class="${btnChildDivClassName}">
-      <img  src="https://pre.web3messaging.online/assets/icon/newHouseChatIcon.svg" style="width: 30px;" alt="">
+      <img  src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" style="width: 30px;" alt="">
 </div>
 Join the conversation Thread on this NFT art piece
 </button>
@@ -488,7 +488,7 @@ Join the conversation Thread on this NFT art piece
     //     <div class="${itemChildBoxClassName}">
     //     <button class="${btnClassName}">
     //
-    //       <img style="width: 24px;height: 24px; border-radius: 50%; margin-right: 10px;" src="https://pre.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
+    //       <img style="width: 24px;height: 24px; border-radius: 50%; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
     //           Join NFT Thread
     //     </button>
     //     </div>
