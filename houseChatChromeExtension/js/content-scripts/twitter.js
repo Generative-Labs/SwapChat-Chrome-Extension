@@ -56,7 +56,7 @@ $().ready(() => {
     return selfUserName;
   }
 
-  async function createMessageBox() {
+  async function createMessageBox(spacesHash= '') {
     // get friend username
     let friendUserName = location.pathname.split("/")[1];
     // get self username
@@ -64,7 +64,9 @@ $().ready(() => {
     if (!selfUserName) return;
     if (selfUserName === friendUserName) return;
     let src = `${iframeSrc}/chat/chatWebPage?userHash=${selfUserName}@@${friendUserName}&platform=${platform}&fromPage=normal`;
-
+    if (spacesHash) {
+       src = `${iframeSrc}/chat/chatWebPage?=${selfUserName}@@${friendUserName}&platform=${platform}&fromPage=normal&spaceHash=${spacesHash}`;
+    }
     if ($(".twitter-housechan-message-box").length) {
       $(".twitter-housechan-message-header-iframe").remove();
       $(".twitter-housechan-message-body").append(`
@@ -76,8 +78,9 @@ $().ready(() => {
     // 获取Twitter原始message dom 向左移动
     let messageDom = $("div[data-testid='DMDrawer']");
     messageDom.css("transform", "translateX(-700px)");
+    let style = spacesHash ? 'right: 500px' : ''
     let messageBoxEle = $(`
-            <div class="twitter-housechan-message-box" id="housechan-message-box">
+            <div class="twitter-housechan-message-box" id="housechan-message-box" style="${style}">
             </div>
         `);
 
@@ -220,6 +223,39 @@ $().ready(() => {
         `);
     userNameEle.append(buttonDom);
   }
+
+  function getSpaceDom() {
+    if ($(".swapchat-spaces-btn") && $(".swapchat-spaces-btn").length > 0) {
+      return
+    }
+    let paths = location.pathname.split('/')
+    let spaceId =  paths[paths.length - 1]
+    let spaceTitle = ''
+    let spacesDescDom = $("div[data-testid='placementTracking']")
+    if (spacesDescDom.length > 0) {
+      let firstChild = spacesDescDom[0].firstElementChild
+      if (firstChild) {
+        let firstChildDom = $(firstChild)
+        let arialabel = firstChildDom[0].ariaLabel
+        if (arialabel) {
+          spaceTitle = arialabel.substring(13, arialabel.indexOf('hosted'))
+        }
+      }
+    }
+    let spacesDom = $("div[aria-label='Spaces dock']")
+    if (spacesDom.length > 0 && spaceTitle && spaceId) {
+      let swapchatSpacesBtn = $(`
+        <div class="swapchat-spaces-btn">
+        <img style="width: 30px;height: auto; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
+           SwapChat Room
+</div>
+      `)
+      swapchatSpacesBtn.click(function () {
+        createMessageBox(`${spaceId}@@${spaceTitle}`)
+      })
+      spacesDom.after(swapchatSpacesBtn)
+    }
+  }
   // 项目入口
   setInterval(() => {
     if (getSelfNameByDom()) {
@@ -231,6 +267,9 @@ $().ready(() => {
         messageDom.css("transform", "translateX(-500px)");
       }
       createPrivateRoomButton();
+    }
+    if (location.pathname.indexOf('spaces')) {
+      getSpaceDom()
     }
   }, 500);
 });

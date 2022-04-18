@@ -83,4 +83,21 @@
     border: 1px solid #ccc;
     box-shadow: rgb(101 119 134 / 20%) 0 0 15px, rgb(101 119 134 / 15%) 0 0 3px 1px;
     
-} 
+}
+
+.swapchat-talk-to-owner-btn {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    background: #605DEC;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+.swapchat-talk-to-owner-btn:hover {
+    background: rgba(93, 98, 231, 0.8);
+    opacity: 0.3;
+    color: #fff;
+    cursor: pointer;
+}
