@@ -1,7 +1,6 @@
 $().ready(() => {
   const host = location.host;
   const body = $("body");
-  console.log(body);
   const opensea = "opensea.io";
   const platform = "opensea";
   const iframeSrc = "https://chat.web3messaging.online";
@@ -9,7 +8,6 @@ $().ready(() => {
   const apiHost = "https://chat.web3messaging.online";
 
   if (host !== opensea) {
-    console.log("不是opensea，该插件无效");
     return;
   }
 
@@ -18,7 +16,6 @@ $().ready(() => {
     COLLECTION_ROOM: "collection-room",
     PRIVATE_ROOM: "private-room",
   };
-  console.log("插件生效");
 
   // 刷新页面的时候
   // setTimeout(function () {
@@ -29,7 +26,6 @@ $().ready(() => {
 
   // 右键菜单事件
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    console.log(request.info, "content");
     if (request.info && request.info === "create-private-room") {
       // checkUser();
     }
@@ -52,7 +48,6 @@ $().ready(() => {
           return Promise.reject(response.json());
         }
       });
-      console.log(res, "res");
     } catch (e) {
       console.log(e, "e");
     }
@@ -146,8 +141,7 @@ $().ready(() => {
     return selfUserName;
   }
 
-  async function createMessageBox(type) {
-    console.log("ready to create message box");
+  async function createMessageBox(type, ownerUserName = '') {
     let src = "";
     if (type === BUTTON_TYPE_ENUM.COLLECTION_ROOM) {
       let path = location.pathname.split("/");
@@ -157,7 +151,6 @@ $().ready(() => {
     }
     if (type === BUTTON_TYPE_ENUM.JOIN_ITEM_THREAD_ROOM) {
       // src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&collectionName=${collectionName}`;
-      console.log("创建thread");
       let realContractAddress = "";
       let realTokenId = "";
       let pathNameArr = location.pathname.split("/");
@@ -168,65 +161,25 @@ $().ready(() => {
       src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&itemTokenId=${realTokenId}&itemContractAddress=${realContractAddress}&fromPage=normal`;
     }
     if (type === BUTTON_TYPE_ENUM.PRIVATE_ROOM) {
-      let realAddress = "";
-      let addressBtn = $(".AccountHeader--address");
-      let innerAddress = addressBtn[0].innerText;
-      let simpleAddress = innerAddress.split("...");
-      if (addressBtn) {
-        addressBtn.click()
-        let t = document.createElement("input");
-        document.body.insertBefore(t, document.body.childNodes[0]);
-        t.focus();
-        document.execCommand("paste");
-        realAddress = t.value; //this is your clipboard data
-        document.body.removeChild(t);
-      }
-      // if (nextDataDom && nextDataDom.innerText) {
-      //   if (JSON.parse(nextDataDom.innerText)) {
-      //     let nextData = JSON.parse(nextDataDom.innerText);
-      //     console.log(nextData, "nextData");
-      //
-      //
-      //
-      //
-      //     let ethAddress = nextData?.props?.ssrData?.account?.address;
-      //     if (ethAddress) {
-      //       if (
-      //           ethAddress.indexOf(simpleAddress[0]) !== -1 &&
-      //           ethAddress.indexOf(simpleAddress[1]) !== -1
-      //       ) {
-      //         realAddress = ethAddress;
-      //       }
-      //     }
-      //
-      //     console.log(JSON.stringify(nextData).indexOf(simpleAddress[0]), 'start')
-      //     console.log(JSON.stringify(nextData).indexOf(simpleAddress[1]), 'end')
-      //
-      //
-      //
-      //   }
-      // }
-
-      // if (!realAddress) {
-      //   let scripts = document.getElementsByTagName("script");
-      //   let address = "";
-      //   for (let i = 0; i < scripts.length; i++) {
-      //     let currentScript = scripts[i];
-      //     if (currentScript.innerText.indexOf("__wired__") !== -1) {
-      //       if (
-      //         currentScript.innerText.indexOf(simpleAddress[0]) !== -1 &&
-      //         currentScript.innerText.indexOf(simpleAddress[1]) !== -1
-      //       ) {
-      //         let start = currentScript.innerText.indexOf(simpleAddress[0]);
-      //         let end = currentScript.innerText.indexOf(simpleAddress[1]);
-      //         address = currentScript.innerText.substring(start, end);
-      //       }
-      //     }
-      //   }
-      //   realAddress = address + simpleAddress[1];
-      // }
-      if (realAddress && realAddress.indexOf(simpleAddress[0]) !== -1 && realAddress.indexOf(simpleAddress[1]) !== -1) {
-        src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&openseaAccountAddress=${realAddress}&fromPage=normal`;
+      if (ownerUserName) {
+        src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&openseaAccountUsername=${ownerUserName}&fromPage=normal`;
+      }else {
+        let realAddress = "";
+        let addressBtn = $(".AccountHeader--address");
+        let innerAddress = addressBtn[0].innerText;
+        let simpleAddress = innerAddress.split("...");
+        if (addressBtn) {
+          addressBtn.click()
+          let t = document.createElement("input");
+          document.body.insertBefore(t, document.body.childNodes[0]);
+          t.focus();
+          document.execCommand("paste");
+          realAddress = t.value; //this is your clipboard data
+          document.body.removeChild(t);
+        }
+        if (realAddress && realAddress.indexOf(simpleAddress[0]) !== -1 && realAddress.indexOf(simpleAddress[1]) !== -1) {
+          src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&openseaAccountAddress=${realAddress}&fromPage=normal`;
+        }
       }
     }
 
@@ -270,7 +223,6 @@ $().ready(() => {
 
     messageHeaderEle.click(function () {
       let oriIcon = $(".slide-toggle-icon").attr("src");
-      console.log(oriIcon, "oriIcon");
       if (oriIcon.indexOf("Up") !== -1) {
         $(".slide-toggle-icon").attr(
           "src",
@@ -349,8 +301,6 @@ $().ready(() => {
     }
     let copyBoxEle = $("div[class*='InfoContainerreact__InfoContainer']");
     let copyBoxParentEle = copyBoxEle.parent();
-    console.log(copyBoxEle, "copyBoxEle");
-    console.log(copyBoxEle.className, "copyBoxEle");
     if (copyBoxEle[0]) {
 
       let copyBoxClassName = copyBoxEle[0].className;
@@ -448,7 +398,6 @@ $().ready(() => {
     let copyBtnClassName = btnParentELe[0].className;
     let buttonChildDiv = btnELe.children();
     let btnChildDivClassName = buttonChildDiv[0].className;
-    console.log(buttonChildDiv, "buttonChildDiv");
 
     let newBtnBoxEle = $(`
     <div class="${copyBtnBoxClassName} big-join-nft-room" style="margin-right: 10px; margin-bottom: 10px;">
@@ -497,6 +446,32 @@ Join the conversation Thread on this NFT art piece
     // itemCollectionToolbarWrapperEle.before(joinItemThreadRoomBtnDom);
   }
 
+  function createTalkToOwnerButton() {
+    let talkToOwnerDom = $(".swapchat-talk-to-owner-btn")
+    if (talkToOwnerDom.length > 0) {
+      return
+    }
+    let accountsDom = $("div[data-testid='ItemOwnerAccountLink']")
+    let ownerUsernameDom = accountsDom.find('a')
+    if (ownerUsernameDom.length > 0) {
+      let ownerUserName = ownerUsernameDom[0].innerText
+      let accountParent = accountsDom.parent()
+      if (accountParent.length > 0) {
+        let talkToOwnerEle = $(`
+          <div class="swapchat-talk-to-owner-btn">
+            <img style="width: 30px;height: auto; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
+            Talk To Owner
+          </div>
+        `)
+        talkToOwnerEle.click(function () {
+          createMessageBox(BUTTON_TYPE_ENUM.PRIVATE_ROOM, ownerUserName);
+        })
+        accountParent.after(talkToOwnerEle)
+      }
+    }
+  }
+
+
   function listenHistory() {
     // 当前path
     let path = location.pathname.split("/")[1];
@@ -516,6 +491,10 @@ Join the conversation Thread on this NFT art piece
     ) {
       createPrivateRoomButton();
     }
+    if ($("div[data-testid='ItemOwnerAccountLink']") && $("div[data-testid='ItemOwnerAccountLink']").length > 0) {
+      createTalkToOwnerButton()
+    }
+    //  data-testid="ItemOwnerAccountLink"
   }
 
   // 项目入口

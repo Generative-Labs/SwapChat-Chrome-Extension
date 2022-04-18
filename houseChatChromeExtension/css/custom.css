@@ -115,3 +115,23 @@
     width: 12px;
     height: 12px;
 }
+
+.swapchat-spaces-btn {
+    font-family: sans-serif;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding-left: 50px;
+    background: #605DEC;
+    margin-top: 20px;
+    border-radius: 16px;
+    color: #fff;
+    font-size: 18px;
+}
+
+.swapchat-spaces-btn:hover {
+    font-family: sans-serif;
+    background: rgba(93, 99, 231, 0.3);
+    font-weight: bold;
+    cursor: pointer;
+}
