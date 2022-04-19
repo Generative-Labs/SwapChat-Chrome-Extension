@@ -65,7 +65,7 @@ $().ready(() => {
     if (selfUserName === friendUserName) return;
     let src = `${iframeSrc}/chat/chatWebPage?userHash=${selfUserName}@@${friendUserName}&platform=${platform}&fromPage=normal`;
     if (spacesHash) {
-       src = `${iframeSrc}/chat/chatWebPage?=${selfUserName}@@${friendUserName}&platform=${platform}&fromPage=normal&spaceHash=${spacesHash}`;
+       src = `${iframeSrc}/chat/chatWebPage?userHash=${selfUserName}@@${friendUserName}&platform=${platform}&fromPage=normal&spaceHash=${encodeURIComponent(spacesHash)}`;
     }
     if ($(".twitter-housechan-message-box").length) {
       $(".twitter-housechan-message-header-iframe").remove();
