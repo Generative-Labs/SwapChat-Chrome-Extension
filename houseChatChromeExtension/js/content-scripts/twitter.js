@@ -55,17 +55,52 @@ $().ready(() => {
     }
     return selfUserName;
   }
+  function parseTwitterAvatar(avatarUrl) {
+    let urlArr = avatarUrl.split('/')
+    let newLast = urlArr[urlArr.length - 1].split('_')
+    urlArr[urlArr.length - 1] = [newLast[0], '400x400.jpg'].join('_')
+    return urlArr.join('/')
+  }
 
   async function createMessageBox(spacesHash= '') {
     // get friend username
     let friendUserName = location.pathname.split("/")[1];
     // get self username
     let selfUserName = getSelfNameByDom();
+    // get user avatar
+    let userAvatar = ''
+    let userInfoBox = $("div[data-testid='SideNav_AccountSwitcher_Button']")
+    let childImg = userInfoBox.find('img')
+    if (childImg.length > 0) {
+      let avatarUrl = childImg[0].currentSrc
+      if (avatarUrl) {
+        userAvatar = parseTwitterAvatar(avatarUrl)
+      }
+    }
+    let friendAvatar = ''
+    let str = `a[href='/${friendUserName}/photo']`
+    let friendInfoBox = $(str)
+    if (friendInfoBox) {
+      let friendChildImg = friendInfoBox.find('img')
+      if (friendChildImg && friendChildImg.length > 0) {
+        let friendAvatarUrl = friendChildImg[0].currentSrc
+        if (friendAvatarUrl) {
+          friendAvatar = parseTwitterAvatar(friendAvatarUrl)
+        }
+      }
+    }
     if (!selfUserName) return;
     if (selfUserName === friendUserName) return;
-    let src = `${iframeSrc}/chat/chatWebPage?userHash=${selfUserName}@@${friendUserName}&platform=${platform}&fromPage=normal`;
+    let src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&fromPage=normal`;
+      src += `&userHash=${encodeURIComponent(selfUserName + '@@' + friendUserName)}`
     if (spacesHash) {
-       src = `${iframeSrc}/chat/chatWebPage?userHash=${selfUserName}@@${friendUserName}&platform=${platform}&fromPage=normal&spaceHash=${encodeURIComponent(spacesHash)}`;
+      src += `&spaceHash=${encodeURIComponent(spacesHash)}`
+    }
+    if (userAvatar) {
+      src += `&twitterUserAvatar=${encodeURIComponent(userAvatar)}`
+    }
+    if (friendAvatar) {
+      src += `&twitterFriendAvatar=${encodeURIComponent(friendAvatar)}`
     }
     if ($(".twitter-housechan-message-box").length) {
       $(".twitter-housechan-message-header-iframe").remove();
