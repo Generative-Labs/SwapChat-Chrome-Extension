@@ -65,19 +65,37 @@
 .discord-housechan-message-box .discord-housechan-message-body {
     background: #fff;
 }
+.discord-swapchat-button {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 30px;
+    transform: translateY(50%);
+    display: flex;
+    align-items: center;
+    margin-right: 16px;
+    border: 1px solid #ccc;
+    background: #605DEC;
+    color: #fff;
+    padding: 5px;
+    border-radius: 10px;
+}
 
 .discord-housechan-icon {
     width: 30px;
     height: 30px;
     border-radius: 50%;
     margin-right: 10px;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    transform: translateY(50%);
+    /*position: absolute;*/
+    /*right: 0;*/
+    /*bottom: 0;*/
+    /*transform: translateY(50%);*/
     z-index: 999;
 }
 
-.discord-housechan-icon:hover {
+.discord-swapchat-button:hover {
     cursor: pointer;
+    background: rgba(93, 98, 231, 0.8);
+    opacity: 0.3;
+    color: #fff;
 }

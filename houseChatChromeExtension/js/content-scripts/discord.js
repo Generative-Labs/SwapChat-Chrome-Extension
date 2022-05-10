@@ -136,7 +136,12 @@ $().ready(() => {
         if (friendName === selfName) return
         console.log('ready to add icon')
         if (headerEle.length > 0) {
-            let houseChanButton = $(`<img class="discord-housechan-icon" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">`);
+            let houseChanButton = $(`
+<div class="discord-swapchat-button">
+    <img class="discord-housechan-icon" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
+    SwapChat Room
+</div>
+`);
             // headerDom.append(houseChanButton)
             headerEle.children().append(houseChanButton);
             houseChanButton.click(function () {
