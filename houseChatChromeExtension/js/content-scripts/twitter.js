@@ -72,10 +72,13 @@ $().ready(() => {
     let userInfoBox = $("div[data-testid='SideNav_AccountSwitcher_Button']")
     let childImg = userInfoBox.find('img')
     if (childImg.length > 0) {
-      let avatarUrl = childImg[0].currentSrc
-      if (avatarUrl) {
-        userAvatar = parseTwitterAvatar(avatarUrl)
+      if (childImg[0].currentSrc) {
+        userAvatar = childImg[0].currentSrc
       }
+      // let avatarUrl = childImg[0].currentSrc
+      // if (avatarUrl) {
+      //   userAvatar = parseTwitterAvatar(avatarUrl)
+      // }
     }
     let friendAvatar = ''
     let str = `a[href='/${friendUserName}/photo']`
@@ -83,9 +86,9 @@ $().ready(() => {
     if (friendInfoBox) {
       let friendChildImg = friendInfoBox.find('img')
       if (friendChildImg && friendChildImg.length > 0) {
-        let friendAvatarUrl = friendChildImg[0].currentSrc
-        if (friendAvatarUrl) {
-          friendAvatar = parseTwitterAvatar(friendAvatarUrl)
+        // let friendAvatarUrl = friendChildImg[0].currentSrc
+        if (friendChildImg[0].currentSrc) {
+          friendAvatar = friendChildImg[0].currentSrc
         }
       }
     }
