@@ -82,7 +82,19 @@ $().ready(() => {
     }
     let friendAvatar = ''
     let str = `a[href='/${friendUserName}/photo']`
+    let bannerStr = `a[href='/${friendUserName}/header_photo']`
     let friendInfoBox = $(str)
+    let friendBannerBox = $(bannerStr)
+    let friendTwitterId = 0
+    if (friendBannerBox) {
+      let friendBannerChildImg = friendBannerBox.find("img")
+      if (friendBannerChildImg && friendBannerChildImg.length > 0) {
+        if (friendBannerChildImg[0].currentSrc) {
+          let arr = friendBannerChildImg[0].currentSrc.split('profile_banners')
+          friendTwitterId = arr[arr.length - 1].split('/')[1]
+        }
+      }
+    }
     if (friendInfoBox) {
       let friendChildImg = friendInfoBox.find('img')
       if (friendChildImg && friendChildImg.length > 0) {
@@ -104,6 +116,9 @@ $().ready(() => {
     }
     if (friendAvatar) {
       src += `&twitterFriendAvatar=${encodeURIComponent(friendAvatar)}`
+    }
+    if (friendTwitterId) {
+      src += `&friendTwitterId=${encodeURIComponent(friendTwitterId)}`
     }
     if ($(".twitter-housechan-message-box").length) {
       $(".twitter-housechan-message-header-iframe").remove();
