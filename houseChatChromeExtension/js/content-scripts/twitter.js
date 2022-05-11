@@ -82,8 +82,12 @@ $().ready(() => {
     }
     let friendAvatar = ''
     let str = `a[href='/${friendUserName}/photo']`
+    let nftStr = `a[href='/${friendUserName}/nft']`
     let bannerStr = `a[href='/${friendUserName}/header_photo']`
     let friendInfoBox = $(str)
+    if (friendInfoBox.length <= 0) {
+      friendInfoBox = $(nftStr)
+    }
     let friendBannerBox = $(bannerStr)
     let friendTwitterId = 0
     if (friendBannerBox) {
