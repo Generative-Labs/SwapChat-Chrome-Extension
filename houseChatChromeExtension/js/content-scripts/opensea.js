@@ -141,7 +141,7 @@ $().ready(() => {
     return selfUserName;
   }
 
-  async function createMessageBox(type, ownerUserName = '') {
+  async function createMessageBox(type, ownerUserName = "") {
     let src = "";
     if (type === BUTTON_TYPE_ENUM.COLLECTION_ROOM) {
       let path = location.pathname.split("/");
@@ -163,22 +163,29 @@ $().ready(() => {
     if (type === BUTTON_TYPE_ENUM.PRIVATE_ROOM) {
       if (ownerUserName) {
         src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&openseaAccountUsername=${ownerUserName}&fromPage=normal`;
-      }else {
+      } else {
         let realAddress = "";
-        let addressBtn = $(".AccountHeader--address");
-        let innerAddress = addressBtn[0].innerText;
-        let simpleAddress = innerAddress.split("...");
-        if (addressBtn) {
-          addressBtn.click()
-          let t = document.createElement("input");
-          document.body.insertBefore(t, document.body.childNodes[0]);
-          t.focus();
-          document.execCommand("paste");
-          realAddress = t.value; //this is your clipboard data
-          document.body.removeChild(t);
-        }
-        if (realAddress && realAddress.indexOf(simpleAddress[0]) !== -1 && realAddress.indexOf(simpleAddress[1]) !== -1) {
-          src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&openseaAccountAddress=${realAddress}&fromPage=normal`;
+        let addressAELe = $("a[class*='PhoenixAddressPillreact_']");
+        if (addressAELe && addressAELe.length > 0) {
+          let addressBtn = addressAELe.find("button");
+          if (addressBtn) {
+            let innerAddress = addressBtn[0].innerText;
+            let simpleAddress = innerAddress.split("...");
+            addressBtn.click();
+            let t = document.createElement("input");
+            document.body.insertBefore(t, document.body.childNodes[0]);
+            t.focus();
+            document.execCommand("paste");
+            realAddress = t.value; //this is your clipboard data
+            document.body.removeChild(t);
+            if (
+                realAddress &&
+                realAddress.indexOf(simpleAddress[0]) !== -1 &&
+                realAddress.indexOf(simpleAddress[1]) !== -1
+            ) {
+              src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&openseaAccountAddress=${realAddress}&fromPage=normal`;
+            }
+          }
         }
       }
     }
@@ -260,38 +267,25 @@ $().ready(() => {
     )
       return;
 
-    let publicBoxEle = $("div[class^='AccountLinksBarreact__DivContainer']");
-    let btnBoxDom = publicBoxEle.children()[1];
-    let btnBoxELe = $(btnBoxDom).children();
-    let btnBoxClassName = btnBoxELe[0].className;
-    let btnClassName = btnBoxELe.children()[0].className;
-    let btnDom = btnBoxELe.find('button')
-    let brnDomClass = btnDom[0].className
-    let buttonDom = $(`
+    let copyELe = $("div[class*='PhoenixLayoutreact__NameRow']");
+    if (copyELe && copyELe.length > 0) {
+      let buttonDom = $(`
         <div
-        class="opensea-create-private-room ${btnBoxClassName}"
-         style="
-         margin-right: 10px;
-         "
+        class="opensea-create-private-room"
          >
-           <div class="${btnClassName}">
-             <button type="button" class="${brnDomClass}" style="
-             background: #fff;
-            display: flex;
-            align-items: center;
-        ">
+           <div class="opensea-create-private-room-btn-box">
                  <img style="width: 28px;height: 28px; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
                 Create a SwapChat
-             </button>
           </div>
         </div>
         `);
 
-    buttonDom.click(function () {
-      createMessageBox(BUTTON_TYPE_ENUM.PRIVATE_ROOM);
-    });
+      buttonDom.click(function () {
+        createMessageBox(BUTTON_TYPE_ENUM.PRIVATE_ROOM);
+      });
+      copyELe.next().after(buttonDom);
+    }
 
-    $(btnBoxDom).prepend(buttonDom);
   }
 
   function newCreateJoinNFTRoomButton() {
@@ -299,28 +293,18 @@ $().ready(() => {
     if (btnEle.length && btnEle.length > 0) {
       return;
     }
-    let copyBoxEle = $("div[class*='InfoContainerreact__InfoContainer']");
+    let copyBoxEle = $("div[class*='PhoenixInforeact__DetailsContainer']");
     let copyBoxParentEle = copyBoxEle.parent();
     if (copyBoxEle[0]) {
-
       let copyBoxClassName = copyBoxEle[0].className;
 
       let newBox = $(`
-      <div class="${copyBoxClassName} create-join-collection-room-button" style="width: 100%; margin: 10px auto; overflow:hidden;">
+      <div class="create-join-collection-room-button" style="width: 100%; margin: 10px auto; overflow:hidden;">
         </div>
     `);
       let newbtnBox = $(`
       <div class="join-collection-room-button">
-        <div class="join-collection-room-button-test-box" style="
-    width: 100%;
-    height: 60px;
-    background: #fff;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    ">
+        <div class="join-collection-room-button-test-box">
              <img style="width: 30px;height: auto; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
             Join NFT Room
         </div>
@@ -447,30 +431,29 @@ Join the conversation Thread on this NFT art piece
   }
 
   function createTalkToOwnerButton() {
-    let talkToOwnerDom = $(".swapchat-talk-to-owner-btn")
+    let talkToOwnerDom = $(".swapchat-talk-to-owner-btn");
     if (talkToOwnerDom.length > 0) {
-      return
+      return;
     }
-    let accountsDom = $("div[data-testid='ItemOwnerAccountLink']")
-    let ownerUsernameDom = accountsDom.find('a')
+    let accountsDom = $("div[data-testid='ItemOwnerAccountLink']");
+    let ownerUsernameDom = accountsDom.find("a");
     if (ownerUsernameDom.length > 0) {
-      let ownerUserName = ownerUsernameDom[0].innerText
-      let accountParent = accountsDom.parent()
+      let ownerUserName = ownerUsernameDom[0].innerText;
+      let accountParent = accountsDom.parent();
       if (accountParent.length > 0) {
         let talkToOwnerEle = $(`
           <div class="swapchat-talk-to-owner-btn">
             <img style="width: 30px;height: auto; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
             Talk To Owner
           </div>
-        `)
+        `);
         talkToOwnerEle.click(function () {
           createMessageBox(BUTTON_TYPE_ENUM.PRIVATE_ROOM, ownerUserName);
-        })
-        accountParent.after(talkToOwnerEle)
+        });
+        accountParent.after(talkToOwnerEle);
       }
     }
   }
-
 
   function listenHistory() {
     // 当前path
@@ -484,17 +467,18 @@ Join the conversation Thread on this NFT art piece
     if (path === "assets") {
       createJoinItemThreadRoom();
     }
-
     if (
-      $(".AccountHeader--image-container") &&
-      $(".AccountHeader--image-container").length > 0
+      $("div[class*='PhoenixHeaderImagereact__Container']") &&
+      $("div[class*='PhoenixHeaderImagereact__Container']").length > 0
     ) {
       createPrivateRoomButton();
     }
-    if ($("div[data-testid='ItemOwnerAccountLink']") && $("div[data-testid='ItemOwnerAccountLink']").length > 0) {
-      createTalkToOwnerButton()
+    if (
+      $("div[data-testid='ItemOwnerAccountLink']") &&
+      $("div[data-testid='ItemOwnerAccountLink']").length > 0
+    ) {
+      createTalkToOwnerButton();
     }
-    //  data-testid="ItemOwnerAccountLink"
   }
 
   // 项目入口
