@@ -164,29 +164,15 @@ $().ready(() => {
       if (ownerUserName) {
         src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&openseaAccountUsername=${ownerUserName}&fromPage=normal`;
       } else {
-        let realAddress = "";
-        let addressAELe = $("a[class*='PhoenixAddressPillreact_']");
-        if (addressAELe && addressAELe.length > 0) {
-          let addressBtn = addressAELe.find("button");
-          if (addressBtn) {
-            let innerAddress = addressBtn[0].innerText;
-            let simpleAddress = innerAddress.split("...");
-            addressBtn.click();
-            let t = document.createElement("input");
-            document.body.insertBefore(t, document.body.childNodes[0]);
-            t.focus();
-            document.execCommand("paste");
-            realAddress = t.value; //this is your clipboard data
-            document.body.removeChild(t);
-            if (
-                realAddress &&
-                realAddress.indexOf(simpleAddress[0]) !== -1 &&
-                realAddress.indexOf(simpleAddress[1]) !== -1
-            ) {
-              src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&openseaAccountAddress=${realAddress}&fromPage=normal`;
-            }
+          let pathname = location.pathname
+          let arrs = pathname.split('/')
+          let accountOrAddress = arrs[1]
+          if ((accountOrAddress.length === 42 && accountOrAddress.indexOf('0x') !== -1) || accountOrAddress.length === 44 ) {
+              // eth wallet address
+              src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&openseaAccountAddress=${accountOrAddress}&fromPage=normal`;
+          } else  {
+              src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&openseaAccountUsername=${accountOrAddress}&fromPage=normal`;
           }
-        }
       }
     }
 
@@ -266,25 +252,29 @@ $().ready(() => {
       $(".opensea-create-private-room").length > 0
     )
       return;
+    let shareButton = $("i[value='share']")
+      let parents = shareButton.parents("button");
 
-    let copyELe = $("div[class*='PhoenixLayoutreact__NameRow']");
-    if (copyELe && copyELe.length > 0) {
-      let buttonDom = $(`
-        <div
-        class="opensea-create-private-room"
-         >
-           <div class="opensea-create-private-room-btn-box">
-                 <img style="width: 28px;height: 28px; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
-                Create a SwapChat
+    let createRoomBtn = $(`
+    <div class="opensea-create-private-room-btn-box">
+                 <img style="width: 20px;height: 20px; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
+                 <div>
+                Create a SwapChat 
+</div>
+                
           </div>
+    `)
+      let buttonDom = $(`
+        <div class="opensea-create-private-room">
         </div>
         `);
+    // buttonDom.append(miniBtn)
+    buttonDom.append(createRoomBtn)
 
-      buttonDom.click(function () {
+    createRoomBtn.click(function () {
         createMessageBox(BUTTON_TYPE_ENUM.PRIVATE_ROOM);
       });
-      copyELe.next().after(buttonDom);
-    }
+      parents.parent().after(buttonDom)
 
   }
 
@@ -293,28 +283,20 @@ $().ready(() => {
     if (btnEle.length && btnEle.length > 0) {
       return;
     }
-    let copyBoxEle = $("div[class*='PhoenixInforeact__DetailsContainer']");
-    let copyBoxParentEle = copyBoxEle.parent();
-    if (copyBoxEle[0]) {
-      let copyBoxClassName = copyBoxEle[0].className;
-
+    let likeButtonEle = $("button[data-testid='phoenix-watchlist-button']")
+    if (likeButtonEle[0]) {
       let newBox = $(`
-      <div class="create-join-collection-room-button" style="width: 100%; margin: 10px auto; overflow:hidden;">
-        </div>
-    `);
-      let newbtnBox = $(`
-      <div class="join-collection-room-button">
-        <div class="join-collection-room-button-test-box">
-             <img style="width: 30px;height: auto; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
+      <div class="create-join-collection-room-button" style="margin: 10px auto; overflow:hidden;">
+        <div class="join-collection-room-button">
+             <img style="width: 20px;height: auto; margin-right: 20px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
             Join NFT Room
         </div>
-       </div>
+      </div>
     `);
-      newbtnBox.click(function () {
+      newBox.click(function () {
         createMessageBox(BUTTON_TYPE_ENUM.COLLECTION_ROOM);
       });
-      newBox.append(newbtnBox);
-      copyBoxParentEle.append(newBox);
+      likeButtonEle.parent().append(newBox)
     }
   }
 
@@ -467,10 +449,8 @@ Join the conversation Thread on this NFT art piece
     if (path === "assets") {
       createJoinItemThreadRoom();
     }
-    if (
-      $("div[class*='PhoenixHeaderImagereact__Container']") &&
-      $("div[class*='PhoenixHeaderImagereact__Container']").length > 0
-    ) {
+
+    if ($("img[imagevariant='profile']") && $("img[imagevariant='profile']").length > 0) {
       createPrivateRoomButton();
     }
     if (

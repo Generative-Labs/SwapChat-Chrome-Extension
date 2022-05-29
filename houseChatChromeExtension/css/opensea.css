@@ -65,17 +65,28 @@
 
 
 .create-join-collection-room-button {
+    height: 48px;
+    position: absolute;
+    right: 0;
+    transform: translateY(50px);
     border-radius: 10px;
+    overflow: hidden;
 }
 .create-join-collection-room-button .join-collection-room-button {
-    width: 100%;
+    padding: 0 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.join-collection-room-button img {
-    width: 50%;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    color: #FFFFFF;
+    background: #605DEC;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    white-space: nowrap;
 }
 
 .create-join-collection-room-button:hover {
@@ -101,36 +112,31 @@
     cursor: pointer;
 }
 
-.join-collection-room-button-test-box {
-    width: 100%;
-    height: 60px;
-    border: 1px solid #ccc;
-    background: #605DEC;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-weight: 700;
-}
 
 .opensea-create-private-room{
-    width: 100%;
-    height: 60px;
-    padding:0 32px;
+    height: 48px;
+    position: absolute;
+    right: 0;
+    transform: translateY(50px);
+
 }
 
 .opensea-create-private-room .opensea-create-private-room-btn-box {
-    width: 100%;
-    height: 100%;
-    border: 1px solid #ccc;
-    background: #605DEC;
-    color: #fff;
+    /*position: absolute;*/
+    /*right: 0;*/
+    padding: 0 24px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-weight: 700;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    color: #FFFFFF;
+    background: #605DEC;
     border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    white-space: nowrap;
 }
 
 .opensea-create-private-room .opensea-create-private-room-btn-box:hover{
