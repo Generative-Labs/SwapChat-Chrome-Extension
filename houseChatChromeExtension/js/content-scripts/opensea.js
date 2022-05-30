@@ -17,12 +17,34 @@ $().ready(() => {
     PRIVATE_ROOM: "private-room",
   };
 
-  // 刷新页面的时候
-  // setTimeout(function () {
-  //   if (getSelfNameByDom()) {
-  //     createPrivateRoomButton();
-  //   }
-  // }, 3000);
+
+  const trySwapchatBtnsBox = $(`
+    <div class="try-swapchat-btns-box" style="margin: 0;">
+    
+    </div>
+  `)
+  const trySwapchatBox = $(`
+    <div class="item--counts try-swapchat-box">
+    </div>
+  `)
+  $('.item--counts').after(trySwapchatBox)
+
+
+  function pushHeaderToSwapChatBox() {
+    if ($('.try-swapchat-header-box') && $('.try-swapchat-header-box').length > 0) return
+    let headerBox = $(`
+      <div style="height: 63px; width: 100%; margin: 0;" class="try-swapchat-header-box">
+        <img style="width: 20px;height: 20px; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
+        <div>
+          Try SwapChat 
+        </div>
+      </div>
+    `)
+    trySwapchatBox.append(headerBox)
+    trySwapchatBox.append(trySwapchatBtnsBox)
+    console.log(trySwapchatBox, 'trySwapchatBox')
+  }
+
 
   // 右键菜单事件
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -341,24 +363,17 @@ $().ready(() => {
   }
 
   function createJoinItemThreadRoom() {
-    if ($(".join-nft-room-thread") && $(".join-nft-room-thread").length > 0) return;
-    let newBtnBoxEle = $(`
-      <div class="join-nft-room-thread">
-      </div>
-    `);
+    if ($(".join-nft-room-button") && $(".join-nft-room-button").length > 0) return;
     let newBtnEle = $(`
       <div class="join-nft-room-button">
-        <img  src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" style="width: 23px;height: 23px; margin-right: 10px;" alt="">
-        <div> Join the conversation Thread on this NFT art piece </div>
+        <img  src="https://chat.web3messaging.online/assets/icon/JoinThreadIcon.svg" style="width: 23px;height: 23px; margin-right: 10px;" alt="">
+        <div> Join thread </div>
       </div>
     `);
-
     newBtnEle.click(function () {
       createMessageBox(BUTTON_TYPE_ENUM.JOIN_ITEM_THREAD_ROOM);
     });
-    newBtnBoxEle.append(newBtnEle);
-    let itemToolbarEle = $(".item--collection-info");
-    itemToolbarEle.parent().append(newBtnBoxEle)
+    trySwapchatBtnsBox.append(newBtnEle)
   }
 
   function createTalkToOwnerButton() {
@@ -369,20 +384,20 @@ $().ready(() => {
     let accountsDom = $("div[data-testid='ItemOwnerAccountLink']");
     let ownerUsernameDom = accountsDom.find("a");
     if (ownerUsernameDom.length > 0) {
+      // 添加 talk to owner 按钮
       let ownerUserName = ownerUsernameDom[0].innerText;
-      let accountParent = accountsDom.parent();
-      if (accountParent.length > 0) {
-        let talkToOwnerEle = $(`
+      let talkToOwnerEle = $(`
           <div class="swapchat-talk-to-owner-btn">
-            <img style="width: 30px;height: auto; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
-            Talk To Owner
+            <img style="width: 23px;height: 23px; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/trySwapchatOwnerIcon.svg" alt="">
+            <div>Message owner</div>
           </div>
         `);
-        talkToOwnerEle.click(function () {
+      talkToOwnerEle.click(function () {
           createMessageBox(BUTTON_TYPE_ENUM.PRIVATE_ROOM, ownerUserName);
-        });
-        accountParent.after(talkToOwnerEle);
-      }
+      });
+      // 添加header
+      pushHeaderToSwapChatBox()
+      trySwapchatBtnsBox.append(talkToOwnerEle)
     }
   }
 
