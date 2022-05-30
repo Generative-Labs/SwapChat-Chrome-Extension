@@ -341,75 +341,24 @@ $().ready(() => {
   }
 
   function createJoinItemThreadRoom() {
-    // if ($(".join-item-Thread-room") && $(".join-item-Thread-room").length > 0)
-    //   return;
-    let itemCollectionToolbarWrapperEle = $(
-      ".item--collection-toolbar-wrapper"
-    );
-    if ($(".big-join-nft-room") && $(".big-join-nft-room").length > 0) return;
-
-    let priceBox = $(".TradeStation--price-container");
-    let askButtonBox = null;
-    if (priceBox.length > 0) {
-      askButtonBox = priceBox.next();
-    } else {
-      priceBox = $(".TradeStation--main");
-      askButtonBox = $(".TradeStation--main");
-    }
-    let btnELe = askButtonBox.find("button");
-    let btnParentELe = btnELe.parent();
-    let btnGrandFatherEle = btnParentELe.parent();
-    askButtonBox.css("max-width", "100%");
-    let copyBtnBoxClassName = btnELe[0].className;
-    let copyBtnClassName = btnParentELe[0].className;
-    let buttonChildDiv = btnELe.children();
-    let btnChildDivClassName = buttonChildDiv[0].className;
-
+    if ($(".join-nft-room-thread") && $(".join-nft-room-thread").length > 0) return;
     let newBtnBoxEle = $(`
-    <div class="${copyBtnBoxClassName} big-join-nft-room" style="margin-right: 10px; margin-bottom: 10px;">
-    </div>
+      <div class="join-nft-room-thread">
+      </div>
     `);
-
     let newBtnEle = $(`
-      <button type="button" width="100%" class="${copyBtnClassName}" style="    background: none;
-    border: none;
-    width: 100%;
-    align-items: center;
-    justify-content: center;">
-      <div class="${btnChildDivClassName}">
-      <img  src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" style="width: 30px;" alt="">
-</div>
-Join the conversation Thread on this NFT art piece
-</button>
+      <div class="join-nft-room-button">
+        <img  src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" style="width: 23px;height: 23px; margin-right: 10px;" alt="">
+        <div> Join the conversation Thread on this NFT art piece </div>
+      </div>
     `);
 
     newBtnEle.click(function () {
       createMessageBox(BUTTON_TYPE_ENUM.JOIN_ITEM_THREAD_ROOM);
     });
-
     newBtnBoxEle.append(newBtnEle);
-    //
-    priceBox.after(newBtnBoxEle);
-    // btnGrandFatherEle.prepend(newBtnBoxEle);
-    //
-    // let itemChildBox = itemCollectionToolbarWrapperEle.children();
-    // let btnEle = itemChildBox.find("button");
-    // let btnClassName = btnEle[0].className;
-    // let btnDivClassName = itemCollectionToolbarWrapperEle[0].className;
-    // let itemChildBoxClassName = itemChildBox[0].className;
-    //
-    // let joinItemThreadRoomBtnDom = $(`
-    //   <div class="join-item-Thread-room ${btnDivClassName}" style="min-width: 200px;">
-    //     <div class="${itemChildBoxClassName}">
-    //     <button class="${btnClassName}">
-    //
-    //       <img style="width: 24px;height: 24px; border-radius: 50%; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
-    //           Join NFT Thread
-    //     </button>
-    //     </div>
-    //   </div>
-    // `);
-    // itemCollectionToolbarWrapperEle.before(joinItemThreadRoomBtnDom);
+    let itemToolbarEle = $(".item--collection-info");
+    itemToolbarEle.parent().append(newBtnBoxEle)
   }
 
   function createTalkToOwnerButton() {
