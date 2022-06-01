@@ -80,9 +80,8 @@
 
 .create-join-collection-room-button:hover {
     cursor: pointer;
-    border: 1px solid #ccc;
-    box-shadow: rgb(101 119 134 / 20%) 0 0 15px, rgb(101 119 134 / 15%) 0 0 3px 1px;
-    
+    background: #5250BF;
+
 }
 
 .swapchat-talk-to-owner-btn {
@@ -96,8 +95,7 @@
     border-radius: 10px;
 }
 .swapchat-talk-to-owner-btn:hover {
-    background: rgba(93, 98, 231, 0.8);
-    opacity: 0.3;
+    background: #5250BF;
     color: #fff;
     cursor: pointer;
 }

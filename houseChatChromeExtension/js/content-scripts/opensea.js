@@ -5,7 +5,6 @@ $().ready(() => {
   const platform = "opensea";
   const iframeSrc = "https://chat.web3messaging.online";
   // const iframeSrc = "http://localhost:3000";
-  const apiHost = "https://chat.web3messaging.online";
 
   if (host !== opensea) {
     return;
@@ -17,152 +16,7 @@ $().ready(() => {
     PRIVATE_ROOM: "private-room",
   };
 
-
-  const trySwapchatBtnsBox = $(`
-    <div class="try-swapchat-btns-box" style="margin: 0;">
-    
-    </div>
-  `)
-  const trySwapchatBox = $(`
-    <div class="item--counts try-swapchat-box">
-    </div>
-  `)
-  $('.item--counts').after(trySwapchatBox)
-
-
-  function pushHeaderToSwapChatBox() {
-    if ($('.try-swapchat-header-box') && $('.try-swapchat-header-box').length > 0) return
-    let headerBox = $(`
-      <div style="height: 63px; width: 100%; margin: 0;" class="try-swapchat-header-box">
-        <img style="width: 20px;height: 20px; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
-        <div>
-          Try SwapChat 
-        </div>
-      </div>
-    `)
-    trySwapchatBox.append(headerBox)
-    trySwapchatBox.append(trySwapchatBtnsBox)
-    console.log(trySwapchatBox, 'trySwapchatBox')
-  }
-
-
-  // 右键菜单事件
-  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.info && request.info === "create-private-room") {
-      // checkUser();
-    }
-  });
-
-  async function selfFetch(url, params, headers = null) {
-    let res = null;
-    try {
-      res = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        mode: "cors",
-        body: JSON.stringify(params),
-      }).then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        } else {
-          return Promise.reject(response.json());
-        }
-      });
-    } catch (e) {
-      console.log(e, "e");
-    }
-    if (res && res.data) {
-      return res.data;
-    }
-    return res;
-  }
-
-  async function registerUser(platform, username) {
-    return await selfFetch(`${apiHost}/register`, {
-      platform: platform,
-      user_name: username,
-    });
-  }
-
-  async function verifyPlatform(url) {
-    return await selfFetch(`${apiHost}/verify_platform`, {
-      tweet_url: url,
-    });
-  }
-
   // 获取house用户信息
-  async function getHouseUserInfo(platform, username) {
-    return await selfFetch(`${apiHost}/info`, {
-      platform: platform,
-      user_name: username,
-    });
-  }
-
-  async function getLoginRandomSecret(address) {
-    return await selfFetch(`${apiHost}/login_random_secret`, {
-      wallet_address: address,
-    });
-  }
-
-  function loginToHouse() {
-    chrome.runtime.sendMessage({
-      info: "ready-create-auth-page",
-    });
-  }
-
-  function openTweetDialog(platform) {
-    let dialog = $(`
-      <div class="bind-platform-dialog-box">
-        <div class="bind-platform-dialog">
-            <div>
-              <img class="close-icon" src="https://d97ch61yqe5j6.cloudfront.net/frontend/closeIcon.png" alt="">
-            </div>
-            <h1>You must bind your Twitter </h1>
-            <div>
-                step1. <a class="send-tweet-button" href="https://twitter.com/intent/tweet?text=I am verifying my HCCS account, my wallet address is: 0x0000000" target="_blank">Send</a> a tweet
-            </div>
-           <div>
-            <p>step2. Enter the tweet address here</p>
-            <input type="text" placeholder="Enter the tweet address here" class="bind-platform-input" value="">
-           </div>
-            <div class="bind-platform-btns">
-            <p>step3. <span class="submit-address-tweet-button">submit</span> the tweet address to us</p>
-            </div>
-        </div>
-     </div>   
-    `);
-    body.append(dialog);
-    $(".close-icon").click(function () {
-      $(".bind-platform-dialog-box").remove();
-    });
-    $(".submit-address-tweet-button").click(function () {
-      let url = $(".bind-platform-input")[0].value;
-      if (!url) return;
-      verifyPlatform(url).then((bindRes) => {
-        if (bindRes.code !== 0) {
-          alert(bindRes.msg);
-        }
-        $(".bind-platform-dialog-box").remove();
-        createMessageBox();
-      });
-    });
-  }
-
-  function getSelfNameByDom() {
-    let selfDom = $("a[data-testid='AppTabBar_Profile_Link']");
-    let selfUserName = "";
-    if (selfDom[0]) {
-      let hrefValue = selfDom[0].href;
-      if (hrefValue && hrefValue.split("/")) {
-        let hrefArr = hrefValue.split("/");
-        selfUserName = hrefArr[hrefArr.length - 1];
-      }
-    }
-    return selfUserName;
-  }
-
   async function createMessageBox(type, ownerUserName = "") {
     let src = "";
     if (type === BUTTON_TYPE_ENUM.COLLECTION_ROOM) {
@@ -186,15 +40,19 @@ $().ready(() => {
       if (ownerUserName) {
         src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&openseaAccountUsername=${ownerUserName}&fromPage=normal`;
       } else {
-          let pathname = location.pathname
-          let arrs = pathname.split('/')
-          let accountOrAddress = arrs[1]
-          if ((accountOrAddress.length === 42 && accountOrAddress.indexOf('0x') !== -1) || accountOrAddress.length === 44 ) {
-              // eth wallet address
-              src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&openseaAccountAddress=${accountOrAddress}&fromPage=normal`;
-          } else  {
-              src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&openseaAccountUsername=${accountOrAddress}&fromPage=normal`;
-          }
+        let pathname = location.pathname;
+        let arrs = pathname.split("/");
+        let accountOrAddress = arrs[1];
+        if (
+          (accountOrAddress.length === 42 &&
+            accountOrAddress.indexOf("0x") !== -1) ||
+          accountOrAddress.length === 44
+        ) {
+          // eth wallet address
+          src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&openseaAccountAddress=${accountOrAddress}&fromPage=normal`;
+        } else {
+          src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&openseaAccountUsername=${accountOrAddress}&fromPage=normal`;
+        }
       }
     }
 
@@ -274,30 +132,29 @@ $().ready(() => {
       $(".opensea-create-private-room").length > 0
     )
       return;
-    let shareButton = $("i[value='share']")
-      let parents = shareButton.parents("button");
+    let shareButton = $("i[value='share']");
+    let parents = shareButton.parents("button");
 
     let createRoomBtn = $(`
     <div class="opensea-create-private-room-btn-box">
-                 <img style="width: 20px;height: 20px; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
+                 <img style="width: 16px;height: 16px; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/addJoinIcon.svg" alt="">
                  <div>
                 Create a SwapChat 
 </div>
                 
           </div>
-    `)
-      let buttonDom = $(`
+    `);
+    let buttonDom = $(`
         <div class="opensea-create-private-room">
         </div>
         `);
     // buttonDom.append(miniBtn)
-    buttonDom.append(createRoomBtn)
+    buttonDom.append(createRoomBtn);
 
     createRoomBtn.click(function () {
-        createMessageBox(BUTTON_TYPE_ENUM.PRIVATE_ROOM);
-      });
-      parents.parent().after(buttonDom)
-
+      createMessageBox(BUTTON_TYPE_ENUM.PRIVATE_ROOM);
+    });
+    parents.parent().after(buttonDom);
   }
 
   function newCreateJoinNFTRoomButton() {
@@ -305,99 +162,81 @@ $().ready(() => {
     if (btnEle.length && btnEle.length > 0) {
       return;
     }
-    let likeButtonEle = $("button[data-testid='phoenix-watchlist-button']")
+    let likeButtonEle = $("button[data-testid='phoenix-watchlist-button']");
     if (likeButtonEle[0]) {
       let newBox = $(`
       <div class="create-join-collection-room-button" style="margin: 10px auto; overflow:hidden;">
         <div class="join-collection-room-button">
-             <img style="width: 20px;height: auto; margin-right: 20px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
-            Join NFT Room
+             <img style="width: 16px;height: auto; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/addJoinIcon.svg" alt="">
+            Join SwapChat NFT room
         </div>
       </div>
     `);
       newBox.click(function () {
         createMessageBox(BUTTON_TYPE_ENUM.COLLECTION_ROOM);
       });
-      likeButtonEle.parent().append(newBox)
+      likeButtonEle.parent().append(newBox);
     }
   }
 
-  function createCollectionRoomButton() {
-    let collectHeaderEle = $(".CollectionHeader--info");
-    let btnEle = $(".create-collection-room-button");
-    if (btnEle.length && btnEle.length > 0) {
-      return;
-    }
-    if (!collectHeaderEle.length) return;
-    // 获取最外层div
-    let btnsBox = collectHeaderEle.next();
-    // 获取add to watchlist
-    let firstBtnBox = btnsBox.children();
-    let firstBtnChildren = $(firstBtnBox[0]).children();
-    let btnClassName = firstBtnBox[0].className;
-    let btnBoxClassName = firstBtnChildren[0].className;
-    let buttonDom = $(`
-        <div
-        class="create-collection-room-button ${btnBoxClassName}"
-         style=" 
-         margin-right: 10px;
-         "
-         >
-         <button type="button" class="${btnClassName}" style="
-         background: #fff;
-        border: none;
-        display: flex;
-        align-items: center;
-    ">
-             <img style="width: 23px;height: 23px; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
-            Join NFT Room
-        </button>
-        </div>
-        `);
-
-    buttonDom.click(function () {
-      createMessageBox(BUTTON_TYPE_ENUM.COLLECTION_ROOM);
-    });
-
-    btnsBox.prepend(buttonDom);
-  }
-
+  // thread
   function createJoinItemThreadRoom() {
-    if ($(".join-nft-room-button") && $(".join-nft-room-button").length > 0) return;
+    const trySwapchatBtnsBox = $(
+      `<div class="try-swapchat-btns-box" style="margin: 0;"></div>`
+    );
+    const headerBox = $(`
+      <div style="height: 63px; width: 100%; margin: 0;" class="try-swapchat-header-box">
+        <img style="width: 20px;height: 20px; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
+        <div>
+          Try SwapChat 
+        </div>
+      </div>    
+`);
+    const trySwapchatBox = $(
+      `<div class="item--counts try-swapchat-box"></div>`
+    );
+    if ($(".join-nft-room-button") && $(".join-nft-room-button").length > 0)
+      return;
     let newBtnEle = $(`
       <div class="join-nft-room-button">
-        <img  src="https://chat.web3messaging.online/assets/icon/JoinThreadIcon.svg" style="width: 23px;height: 23px; margin-right: 10px;" alt="">
+        <img  src="https://chat.web3messaging.online/assets/icon/newJoinThreadIcon.svg" style="width: 23px;height: 23px; margin-right: 10px;" alt="">
         <div> Join thread </div>
       </div>
     `);
     newBtnEle.click(function () {
       createMessageBox(BUTTON_TYPE_ENUM.JOIN_ITEM_THREAD_ROOM);
     });
-    trySwapchatBtnsBox.append(newBtnEle)
-  }
-
-  function createTalkToOwnerButton() {
-    let talkToOwnerDom = $(".swapchat-talk-to-owner-btn");
-    if (talkToOwnerDom.length > 0) {
-      return;
+    if (!$(".try-swapchat-box") || $(".try-swapchat-box").length <= 0) {
+      trySwapchatBtnsBox.append(newBtnEle);
+      trySwapchatBox.append(headerBox);
+      trySwapchatBox.append(trySwapchatBtnsBox);
+      $(".item--counts").after(trySwapchatBox);
     }
-    let accountsDom = $("div[data-testid='ItemOwnerAccountLink']");
-    let ownerUsernameDom = accountsDom.find("a");
-    if (ownerUsernameDom.length > 0) {
-      // 添加 talk to owner 按钮
-      let ownerUserName = ownerUsernameDom[0].innerText;
-      let talkToOwnerEle = $(`
-          <div class="swapchat-talk-to-owner-btn">
-            <img style="width: 23px;height: 23px; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/trySwapchatOwnerIcon.svg" alt="">
-            <div>Message owner</div>
-          </div>
-        `);
-      talkToOwnerEle.click(function () {
+    if (
+      $("div[data-testid='ItemOwnerAccountLink']") &&
+      $("div[data-testid='ItemOwnerAccountLink']").length > 0
+    ) {
+      let talkToOwnerDom = $(".swapchat-talk-to-owner-btn");
+      if (talkToOwnerDom.length > 0) {
+        return;
+      }
+      let accountsDom = $("div[data-testid='ItemOwnerAccountLink']");
+      let ownerUsernameDom = accountsDom.find("a");
+      if (ownerUsernameDom.length > 0) {
+        // 添加 talk to owner 按钮
+        let ownerUserName = ownerUsernameDom[0].innerText;
+        let talkToOwnerEle = $(`
+      <div class="swapchat-talk-to-owner-btn">
+        <img style="width: 23px;height: 23px; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newtrySwapchatOwnerIcon.svg" alt="">
+        <div>Message owner</div>
+      </div>
+    `);
+        talkToOwnerEle.click(function () {
           createMessageBox(BUTTON_TYPE_ENUM.PRIVATE_ROOM, ownerUserName);
-      });
-      // 添加header
-      pushHeaderToSwapChatBox()
-      trySwapchatBtnsBox.append(talkToOwnerEle)
+        });
+        // 添加header
+        trySwapchatBtnsBox.append(talkToOwnerEle);
+      }
     }
   }
 
@@ -414,14 +253,11 @@ $().ready(() => {
       createJoinItemThreadRoom();
     }
 
-    if ($("img[imagevariant='profile']") && $("img[imagevariant='profile']").length > 0) {
-      createPrivateRoomButton();
-    }
     if (
-      $("div[data-testid='ItemOwnerAccountLink']") &&
-      $("div[data-testid='ItemOwnerAccountLink']").length > 0
+      $("img[imagevariant='profile']") &&
+      $("img[imagevariant='profile']").length > 0
     ) {
-      createTalkToOwnerButton();
+      createPrivateRoomButton();
     }
   }
 

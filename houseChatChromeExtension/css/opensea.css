@@ -54,8 +54,8 @@
     z-index: 999;
 }
 
-
 .create-private-room:hover {
+    background: #5250BF;
     cursor: pointer;
 }
 .opensea-housechan-message-box .opensea-housechan-message-body {
@@ -64,6 +64,7 @@
 }
 
 
+/*collection page join nft room*/
 .create-join-collection-room-button {
     height: 48px;
     position: absolute;
@@ -88,36 +89,12 @@
     height: 100%;
     white-space: nowrap;
 }
-
-.create-join-collection-room-button:hover {
+.join-collection-room-button:hover {
     cursor: pointer;
-    background: rgba(93, 98, 231, 0.8);
-    opacity: 0.3;
+    background: #5250BF;
 }
 
-.swapchat-talk-to-owner-btn {
-    width: 174px;
-    white-space: nowrap;
-    height: 48px;
-    padding: 0 24px;
-    display: flex;
-    align-items: center;
-    background: #605DEC;
-    color: #fff;
-    border-radius: 10px;
-    font-family: 'Helvetica Neue', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-}
-.swapchat-talk-to-owner-btn:hover {
-    background: rgba(93, 98, 231, 0.8);
-    opacity: 0.3;
-    color: #fff;
-    cursor: pointer;
-}
-
-
+/*profile page create a swapchat*/
 .opensea-create-private-room{
     height: 48px;
     position: absolute;
@@ -144,42 +121,11 @@
 }
 
 .opensea-create-private-room .opensea-create-private-room-btn-box:hover{
-    background: rgba(93, 98, 231, 0.8);
-    opacity: 0.3;
+    background: #5250BF;
     color: #fff;
     cursor: pointer;
 }
 
-.join-nft-room-thread {
-    height: 48px;
-    width: 410px;
-    margin-right: 10px;
-    /*position: relative;*/
-    /*right: 0;*/
-/*    transform: translateY(50px);*/
-}
-
-.join-nft-room-button {
-    padding: 0 24px;
-    display: flex;
-    align-items: center;
-    font-family: 'Helvetica Neue', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    color: #605DEC;
-    border: 1px solid #605DEC;
-    background: #fff;
-    border-radius: 10px;
-    /*width: 100%;*/
-    height: 100%;
-    white-space: nowrap;
-}
-.join-nft-room-button:hover {
-    color: rgba(93, 98, 231, 0.8);
-    opacity: 0.3;
-    cursor: pointer;
-}
 
 .try-swapchat-box {
     border-radius: 10px;
@@ -191,13 +137,15 @@
     display: flex;
     justify-content: start;
     color: #07111C;
-    font-weight: 700;
     padding: 20px;
     margin: 0;
     align-items: center;
     border: 1px solid rgb(229, 232, 235);
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
 
 }
 .try-swapchat-box .try-swapchat-btns-box {
@@ -213,4 +161,48 @@
 }
 .try-swapchat-box .try-swapchat-btns-box div:nth-of-type(1) {
     margin-right: 8px;
+}
+
+/*nft item page - thread button*/
+.try-swapchat-btns-box .join-nft-room-button {
+    display: flex;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    background: #605DEC;
+    color: #fff;
+    border-radius: 10px;
+    width: 204px;
+    white-space: nowrap;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+    height: 50px;
+}
+.try-swapchat-btns-box .join-nft-room-button:hover {
+    background: #5250BF;
+    cursor: pointer;
+}
+
+
+/*nft item page  talk to owner*/
+.try-swapchat-btns-box .swapchat-talk-to-owner-btn {
+    width: 204px;
+    white-space: nowrap;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #605DEC;
+    border: 1px solid #605DEC;
+    background: #fff;
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-size: 16px;
+    font-weight: 600;
+}
+.try-swapchat-btns-box .swapchat-talk-to-owner-btn:hover {
+    background: rgba(96, 93, 236, .1);
+    cursor: pointer;
 }
