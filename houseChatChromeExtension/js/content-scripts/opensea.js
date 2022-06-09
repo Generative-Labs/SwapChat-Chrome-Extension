@@ -27,14 +27,28 @@ $().ready(() => {
     }
     if (type === BUTTON_TYPE_ENUM.JOIN_ITEM_THREAD_ROOM) {
       // src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&collectionName=${collectionName}`;
-      let realContractAddress = "";
-      let realTokenId = "";
-      let pathNameArr = location.pathname.split("/");
-      if (pathNameArr) {
-        realTokenId = pathNameArr[pathNameArr.length - 1];
-        realContractAddress = pathNameArr[pathNameArr.length - 2];
+      let collectionEle = $(".CollectionLink--link");
+      if (collectionEle.length > 0 && collectionEle[0].href) {
+        let collArr = collectionEle[0].href.split("/");
+        let slug = collArr[collArr.length - 1];
+        let realContractAddress = "";
+        let realTokenId = "";
+        let pathNameArr = location.pathname.split("assets");
+        let arr = pathNameArr[1].split("/");
+        let linkPlatform = arr[1];
+        if (linkPlatform !== "solana") {
+          realContractAddress = arr[2];
+          realTokenId = arr[3];
+        } else  {
+          let addressEle = $("a[href^='https://explorer.solana.com/address/Token']")
+          if (addressEle.length > 0 && addressEle[0].href) {
+            let addressArr = addressEle[0].href.split('/')
+            realContractAddress = addressArr[addressArr.length - 1]
+          }
+          realTokenId = arr[2]
+        }
+        src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&itemTokenId=${realTokenId}&itemContractAddress=${realContractAddress}&fromPage=normal&linkPlatform=${linkPlatform}&collSlug=${slug}`;
       }
-      src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&itemTokenId=${realTokenId}&itemContractAddress=${realContractAddress}&fromPage=normal`;
     }
     if (type === BUTTON_TYPE_ENUM.PRIVATE_ROOM) {
       if (ownerUserName) {
