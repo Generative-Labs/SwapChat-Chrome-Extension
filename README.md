@@ -1,2 +1,2 @@
-# house-chat-chrome-extension
+# SwapChat-Chrome-Extension
 
