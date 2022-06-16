@@ -3,7 +3,8 @@ $().ready(() => {
   const body = $("#react-root");
   const twitter = "twitter.com";
   const platform = "twitter";
-  const iframeSrc = "https://chat.web3messaging.online";
+  const iframeSrc = "https://test.web3messaging.online";
+  // const iframeSrc = "https://chat.web3messaging.online";
   // const iframeSrc = "https://pre.web3messaging.online";
   // const iframeSrc = "http://localhost:3000";
 
