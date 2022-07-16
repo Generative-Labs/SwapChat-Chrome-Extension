@@ -13,7 +13,7 @@
   },
   "action": {
     "default_icon": "img/icon.png",
-    "default_title": "House Chat",
+    "default_title": "SwapChat",
     "default_popup": "popup.html"
   },
   "content_scripts": [

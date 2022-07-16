@@ -62,7 +62,7 @@ $().ready(() => {
     return urlArr.join('/')
   }
 
-  async function createMessageBox(spacesHash= '') {
+  async function createMessageBox(spaceId= '') {
     // get friend username
     let friendUserName = location.pathname.split("/")[1];
     // get self username
@@ -112,8 +112,8 @@ $().ready(() => {
     if (selfUserName === friendUserName) return;
     let src = `${iframeSrc}/chat/chatWebPage?platform=${platform}&fromPage=normal`;
       src += `&userHash=${encodeURIComponent(selfUserName + '@@' + friendUserName)}`
-    if (spacesHash) {
-      src += `&spaceHash=${encodeURIComponent(spacesHash)}`
+    if (spaceId) {
+      src += `&spaceId=${encodeURIComponent(spaceId)}`
     }
     if (userAvatar) {
       src += `&twitterUserAvatar=${encodeURIComponent(userAvatar)}`
@@ -135,7 +135,7 @@ $().ready(() => {
     // 获取Twitter原始message dom 向左移动
     let messageDom = $("div[data-testid='DMDrawer']");
     messageDom.css("transform", "translateX(-700px)");
-    let style = spacesHash ? 'right: 500px' : ''
+    let style = spaceId ? 'right: 500px' : ''
     let messageBoxEle = $(`
             <div class="twitter-housechan-message-box" id="housechan-message-box" style="${style}">
             </div>
@@ -287,20 +287,8 @@ $().ready(() => {
     }
     let paths = location.pathname.split('/')
     let spaceId =  paths[paths.length - 1]
-    let spaceTitle = ''
-    let spacesDescDom = $("div[data-testid='placementTracking']")
-    if (spacesDescDom.length > 0) {
-      let firstChild = spacesDescDom[0].firstElementChild
-      if (firstChild) {
-        let firstChildDom = $(firstChild)
-        let arialabel = firstChildDom[0].ariaLabel
-        if (arialabel) {
-          spaceTitle = arialabel.substring(13, arialabel.indexOf('hosted'))
-        }
-      }
-    }
     let spacesDom = $("div[aria-label='Spaces dock']")
-    if (spacesDom.length > 0 && spaceTitle && spaceId) {
+    if (spacesDom.length > 0 && spaceId) {
       let swapchatSpacesBtn = $(`
         <div class="swapchat-spaces-btn">
         <img style="width: 30px;height: auto; margin-right: 10px;" src="https://chat.web3messaging.online/assets/icon/newHouseChatIcon.svg" alt="">
@@ -308,7 +296,7 @@ $().ready(() => {
 </div>
       `)
       swapchatSpacesBtn.click(function () {
-        createMessageBox(`${spaceId}@@${spaceTitle}`)
+        createMessageBox(spaceId)
       })
       spacesDom.after(swapchatSpacesBtn)
     }
