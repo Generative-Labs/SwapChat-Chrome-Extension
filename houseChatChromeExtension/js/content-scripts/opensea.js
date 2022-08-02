@@ -40,7 +40,7 @@ $().ready(() => {
           realContractAddress = arr[2];
           realTokenId = arr[3];
         } else  {
-          let addressEle = $("a[href^='https://explorer.solana.com/address/Token']")
+          let addressEle = $("a[href^='https://solscan.io/address/Token']")
           if (addressEle.length > 0 && addressEle[0].href) {
             let addressArr = addressEle[0].href.split('/')
             realContractAddress = addressArr[addressArr.length - 1]
