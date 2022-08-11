@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "SwapChat",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Cross-platform messaging service.",
   "icons": {
     "16": "img/icon.png",
@@ -49,8 +49,7 @@
     }
   ],
   "permissions": [
-    "tabs",
-    "clipboardRead"
+    "tabs"
   ],
   "optional_permissions": [
   ],
